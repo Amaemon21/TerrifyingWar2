@@ -5,12 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader
 {
+    public float Progress { get; private set; }
+    public event Action<float> OnProgressUpdated;
+    
     public void Load(string sceneName, Action onLoaded = null)
     {
-        LoadScene(sceneName, onLoaded);
+        LoadSceneAsync(sceneName, onLoaded).Forget();
     }
-
-    public async UniTask LoadScene(string sceneName, Action onLoaded = null)
+    
+    private async UniTask LoadSceneAsync(string sceneName, Action onLoaded = null)
     {
         if (SceneManager.GetActiveScene().name == sceneName)
         {
@@ -19,14 +22,31 @@ public class SceneLoader
         }
 
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneName);
+        asyncOperation.allowSceneActivation = false;
+
+        float currentProgress = 0f;
 
         while (!asyncOperation.isDone)
         {
-            Debug.Log($"Loading progress: {asyncOperation.progress * 100}%");
+            float targetProgress = asyncOperation.progress < 0.9f ? asyncOperation.progress : 1f;
+            
+            currentProgress = SmoothProgressUpdate(currentProgress, targetProgress);
             await UniTask.Yield();
+
+            if (Mathf.Approximately(currentProgress, 1f) && asyncOperation.progress >= 0.9f)
+            {
+                asyncOperation.allowSceneActivation = true;
+            }
         }
 
-        // Invoke the callback after the scene is loaded
         onLoaded?.Invoke();
+    }
+    
+    private float SmoothProgressUpdate(float currentProgress, float targetProgress)
+    {
+        float updatedProgress = Mathf.MoveTowards(currentProgress, targetProgress, Time.deltaTime * 0.5f);
+        Progress = updatedProgress;
+        OnProgressUpdated?.Invoke(Progress);
+        return updatedProgress;
     }
 }

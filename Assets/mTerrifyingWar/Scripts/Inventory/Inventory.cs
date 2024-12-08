@@ -198,16 +198,18 @@ public class Inventory : MonoBehaviour
     public void DropItem(InventoryItemConfig config, int amount, InventoryItemCell cell = null)
     {
         InventoryItemObject inventoryItemObject = Instantiate(config.ItemPrefab, _inventoryManager.DropPosition.transform.position, Quaternion.identity);
+        
+        config.RemoveCount(amount);
+        
+        var InventoryItemConfigCopy = Instantiate(config);
+        
+        InventoryItemConfigCopy.ResetCount();
+        InventoryItemConfigCopy.AddCount(amount);
 
-        int itemCountTemp = config.ItemCount;
-        
-        config.ResetCount();
-        config.AddCount(amount);
-        
-        inventoryItemObject.SetConfig(config);
-        
-        if(amount >= itemCountTemp)
+        if (config.ItemCount <= 0)
             RemoveItem(config, cell);
+        else
+            inventoryItemObject.SetConfig(InventoryItemConfigCopy);
     }
     
     private void UpdatePrimaryWeapon() => UpdateWeapon(_primaryWeaponCell, ref _primaryWeapon, RequestPrimaryWeaponChanged);

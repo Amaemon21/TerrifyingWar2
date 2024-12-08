@@ -1,22 +1,41 @@
 using System;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
+using Zenject;
 
 public class LoadingScreen : MonoBehaviour
 {
+    [Inject] private readonly SceneLoader _sceneLoader;
+    
     [SerializeField] private CanvasGroup _canvasGroup;
+
+    [SerializeField] private Image _fill;
+    [SerializeField] private Image _arrow;
 
     private readonly float _fadeDuration = 0.5f;
 
     private void Awake()
     {
-        Hide();
+        gameObject.SetActive(false);
+        _canvasGroup.alpha = 0;
     }
 
-    public void Show()
+    private void OnEnable()
+    {
+        _sceneLoader.OnProgressUpdated += UpdateProgress;
+    }
+
+    private void OnDisable()
+    {
+        _sceneLoader.OnProgressUpdated -= UpdateProgress;
+    }
+
+    public void Show(float progress)
     {
         gameObject.SetActive(true);
         _canvasGroup.alpha = 1;
+        UpdateProgress(progress);
     }
 
     public void Hide()
@@ -25,5 +44,12 @@ public class LoadingScreen : MonoBehaviour
         {
             gameObject.SetActive(false);
         });
+    }
+    
+    private void UpdateProgress(float progress)
+    {
+        _fill.fillAmount = progress;
+        float rotation = Mathf.Lerp(95, -95, progress);
+        _arrow.rectTransform.localRotation = Quaternion.Euler(0, 0, rotation);
     }
 }

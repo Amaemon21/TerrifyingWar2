@@ -20,7 +20,9 @@ public class GameInstaller : MonoInstaller
 
     private void BindLoadingScreen()
     {
-        LoadingScreen loadingScreen = Instantiate(_loadingScreen, transform);
+        Container.Bind<SceneLoader>().FromNew().AsSingle();
+        
+        LoadingScreen loadingScreen = Container.InstantiatePrefabForComponent<LoadingScreen>(_loadingScreen, transform);
         Container.Bind<LoadingScreen>().FromInstance(loadingScreen).AsSingle();
     }
 
@@ -30,7 +32,6 @@ public class GameInstaller : MonoInstaller
         Container.Bind<IKeysProvider>().To<SaveDataKeysProvider>().FromNew().AsSingle();
         
         Container.Bind<CursorStateService>().FromNew().AsSingle();
-        Container.Bind<SceneLoader>().FromNew().AsSingle();
         
         Container.Bind<IAssetProvider>().To<AssetProvider>().FromNew().AsSingle();
 

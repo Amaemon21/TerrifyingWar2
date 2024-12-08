@@ -15,7 +15,7 @@
 
     public void Enter(string nameScene)
     {
-        _loadingScreen.Show();
+        _loadingScreen.Show(_sceneLoader.Progress);
         _cursorStateService.EnableCursor();
         _sceneLoader.Load(nameScene, OnLoaded);
     }

@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +12,8 @@ public class DropMenu : MonoBehaviour
 
     [SerializeField] private Slider _dropSlider;
 
+    [SerializeField] private TMP_Text _currentDropCountText;
+    
     private InventoryItemConfig _inventoryItemConfig;
     private InventoryItemCell _inventoryItemCell;
     
@@ -20,12 +21,13 @@ public class DropMenu : MonoBehaviour
 
     private void Awake()
     {
-        _dropSlider.minValue = 0;
+        _dropSlider.minValue = 1;
     }
 
     public void ValueChanged()
     {
         _value = (int)_dropSlider.value;
+        _currentDropCountText.text = $"x{_value}";
     }
 
     public void Setup(InventoryItemConfig config, InventoryItemCell inventoryItemCell)
