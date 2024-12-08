@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69da975fea4b4617b6aec8adf67c4235, type: 3}
+  m_Name: "5,56\xD745 Ammo"
+  m_EditorClassIdentifier: 
+  <ItemRarity>k__BackingField: 2
+  <ItemType>k__BackingField: 2
+  <ItemID>k__BackingField: "5,56\xD745"
+  <ItemName>k__BackingField: "5,56\xD745"
+  <ItemDescription>k__BackingField: "5,56\xD745"
+  <IsStackable>k__BackingField: 1
+  <ItemCount>k__BackingField: 20
+  <ItemSprite>k__BackingField: {fileID: -77083525, guid: b68113cc0d138d94ab10f397ceaf9d67, type: 3}
+  <ItemPrefab>k__BackingField: {fileID: 6831440517446038523, guid: fb5dd66ba65f84a4c87ecc4529373873, type: 3}

@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adb9c12a8c6c949f7af83a3d238359d0, type: 3}
+  m_Name: vFolders Data
+  m_EditorClassIdentifier: 
+  folderDatas_byGuid:
+    keys:
+    - 75e20d4f7f5ec4044ba04190edc6bdaa
+    - b5da2386a6bb9f549ac0d9daff68171f
+    - 4e3f112a41962e94d999fb3bc0d2941f
+    - a81e541be65b1064e8f5a70c990c8bf4
+    - fd2a0f3115ceed54982d665c20c4edc0
+    - 25c4af1f78254c34bbcebb4ebb1ea898
+    - 709f11a7f3c4041caa4ef136ea32d874
+    - 1af513e79caba4c51ad3af1252362358
+    - bec3f1703c81792459d56332e4de7501
+    - 2e4d7203908975448b568b0a22ad625a
+    - 4bfe44c8980290947837214e60f29e58
+    - f54d1bd14bd3ca042bd867b519fee8cc
+    - c7dca8ae168f8ba41873023d2bbcfdb6
+    - 4cacd80dff840d1438ab46bce5282d97
+    - f45bfb9d777ca8c4691dd3106a94dbb0
+    - b279cebaf0a77ed4283da32cbbbe681e
+    values:
+    - colorIndex: 0
+      iconNameOrGuid: ScriptableObject Icon
+    - colorIndex: 2
+      iconNameOrGuid: SceneAsset Icon
+    - colorIndex: 0
+      iconNameOrGuid: SceneAsset Icon
+    - colorIndex: 0
+      iconNameOrGuid: cs Script Icon
+    - colorIndex: 0
+      iconNameOrGuid: Prefab Icon
+    - colorIndex: 0
+      iconNameOrGuid: Material Icon
+    - colorIndex: 5
+      iconNameOrGuid: Settings Icon
+    - colorIndex: 4
+      iconNameOrGuid: TextAsset Icon
+    - colorIndex: 0
+      iconNameOrGuid: RawImage Icon
+    - colorIndex: 1
+      iconNameOrGuid: PrefabModel Icon
+    - colorIndex: 3
+      iconNameOrGuid: ComputeShader Icon
+    - colorIndex: 6
+      iconNameOrGuid: Settings Icon
+    - colorIndex: 7
+      iconNameOrGuid: 
+    - colorIndex: 0
+      iconNameOrGuid: Font Icon
+    - colorIndex: 0
+      iconNameOrGuid: ScriptableObject Icon
+    - colorIndex: 0
+      iconNameOrGuid: ScriptableObject Icon
