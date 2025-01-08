@@ -5,8 +5,8 @@ GraphicsSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 16
   m_Deferred:
-    m_Mode: 2
-    m_Shader: {fileID: 4800000, guid: b3bf57a9a37a93a46850825a7a95a8b3, type: 3}
+    m_Mode: 1
+    m_Shader: {fileID: 69, guid: 0000000000000000f000000000000000, type: 0}
   m_DeferredReflections:
     m_Mode: 1
     m_Shader: {fileID: 74, guid: 0000000000000000f000000000000000, type: 0}
@@ -34,14 +34,13 @@ GraphicsSettings:
   - {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
   - {fileID: 10770, guid: 0000000000000000f000000000000000, type: 0}
   - {fileID: 10783, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 4800000, guid: de57de671ea300a4294b02d151ddeece, type: 3}
-  - {fileID: 4800000, guid: 82226a8cdad529d4ea882f2399a673bf, type: 3}
-  - {fileID: 4800000, guid: e1cdf480ab417a14fb2a2441d29872a6, type: 3}
-  - {fileID: 4800000, guid: d0b14971f315dd342b652197bb59d6a1, type: 3}
+  - {fileID: 16000, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 16001, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 17000, guid: 0000000000000000f000000000000000, type: 0}
   m_PreloadedShaders: []
   m_PreloadShadersBatchTimeLimit: -1
   m_SpritesDefaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_CustomRenderPipeline: {fileID: 11400000, guid: b87a57503818e2b4c945edcf4b25c75a, type: 2}
+  m_CustomRenderPipeline: {fileID: 11400000, guid: 007a5f0a7ef2040b99b2e8a9d4b31a07, type: 2}
   m_TransparencySortMode: 0
   m_TransparencySortAxis: {x: 0, y: 0, z: 1}
   m_DefaultRenderingPath: 1
@@ -62,7 +61,7 @@ GraphicsSettings:
   m_FogKeepExp2: 1
   m_AlbedoSwatchInfos: []
   m_RenderPipelineGlobalSettingsMap:
-    UnityEngine.Rendering.Universal.UniversalRenderPipeline: {fileID: 11400000, guid: 5ca58a19875682946b77bf152128ead1, type: 2}
+    UnityEngine.Rendering.Universal.UniversalRenderPipeline: {fileID: 11400000, guid: 6b879852ae3e94152955958f9cc46fa1, type: 2}
   m_LightsUseLinearIntensity: 1
   m_LightsUseColorTemperature: 1
   m_LogWhenShaderIsCompiled: 0

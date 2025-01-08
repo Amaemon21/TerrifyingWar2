@@ -7,7 +7,7 @@ using Zenject;
 public class PlayerController : MonoBehaviour
 {
     [Inject] private readonly ShootTransform _cameraTransform;
-    [Inject] private readonly InputService _inputService;
+    [Inject] private readonly IInputService _inputService;
     
     [Space]
     [SerializeField] private float _speed = 10.0f;
@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
     [Space]
     [SerializeField, Range(0f, 90f)] private float _jumpSlopeLimit = 0.0f;
 
+    [SerializeField] private bool _isGrounded;
+    
     [Space]
     [SerializeField] private float _mouseSensitivity = 2.0f;
 
@@ -29,7 +31,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector3 _crouchingCenter = new(0.0f, 0.5f, 0.0f);
     [SerializeField] private Vector3 _standingCenter = new(0.0f, 0.0f, 0.0f);
 
+    private Transform _transform;
     private CharacterController _characterController = null;
+    private PlayerStamina _playerStamina;
     private float _jumpMultiplier = 0.0f;
     private float _yVelocity = 0.0f;
     private float _originalSlopeLimit = 0.0f;
@@ -40,10 +44,13 @@ public class PlayerController : MonoBehaviour
     public bool DuringCrouchAnimation { get; set; } = false;
     public bool IsSprinting { get; set; } = false;
     public bool IsWalking { get; set; } = false;
-
+    
     private void Awake()
     {
+        _transform = transform;
+        
         _characterController = GetComponent<CharacterController>();
+        _playerStamina = GetComponent<PlayerStamina>();
 
         _originalSlopeLimit = _characterController.slopeLimit;
         _jumpMultiplier = Mathf.Sqrt(_jumpHeight * -2f * _gravity);
@@ -74,18 +81,18 @@ public class PlayerController : MonoBehaviour
         _xRotation = Mathf.Clamp(_xRotation, -90f, 90f);
 
         _cameraTransform.transform.localRotation = Quaternion.Euler(_xRotation, 0.0f, 0.0f);
-        transform.Rotate(Vector3.up * mouseX);
+        _transform.Rotate(Vector3.up * mouseX);
     }
 
     private void CrouchCheck()
     {
-        if (Input.GetKeyDown(KeyCode.LeftControl) && _characterController.isGrounded && !DuringCrouchAnimation)
+        if (_inputService.IsCrouching && _characterController.isGrounded && !DuringCrouchAnimation)
         {
             Crouch();
         }
     }
 
-    public void Crouch() 
+    private void Crouch() 
     {
         if (IsCrouching)
         {
@@ -104,7 +111,7 @@ public class PlayerController : MonoBehaviour
         var x = _inputService.MoveDirection.x;
         var z = _inputService.MoveDirection.y;
 
-        var move = (transform.right * x + transform.forward * z).normalized;
+        var move = (_transform.right * x + _transform.forward * z).normalized;
         move = _speed * Time.deltaTime * move;
         
         if (IsSprinting)
@@ -112,9 +119,10 @@ public class PlayerController : MonoBehaviour
             move *= _junMultiplier;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && _characterController.isGrounded)
+        if (_inputService.IsJump && _characterController.isGrounded)
         {
             _yVelocity += _jumpMultiplier;
+            _playerStamina.UseStaminaForJump();
         }
 
         _yVelocity += _gravity * Time.deltaTime;
@@ -134,7 +142,7 @@ public class PlayerController : MonoBehaviour
 
             if (IsWalking)
             {
-                IsSprinting = Input.GetKey(KeyCode.LeftShift);
+                IsSprinting = _inputService.IsRun && !IsCrouching;
             }
             else
             {
@@ -155,6 +163,8 @@ public class PlayerController : MonoBehaviour
         {
             _characterController.slopeLimit = _jumpSlopeLimit;
         }
+        
+        _isGrounded = _characterController.isGrounded;  
     }
 
     private IEnumerator CrouchHandle()

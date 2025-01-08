@@ -4,10 +4,10 @@ using Zenject;
 
 public class GameplayButton : MonoBehaviour, IPointerDownHandler
 {
-    [Inject] private readonly Game _game;
+    //[Inject] private readonly Game _game;
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        _game.StateMachine.Enter<LoadGameplayState>();
+        //_game.StateMachine.Enter<LoadGameplayState>();
     }
 }

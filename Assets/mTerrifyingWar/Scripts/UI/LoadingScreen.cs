@@ -1,41 +1,44 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
-using Zenject;
 
+[RequireComponent(typeof(CanvasGroup))]
 public class LoadingScreen : MonoBehaviour
 {
-    [Inject] private readonly SceneLoader _sceneLoader;
+    private readonly float _fadeDuration = 0.5f;
     
-    [SerializeField] private CanvasGroup _canvasGroup;
-
     [SerializeField] private Image _fill;
     [SerializeField] private Image _arrow;
+    
+    private CanvasGroup _canvasGroup;
+    private SceneLoader _sceneLoader;
 
-    private readonly float _fadeDuration = 0.5f;
-
+    public void Setup(SceneLoader sceneLoader)
+    {
+        _sceneLoader = sceneLoader;
+        
+        _sceneLoader.OnProgressUpdated += UpdateProgress;
+    }
+    
     private void Awake()
     {
+        _canvasGroup = GetComponent<CanvasGroup>();
+        
         gameObject.SetActive(false);
         _canvasGroup.alpha = 0;
     }
-
-    private void OnEnable()
-    {
-        _sceneLoader.OnProgressUpdated += UpdateProgress;
-    }
-
+    
     private void OnDisable()
     {
-        _sceneLoader.OnProgressUpdated -= UpdateProgress;
+        if (_sceneLoader != null)
+            _sceneLoader.OnProgressUpdated -= UpdateProgress;
     }
 
-    public void Show(float progress)
+    public void Show()
     {
         gameObject.SetActive(true);
         _canvasGroup.alpha = 1;
-        UpdateProgress(progress);
+        //UpdateProgress(progress);
     }
 
     public void Hide()

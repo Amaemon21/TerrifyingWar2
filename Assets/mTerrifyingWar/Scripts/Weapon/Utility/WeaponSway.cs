@@ -3,7 +3,7 @@ using Zenject;
 
 public class WeaponSway : MonoBehaviour
 {
-    [Inject] private readonly InputService _inputService;
+    [Inject] private readonly IInputService _inputService;
     
     [Header("Common")]
     [SerializeField] private Vector2 _force = Vector2.one;

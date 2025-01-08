@@ -1,61 +1,39 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class InputService : MonoBehaviour
+public class InputService : IInputService, IDisposable
 {
-    [field: SerializeField] public PlayerInput PlayerInput { get; private set; }
+    private PlayerInputActions _inputActions;
+
+    public InputService()
+    {
+        _inputActions = new PlayerInputActions();
+        
+        _inputActions.Enable();
+    }
+
+    public Vector2 MoveDirection => _inputActions.Player.Move.ReadValue<Vector2>();
+    public Vector2 LookDirection => _inputActions.Player.Look.ReadValue<Vector2>();
+    public bool IsRun => _inputActions.Player.Run.IsPressed();
+    public bool IsJump => _inputActions.Player.Jump.triggered;
+    public bool IsCrouching => _inputActions.Player.Crouch.triggered;
+    public bool IsShoot => _inputActions.Player.Shoot.IsPressed();
+    public bool IsAim => _inputActions.Player.Aim.IsPressed();
+    public bool IsReload => _inputActions.Player.Reload.IsPressed();
     
-    public event Action AimChanged; 
-    public event Action ReloadChanged; 
-
-    public Vector2 MoveDirection { get; private set; }
-    public Vector2 LookDirection { get; private set; }
-    public bool IsRun { get; private set; }
-    public bool IsJump { get; private set; }
-    public bool IsShoot { get; private set; }
-    public bool IsAim { get; private set; }
-    public bool IsReload { get; private set; }
-
-    private void OnMove(InputValue value)
+    public void Enable()
     {
-        MoveDirection = value.Get<Vector2>();
-    }
-
-    private void OnLook(InputValue value)
-    {
-        LookDirection = value.Get<Vector2>();
-    }
-
-    private void OnRun(InputValue value)
-    {
-        IsRun = value.isPressed;
+        _inputActions.Enable();
     }
     
-    private void OnJump(InputValue value)
+    public void Disable()
     {
-        IsJump = value.isPressed;
+        _inputActions.Disable();
     }
 
-    private void OnShoot(InputValue value)
+    public void Dispose()
     {
-        IsShoot = value.isPressed;
-    }
-
-    public void ResetShoot()
-    {
-        IsShoot = false;
-    }
-
-    private void OnAim(InputValue value)
-    {
-        IsAim = value.isPressed;
-        AimChanged?.Invoke();
-    }
-
-    private void OnReload(InputValue value)
-    {
-        IsReload = value.isPressed;
-        ReloadChanged?.Invoke();
+        _inputActions.Disable();
+        _inputActions.Dispose();
     }
 }

@@ -10,26 +10,12 @@ using Zenject;
 public class Enemy : MonoBehaviour
 {
     [Inject] private readonly PlayerController _target;
-
-    [SerializeField, BoxGroup("Patrol Settings"), HorizontalLine] private Transform[] _patrolPoints;
-    [SerializeField, BoxGroup("Patrol Settings")] private float _patrolSpeed = 1f;
-    [SerializeField, BoxGroup("Patrol Settings")] private float _patrolDuration = 5f;
+    [Inject] private readonly HeadTransform _headTransform;
     
-    [SerializeField, BoxGroup("Attack Settings"), HorizontalLine] private float _attackRange = 2f;
-    [SerializeField, BoxGroup("Attack Settings")] private float _attackCooldown = 2f;
-    [SerializeField, BoxGroup("Attack Settings")] private float _speedRotation = 2f;
-    [SerializeField, BoxGroup("Attack Settings")] private int _attackDamage = 10;
-    [SerializeField, BoxGroup("Attack Settings")] private bool _isAttacking;
+    [SerializeField, BoxGroup("Enemy Config"), HorizontalLine] private EnemyConfig _enemyConfig;
     
-    [SerializeField, BoxGroup("Idle Settings"), HorizontalLine] private float _idleDuration = 5f;
+    [field: SerializeField, BoxGroup("Patrol Settings"), HorizontalLine] public Transform[] PatrolPoints { get; private set; }
     
-    [SerializeField, BoxGroup("Chase Settings"), HorizontalLine] private float _timeToChase  = 5f;
-    [SerializeField, BoxGroup("Chase Settings")] private float _chaseSpeed = 2f;
-    
-    [SerializeField, BoxGroup("Detection Settings"), HorizontalLine] private float _detectionRadius = 10f;
-    [SerializeField, BoxGroup("Detection Settings")] private float _detectionAngle = 90f;
-    [SerializeField, BoxGroup("Detection Settings")] private Transform _headTransform;
-
     private EnemyHealth _enemyHealth;
     
     private State _currentState;
@@ -38,15 +24,9 @@ public class Enemy : MonoBehaviour
     
     public NavMeshAgent NavMeshAgent { get; private set; }
     public EnemyAnimator EnemyAnimator{ get; private set; }
+    public EnemyConfig EnemyConfig => _enemyConfig;
     public Transform Target => _target.transform;
-    public float IdleDuration => _idleDuration;
-    public float PatrolDuration => _patrolDuration;
-    public float TimeToChase => _timeToChase;
-    public float PatrolSpeed => _patrolSpeed;
-    public float ChaseSpeed => _chaseSpeed;
-    public bool IsAttacking => _isAttacking;
-
-    public Transform[] PatrolPoints => _patrolPoints;
+    public State CurrentState => _currentState;
 
     private void Awake()
     {
@@ -80,24 +60,23 @@ public class Enemy : MonoBehaviour
         _currentState?.Exit();
         _currentState = newState;
         _currentState.Enter();
-        Debug.Log(newState);
     }
 
     public bool DetectPlayer()
     {
-        Vector3 enemyPosition = _headTransform.position;
-        Vector3 forwardDirection = _headTransform.forward;
+        Vector3 enemyPosition = _headTransform.transform.position;
+        Vector3 forwardDirection = _headTransform.transform.forward;
         Vector3 directionToPlayer = (_target.transform.position - enemyPosition).normalized;
         
         float distanceToPlayer = Vector3.Distance(enemyPosition, _target.transform.position);
 
-        if (distanceToPlayer < _detectionRadius)
+        if (distanceToPlayer < _enemyConfig.DetectionRadius)
         {
             float angle = Vector3.Angle(forwardDirection, directionToPlayer);
             
-            if (angle < _detectionAngle / 2)
+            if (angle < _enemyConfig.DetectionAngle / 2)
             {
-                if (Physics.Raycast(enemyPosition, directionToPlayer, out RaycastHit hit, _detectionRadius))
+                if (Physics.Raycast(enemyPosition, directionToPlayer, out RaycastHit hit, _enemyConfig.DetectionRadius))
                 {
                     if (hit.collider.TryGetComponent(out PlayerController controller))
                     {
@@ -113,17 +92,17 @@ public class Enemy : MonoBehaviour
     public bool IsInAttackRange()
     {
         float distanceToPlayer = Vector3.Distance(transform.position, _target.transform.position);
-        return distanceToPlayer <= _attackRange;
+        return distanceToPlayer <= _enemyConfig.AttackRange;
     }
 
     public void StartAttack()
     {
-        _isAttacking = true;
+        _enemyConfig.AttackingChanged(true);
     }
 
     public void EndAttack()
     {
-        _isAttacking = false;
+        _enemyConfig.AttackingChanged(false);
     }
 
     public void MoveTo(Vector3 position)
@@ -147,7 +126,7 @@ public class Enemy : MonoBehaviour
     {
         if (IsInAttackRange() && Target.TryGetComponent<PlayerHealth>(out var playerHealth))
         {
-            playerHealth.TakeDamage(_attackDamage);
+            playerHealth.TakeDamage(_enemyConfig.AttackDamage);
         }
     }
     
@@ -171,7 +150,7 @@ public class Enemy : MonoBehaviour
     
     private Quaternion SmoothedRotation(Quaternion rotation, Vector3 positionToLook) => Quaternion.Lerp(rotation, TargetRotation(positionToLook), SpeedFactor());
 
-    private float SpeedFactor() => _speedRotation * Time.deltaTime;
+    private float SpeedFactor() => _enemyConfig.SpeedRotation * Time.deltaTime;
     
     private Quaternion TargetRotation(Vector3 position) => Quaternion.LookRotation(position);
 }

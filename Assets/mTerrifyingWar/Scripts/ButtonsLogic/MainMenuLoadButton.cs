@@ -3,10 +3,10 @@ using Zenject;
 
 public class MainMenuLoadButton : MonoBehaviour
 {
-    [Inject] private readonly Game _game;
+    //[Inject] private readonly Game _game;
     
     public void OnButtonClick()
     {
-        _game.StateMachine.Enter<LoadMainMenuState, string>(Constans.MainMenu);
+        //_game.StateMachine.Enter<LoadMainMenuState, string>(Constans.MainMenu);
     }
 }

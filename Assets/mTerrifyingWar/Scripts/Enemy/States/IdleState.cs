@@ -27,7 +27,7 @@ public class IdleState : State
         {
             Enemy.ChangeState(new ChaseState(Enemy));
         }
-        else if (_elapsedTime >= Enemy.IdleDuration)
+        else if (_elapsedTime >= Enemy.EnemyConfig.IdleDuration)
         {
             Enemy.ChangeState(new PatrolState(Enemy));
         }

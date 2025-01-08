@@ -9,7 +9,8 @@ public class EnemyHealth : MonoBehaviour, IHealth
     [SerializeField] private int _maxHealth;
     
     private int _currentHealth;
-
+    private bool _isDeath;
+    
     public event Action EnemyDeath;
  
     private void Awake()
@@ -23,7 +24,11 @@ public class EnemyHealth : MonoBehaviour, IHealth
 
         if (_currentHealth <= 0)
         {
-            EnemyDeath?.Invoke();
+            if (_isDeath == false)
+            {
+                EnemyDeath?.Invoke();
+                _isDeath = true;
+            }
         }
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zenject;
 
-public class InventoryItemEquipableCell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+public class InventoryItemEquipableCell : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
     [Inject] private readonly Inventory _inventory;
     [Inject] private readonly InventoryManager _inventoryManager;
@@ -37,7 +37,8 @@ public class InventoryItemEquipableCell : MonoBehaviour, IPointerEnterHandler, I
     
     private InventoryDragableObject _dragableObject;
     private DropArea _dropArea;
-    
+    private ItemInfo _itemInfo;
+
     public InventoryItemConfig InventoryItemConfig { get; private set; }
 
     public event Action DropItemChanged; 
@@ -46,6 +47,7 @@ public class InventoryItemEquipableCell : MonoBehaviour, IPointerEnterHandler, I
     {
         _dragableObject = _inventoryManager.DragableObject;
         _dropArea = _inventoryManager.DropArea;
+        _itemInfo = _inventoryManager.ItemInfo;
     }
     
     private void OnEnable()
@@ -56,16 +58,37 @@ public class InventoryItemEquipableCell : MonoBehaviour, IPointerEnterHandler, I
     private void OnDisable()
     {
         DisplayCellIconByItemType();
+        
+        _itemInfo.gameObject.SetActive(false);
+    }
+    
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (InventoryItemConfig != null)
+        {
+            if (eventData.button == PointerEventData.InputButton.Right)
+            {
+                _itemInfo.gameObject.SetActive(false);
+            }
+        }
     }
     
     public void OnPointerEnter(PointerEventData eventData)
     {
         DisplayCellIconByItemType(true);
+        
+        if (InventoryItemConfig != null)
+        {
+            _itemInfo.gameObject.SetActive(true);
+            _itemInfo.SetConfig(InventoryItemConfig);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         DisplayCellIconByItemType();
+        
+        _itemInfo.gameObject.SetActive(false);
     }
     
     public void SetItem(InventoryItemConfig config)
@@ -181,7 +204,7 @@ public class InventoryItemEquipableCell : MonoBehaviour, IPointerEnterHandler, I
         _dragableObject.gameObject.SetActive(false);
         
         DropItemChanged?.Invoke();
-        
+        _itemInfo.gameObject.SetActive(false);
         _dropArea.Hide();
     }
     

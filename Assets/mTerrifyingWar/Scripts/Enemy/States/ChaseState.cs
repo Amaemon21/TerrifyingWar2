@@ -9,7 +9,7 @@ public class ChaseState : State
 
     public override void Enter()
     {
-        Enemy.NavMeshAgent.speed = Enemy.ChaseSpeed;
+        Enemy.NavMeshAgent.speed = Enemy.EnemyConfig.ChaseSpeed;
         Enemy.EnemyAnimator.Run(true);
         _isChase = true;
     }

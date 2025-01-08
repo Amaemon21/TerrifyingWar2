@@ -6,6 +6,7 @@ public class AmmoView : MonoBehaviour
 {
     [SerializeField] private TMP_Text _ammoText;
     [SerializeField] private TMP_Text _ammoNameText;
+    [SerializeField] private TMP_Text _weaponNameText;
     
     [SerializeField] private float _scaleFactor = 0.8f;
     [SerializeField] private float _duration = 0.2f;
@@ -44,6 +45,7 @@ public class AmmoView : MonoBehaviour
 
         _ammoNameText.text = weapon.WeaponInventoryItemConfig.AmmoID;
         _ammoText.text = CurrentAmmo + AvailableAmmo;
+        _weaponNameText.text = weapon.WeaponInventoryItemConfig.ItemName;
     }
 
     public void PlayShootAnimation()

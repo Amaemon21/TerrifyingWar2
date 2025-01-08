@@ -9,6 +9,7 @@ public class PlayerHealth : MonoBehaviour, IHealth
 
     public event Action<int, int> HealthChanged;
     public event Action PlayerDeathChanged;
+    public event Action TakeDamageChanged;
     
     private void Awake()
     {
@@ -20,6 +21,7 @@ public class PlayerHealth : MonoBehaviour, IHealth
         if (damage >= 0)
         {
             _currentHealth -= damage;
+            TakeDamageChanged?.Invoke();
         }
 
         if (_currentHealth <= 0)

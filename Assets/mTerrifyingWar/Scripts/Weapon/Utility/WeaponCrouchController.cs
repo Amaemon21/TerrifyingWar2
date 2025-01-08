@@ -7,20 +7,27 @@ public class WeaponCrouchController : MonoBehaviour
     [Space]
     [SerializeField] private float _tiltAmount = 15.0f;
     [SerializeField] private float _tiltSpeed = 5.0f;
+
+    private Transform _transform;
     
+    private void Awake()
+    {
+        _transform = transform;
+    }
+
     private void Update()
     {
-        var rotation = new Quaternion(0, 0, 0, 0);
-        
+        Quaternion rotation = new Quaternion(0, 0, 0, 0);
+
         if (_playerController.IsCrouching)
         {
-            rotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(new Vector3(0, 0, _tiltAmount)), Time.deltaTime * _tiltSpeed);
+            rotation = Quaternion.Lerp(_transform.localRotation, Quaternion.Euler(new Vector3(0, 0, _tiltAmount)), Time.deltaTime * _tiltSpeed);
         }
         else
         {
-            rotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(new Vector3(0, 0, 0)), Time.deltaTime * _tiltSpeed);
+            rotation = Quaternion.Lerp(_transform.localRotation, Quaternion.Euler(new Vector3(0, 0, 0)), Time.deltaTime * _tiltSpeed);
         }
 
-        transform.localRotation = rotation;
+        _transform.localRotation = rotation;
     }
 }

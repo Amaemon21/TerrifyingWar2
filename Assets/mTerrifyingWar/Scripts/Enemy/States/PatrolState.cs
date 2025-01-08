@@ -9,7 +9,7 @@ public class PatrolState : State
 
     public override void Enter()
     {
-        Enemy.NavMeshAgent.speed = Enemy.PatrolSpeed;
+        Enemy.NavMeshAgent.speed = Enemy.EnemyConfig.PatrolSpeed;
         Enemy.EnemyAnimator.Move(true);
         Patrol();
         _elapsedTime = 0f;
@@ -23,7 +23,7 @@ public class PatrolState : State
         {
             Enemy.ChangeState(new ChaseState(Enemy));
         }
-        else if (_elapsedTime >= Enemy.PatrolDuration)
+        else if (_elapsedTime >= Enemy.EnemyConfig.PatrolDuration)
         {
             Enemy.ChangeState(new IdleState(Enemy));
         }

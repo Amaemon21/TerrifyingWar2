@@ -9,12 +9,14 @@ public class ActionMenuObject : MonoBehaviour
     [Inject] private readonly InventoryManager _inventoryManager;
 
     [SerializeField] private Button _dropButton;
+    [SerializeField] private Button _dropAllButton;
     [SerializeField] private Button _defuseWeaponButton;
     [SerializeField] private Button _closeButton;
     
     private InventoryDatabase _inventoryDatabase;
     private InventoryItemConfig _inventoryItemConfig;
     private InventoryItemCell _inventoryItemCell;
+    private DropMenu _dropMenu;
     private RectTransform _rectTransform;
 
     private void Awake()
@@ -22,6 +24,7 @@ public class ActionMenuObject : MonoBehaviour
         _rectTransform = GetComponent<RectTransform>();
 
         _inventoryDatabase = _inventoryManager.InventoryDatabase;
+        _dropMenu = _inventoryManager.DropMenu;
 
         Hide();
     }
@@ -41,6 +44,21 @@ public class ActionMenuObject : MonoBehaviour
         Hide();
     }
 
+    public void DropAllItem()
+    {
+        if (_inventoryItemConfig.ItemCount > 1)
+        {
+            _dropMenu.gameObject.SetActive(true);
+            _dropMenu.Setup(_inventoryItemConfig, _inventoryItemCell);
+        }
+        else
+        {
+            _inventory.DropItem(_inventoryItemConfig, _inventoryItemCell);
+        }
+
+        Hide();
+    }
+    
     public void DefuseWeaponItem()
     {
         if (_inventoryItemConfig is WeaponInventoryItemConfig weaponInventoryItemConfig)
@@ -69,10 +87,12 @@ public class ActionMenuObject : MonoBehaviour
     private void SetupConfig(InventoryItemConfig inventoryItemConfig)
     {
         _inventoryItemConfig = inventoryItemConfig;
-
+        
         _dropButton.gameObject.SetActive(true);
         _closeButton.gameObject.SetActive(true);
-        
+
+        _dropAllButton.gameObject.SetActive(inventoryItemConfig.ItemCount > 1);
+
         if (inventoryItemConfig is WeaponInventoryItemConfig weaponInventoryItemConfig)
         {
             _defuseWeaponButton.gameObject.SetActive(weaponInventoryItemConfig.CurrentAmmo > 0);

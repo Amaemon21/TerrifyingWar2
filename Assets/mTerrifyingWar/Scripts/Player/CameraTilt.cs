@@ -1,25 +1,33 @@
 using UnityEngine;
+using Zenject;
 
 public class CameraTilt : MonoBehaviour
 {
-    [SerializeField] private PlayerController _playerController;
+    [Inject] private readonly IInputService _inputService;
 
     [Space]
     [SerializeField] private float _tiltSpeed;
     [SerializeField] private float _tiltAmount;
 
+    private Transform _transform;
+    
+    private void Awake()
+    {
+        _transform = transform;
+    }
+
     private void Update()
     {
-        var rotation = Tilt();
-        transform.localRotation = Quaternion.Lerp(transform.localRotation, rotation, Time.deltaTime * _tiltSpeed);
+        Quaternion rotation = Tilt();
+        _transform.localRotation = Quaternion.Lerp(_transform.localRotation, rotation, Time.deltaTime * _tiltSpeed);
     }
 
     private Quaternion Tilt()
     {
-        if (!_playerController.IsWalking)
+        if (_inputService.MoveDirection == Vector2.zero)
             return Quaternion.Euler(Vector3.zero);
 
-        var x = Input.GetAxis("Horizontal");
+        float x = _inputService.MoveDirection.x * _tiltAmount;
 
         Vector3 vector = new Vector3(0, 0, -x).normalized * _tiltAmount;
 

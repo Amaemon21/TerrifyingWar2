@@ -2345,25 +2345,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0df2ae6563430fa47a63e0634464c492, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _type: 1
-  _hitScanMask:
-    serializedVersion: 2
-    m_Bits: 563
-  _reloadTime: 3.4
-  _reloadFullTime: 4.4
+  _mainWeaponConfigs: {fileID: 11400000, guid: 132ac2616fb443646a5c3b33c551e0fe, type: 2}
   _shakePreset: {fileID: 11400000, guid: fd35ba6443560ec4c9f071182f332d9d, type: 2}
   _recoilPreset: {fileID: 11400000, guid: 6ada82545d9cf7f45a716c0d99a8487b, type: 2}
-  _recoilPattern: {x: 4, y: 4, z: 2}
-  _snappiness: 10
-  _returnSpeed: 15
-  _applySpread: 1
-  _spreadVariance: {x: 0.02, y: 0.02, z: 0.02}
-  _defaultPosition: {x: 0, y: 0, z: 0}
-  _canShoot: 1
-  _canReload: 1
-  _canScope: 1
-  _inScope: 0
-  _isReload: 0
 --- !u!114 &2164573549382599107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2376,16 +2360,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8715afd9698e86443853b94c9be6d856, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shootName: Shoot
-  _aimShootsName:
-  - Aim Shoot 1
-  - Aim Shoot 2
-  - Aim Shoot 3
-  _reloadBoolName: Reload
-  _reloadFullBoolName: Reload Full
-  _aimBoolName: Aim
-  _hideWaponName: Hide
-  _animator: {fileID: 2232506969401828530}
 --- !u!114 &-5687757671207285706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2398,17 +2372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 232424cedaed8fd4a9b214ad6ef6e568, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _emptyMagSound: {fileID: 8300000, guid: 23899f8f22892f3488a5bfe3fbe2e3c0, type: 3}
-  _reloadSound: {fileID: 8300000, guid: 992fdb5f2e6fb814bbef0819be2a6540, type: 3}
-  _fullReloadSound: {fileID: 8300000, guid: b90c96ca55af7b342a0ff2e763436288, type: 3}
-  _equipSound: {fileID: 8300000, guid: 07b52d23b04595e47b8dba5c473d7141, type: 3}
-  _shootSounds:
-  - {fileID: 8300000, guid: 669ad723544d55442b0af054b1cbd38e, type: 3}
-  - {fileID: 8300000, guid: e5265c92185f69d4189bfdc7e89d8fe1, type: 3}
-  - {fileID: 8300000, guid: 05513f1407c6b9f489ebb322ea438097, type: 3}
-  - {fileID: 8300000, guid: 003c55a7f7bf74d4e913677ccfa1e2cf, type: 3}
-  - {fileID: 8300000, guid: ce41a2927e6422a48946b539088b7085, type: 3}
-  _audioSource: {fileID: 2089222395588607803}
+  _audioWeaponConfig: {fileID: 11400000, guid: 2ac63eb1b7a957c4880eb26c19043a5e, type: 2}
 --- !u!114 &9201650685308918565
 MonoBehaviour:
   m_ObjectHideFlags: 0

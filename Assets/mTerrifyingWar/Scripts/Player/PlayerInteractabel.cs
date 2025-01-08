@@ -79,7 +79,7 @@ public class PlayerInteractable : MonoBehaviour
 
         _interactView.CanvasGroup.DOFade(1f, 0.1f);
 
-        _currentItem.Outline.enabled = true;
+        //_currentItem.Outline.enabled = true;
 
         string coloredButton = $"<color=#E78300>{_interactAction.action.bindings[0].ToDisplayString()}</color>";
         string coloredName = $"<color=#E78300>{_currentItem.InventoryItemConfig.ItemName}</color>";
@@ -92,7 +92,7 @@ public class PlayerInteractable : MonoBehaviour
     {
         if (_currentItem != null)
         {
-            _currentItem.Outline.enabled = false;
+            //_currentItem.Outline.enabled = false;
             _currentItem = null;
         }
 

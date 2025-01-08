@@ -21,10 +21,9 @@ public class EntitySpriteSwitcher : MonoBehaviour
         
         if (Physics.Raycast(ray, out RaycastHit hit, _raycastDistance, _hitScanMask))
         {
-            if (hit.collider.TryGetComponent(out Enemy enemy))
+            if (hit.collider.TryGetComponent(out BodyPart enemy))
             {
                 _aimPoint.Image.sprite = _enemySprite;
-                Debug.Log("=");
             }
             else if (hit.collider.CompareTag("NPC"))
             {

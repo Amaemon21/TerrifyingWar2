@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 33903796201729450}
   - component: {fileID: 23544802611210110}
   - component: {fileID: 64066414485109694}
-  - component: {fileID: 3120007650332420006}
+  - component: {fileID: 9051628120468451551}
   m_Layer: 0
   m_Name: SM_Prop_Cone_01
   m_TagString: Untagged
@@ -110,7 +110,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43444601537970986, guid: a1c6fea8fc143544d93d6106453d5a83, type: 2}
---- !u!114 &3120007650332420006
+--- !u!114 &9051628120468451551
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,6 +119,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1329448962256884}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 902e4ead2ae86434ab3347912d34384e, type: 3}
+  m_Script: {fileID: 11500000, guid: 164fb575958ada5498e25d9cb8515a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <ImpactPrefab>k__BackingField: {fileID: 178032, guid: ea6cf4c5efb69b94db988e2fbfd72698, type: 3}

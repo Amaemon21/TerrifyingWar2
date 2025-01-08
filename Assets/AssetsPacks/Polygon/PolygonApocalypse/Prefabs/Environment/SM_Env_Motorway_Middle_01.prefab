@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4698621439540462}
   - component: {fileID: 33624249458170644}
   - component: {fileID: 23379664384662108}
-  - component: {fileID: 64244692865897136}
+  - component: {fileID: 3670926134503042872}
   m_Layer: 0
   m_Name: SM_Env_Motorway_Middle_01
   m_TagString: Untagged
@@ -87,8 +87,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &64244692865897136
-MeshCollider:
+--- !u!65 &3670926134503042872
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -105,7 +105,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 2713adfa0ece37f4a9495efa91af0f65, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 5, y: 1.0199811, z: 5}
+  m_Center: {x: -2.5, y: -0.50999045, z: -2.5}

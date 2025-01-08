@@ -30,6 +30,13 @@ MonoBehaviour:
     - 4cacd80dff840d1438ab46bce5282d97
     - f45bfb9d777ca8c4691dd3106a94dbb0
     - b279cebaf0a77ed4283da32cbbbe681e
+    - 57caef0ed19a2441c8a8f84b2bf909e9
+    - 77c0f72dda2fe7048bddfbc759f10cbe
+    - 7a1a1d73c7f90524292ccc014b64b7b5
+    - e8c751710c108bc48bbe41bece70c5be
+    - 79750022fbb767247b57d3776dc197d6
+    - 31bde34183e044a429977eba0c7b8fd5
+    - d46212c71025d43edb2fe77be5488612
     values:
     - colorIndex: 0
       iconNameOrGuid: ScriptableObject Icon
@@ -63,3 +70,17 @@ MonoBehaviour:
       iconNameOrGuid: ScriptableObject Icon
     - colorIndex: 0
       iconNameOrGuid: ScriptableObject Icon
+    - colorIndex: 3
+      iconNameOrGuid: 
+    - colorIndex: 9
+      iconNameOrGuid: 
+    - colorIndex: 8
+      iconNameOrGuid: 
+    - colorIndex: 0
+      iconNameOrGuid: AudioMixerController Icon
+    - colorIndex: 0
+      iconNameOrGuid: ScriptableObject Icon
+    - colorIndex: 0
+      iconNameOrGuid: Shader Icon
+    - colorIndex: 0
+      iconNameOrGuid: Shader Icon

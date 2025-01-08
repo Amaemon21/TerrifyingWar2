@@ -5,7 +5,7 @@ public class CursorStateService
     public void EnableCursor()
     {
         Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     public void DisableCursor()

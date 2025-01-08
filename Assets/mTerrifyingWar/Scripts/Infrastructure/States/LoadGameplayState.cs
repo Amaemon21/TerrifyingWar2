@@ -13,7 +13,7 @@
 
     public void Enter()
     {
-        _loadingScreen.Show(_sceneLoader.Progress);
+        _loadingScreen.Show();
         _sceneLoader.Load(Constans.Gameplay, OnLoaded);
     }
 

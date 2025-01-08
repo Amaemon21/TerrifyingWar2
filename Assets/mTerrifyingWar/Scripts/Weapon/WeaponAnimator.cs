@@ -1,50 +1,47 @@
-using NaughtyAttributes;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+[RequireComponent(typeof(Animator))]
 public class WeaponAnimator : MonoBehaviour
 {
-    [SerializeField, BoxGroup("Animation"), HorizontalLine] private string _shootName = "Shoot";
-    [SerializeField, BoxGroup("Animation")] private string[] _aimShootsName;
-    [SerializeField, BoxGroup("Animation")] private string _reloadBoolName = "Reload";
-    [SerializeField, BoxGroup("Animation")] private string _reloadFullBoolName = "Reload Full";
-    [SerializeField, BoxGroup("Animation")] private string _aimBoolName = "Aim";
-    [SerializeField, BoxGroup("Animation")] private string _hideWaponName = "Hide";
+    private AnimatorWeaponConfig _animatorWeaponConfig;
 
-    [SerializeField, BoxGroup("Animator"), HorizontalLine] private Animator _animator;
+    private Animator _animator;
 
     private void Awake()
     {
+        _animatorWeaponConfig = Resources.Load<AnimatorWeaponConfig>("Configs/WeaponsConfigs/AnimatorWeaponConfig");
+        
+        _animator = GetComponent<Animator>();   
+        
         _animator.applyRootMotion = false;
         _animator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
     }
 
     public void PlayShootAnimation(bool isAiming)
     {
-        if (isAiming)
-        {
-            _animator.Play(_aimShootsName[Random.Range(0, _aimShootsName.Length)]);
-        }
-        else
-        {
-            _animator.Play(_shootName);
-        }
+        _animator.Play(isAiming ? _animatorWeaponConfig.AimShootsName[Random.Range(0, _animatorWeaponConfig.AimShootsName.Length)] : _animatorWeaponConfig.ShootName);
     }
 
     public void SetAimState(bool isAiming)
     {
-        _animator.SetBool(_aimBoolName, isAiming);
+        _animator.SetBool(_animatorWeaponConfig.AimBoolName, isAiming);
+    }
+    
+    public void SetAimWalkState(bool isAiming)
+    {
+        _animator.SetBool(_animatorWeaponConfig.AimWalkBoolName, isAiming);
     }
 
     public void PlayReloadAnimation(bool isFullReload)
     {
-        string reloadName = isFullReload ? _reloadFullBoolName : _reloadBoolName;
+        string reloadName = isFullReload ? _animatorWeaponConfig.ReloadFullBoolName : _animatorWeaponConfig.ReloadBoolName;
         _animator.SetBool(reloadName, true);
     }
 
     public void StopReloadAnimation(bool isFullReload)
     {
-        string reloadName = isFullReload ? _reloadFullBoolName : _reloadBoolName;
+        string reloadName = isFullReload ? _animatorWeaponConfig.ReloadFullBoolName : _animatorWeaponConfig.ReloadBoolName;
         _animator.SetBool(reloadName, false);
     }
 
@@ -56,6 +53,6 @@ public class WeaponAnimator : MonoBehaviour
 
     public void PlayHideAnimation()
     {
-        _animator.Play(_hideWaponName);
+        _animator.Play(_animatorWeaponConfig.HideWaponName);
     }
 }

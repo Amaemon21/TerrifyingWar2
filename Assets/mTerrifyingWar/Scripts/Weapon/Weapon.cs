@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using DG.Tweening;
 using NaughtyAttributes;
 using UnityEngine;
 using Zenject;
@@ -9,38 +10,33 @@ using Zenject;
 [RequireComponent(typeof(WeaponAudio))]
 public class Weapon : MonoBehaviour
 {
-    [Inject] private readonly InputService _inputService;
+    [Inject] private readonly IInputService _inputService;
     [Inject] private readonly EventBus _eventBus;
     [Inject] private readonly WeaponRecoilAndShake _weaponRecoilAndShake;
     [Inject] private readonly ShootTransform _shootTransform;
     [Inject] private readonly AimPoint _aimPoint;
     [Inject] private readonly AmmoView _ammoView;
     [Inject] private readonly Inventory _inventory;
-    
-    [SerializeField, BoxGroup("Main")] private WeaponType _type = WeaponType.AssaultRifle;
-    [SerializeField, BoxGroup("Main")] private LayerMask _hitScanMask;
-    [SerializeField][Range(0.0f, 10.0f), BoxGroup("Main")] private float _reloadTime = 2.0f;
-    [SerializeField][Range(0.0f, 15.0f), BoxGroup("Main")] private float _reloadFullTime = 3.0f;
+    [Inject] private readonly WeaponCamera _weaponCamera;
+
+    [SerializeField, BoxGroup("Main Weapon Config"), HorizontalLine] private MainWeaponConfigs _mainWeaponConfigs;
 
     [SerializeField, BoxGroup("Shake Preset"), HorizontalLine] private ShakePreset _shakePreset;
     
     [SerializeField, BoxGroup("Recoil Preset"), HorizontalLine] private RecoilPreset _recoilPreset;
-
-    [SerializeField, BoxGroup("Spread"), HorizontalLine] private bool _applySpread = true;
-    [SerializeField, BoxGroup("Spread")] private Vector3 _spreadVariance = new(1.0f, 1.0f, 1.0f);
-
-    [SerializeField, BoxGroup("Transform"), HorizontalLine] private Vector3 _defaultPosition;
     
-    [SerializeField, BoxGroup("State"), HorizontalLine] private bool _canShoot = true;
-    [SerializeField, BoxGroup("State")] private bool _canReload = true;
-    [SerializeField, BoxGroup("State")] private bool _canScope = true;
-    [SerializeField, BoxGroup("State")] private bool _inScope = false;
-    [SerializeField, BoxGroup("State")] private bool _isReload = false;
+    private bool _canShoot = true;
+    private bool _canReload = true;
+    private bool _canScope = true;
+    private bool _inScope = false;
+    private bool _isReload = false;
     
     private WeaponAnimator _weaponAnimator;
     private WeaponAudio _weaponAudio;
     private WeaponVisualEffects _weaponVisualEffects;
 
+    private Camera _camera;
+    
     private Transform _transform;
     
     private float _lastShootTime = 0.0f;
@@ -60,6 +56,8 @@ public class Weapon : MonoBehaviour
     {
         _transform = transform;
         
+        _camera = Camera.main;
+
         _weaponAnimator = GetComponent<WeaponAnimator>();
         _weaponAudio = GetComponent<WeaponAudio>();
         _weaponVisualEffects = GetComponent<WeaponVisualEffects>();
@@ -67,11 +65,6 @@ public class Weapon : MonoBehaviour
 
     private void OnEnable()
     {
-        _inputService.ReloadChanged += ReloadChecker;
-        _inputService.AimChanged += Aiming;
-        
-        _weaponAudio.PlayEquipSound();
-        
         _eventBus.ItemAddedInventoryChanged.AddListener(RequestAmmo);
         _eventBus.RemoveItemToInventoryChanged.AddListener(RemoveAmmo);
         
@@ -80,18 +73,17 @@ public class Weapon : MonoBehaviour
 
     private void OnDisable()
     {
-        _inputService.ReloadChanged -= ReloadChecker;
-        _inputService.AimChanged -= Aiming;
-        
         _eventBus.ItemAddedInventoryChanged.RemoveListener(RequestAmmo);
         _eventBus.RemoveItemToInventoryChanged.RemoveListener(RemoveAmmo);
     }
 
     private void Update()
     {
-        _transform.localPosition = _defaultPosition;
+        _transform.localPosition = _mainWeaponConfigs.DefaultPosition;
 
         ShootButtonChecker();
+        ReloadChecker();
+        Aiming();
         
         ApplyRecoil();
 
@@ -111,19 +103,19 @@ public class Weapon : MonoBehaviour
             {
                 if (_weaponInventoryItemConfig.CurrentAmmo > 0)
                 {
-                    if (_type == WeaponType.AssaultRifle)
+                    if (_mainWeaponConfigs.WeaponType == WeaponType.AssaultRifle)
                     {
                         if (_inputService.IsShoot)
                         {
                             Shoot();
                         }
                     }
-                    else if (_type == WeaponType.Pistol)
+                    else if (_mainWeaponConfigs.WeaponType  == WeaponType.Pistol)
                     {
                         if (_inputService.IsShoot)
                         {
                             Shoot();
-                            _inputService.ResetShoot();
+                            //_inputService.ResetShoot();
                         }
                     }
                 }
@@ -139,9 +131,12 @@ public class Weapon : MonoBehaviour
             {
                 if (!_inputService.IsRun)
                 {
-                    if (_ammoInventoryItemConfig != null && _ammoInventoryItemConfig.ItemCount > 0 && _weaponInventoryItemConfig.CurrentAmmo < _weaponInventoryItemConfig.MagazineSize)
+                    if (_inputService.IsReload)
                     {
-                        StartCoroutine(ReloadCoroutine());
+                        if (_ammoInventoryItemConfig != null && _ammoInventoryItemConfig.ItemCount > 0 && _weaponInventoryItemConfig.CurrentAmmo < _weaponInventoryItemConfig.MagazineSize)
+                        {
+                            StartCoroutine(ReloadCoroutine());
+                        }
                     }
                     else if (_ammoInventoryItemConfig != null && _ammoInventoryItemConfig.ItemCount > 0 && _weaponInventoryItemConfig.CurrentAmmo == 0)
                     {
@@ -164,7 +159,7 @@ public class Weapon : MonoBehaviour
         }
         else
         {
-            _finalDirection = WeaponUtilities.GetDirection(_transform.forward, _applySpread, _spreadVariance);
+            _finalDirection = WeaponUtilities.GetDirection(_transform.forward, _mainWeaponConfigs.ApplySpread, _mainWeaponConfigs.SpreadVariance);
 
             HitScan(new Ray(_shootTransform.transform.position, _finalDirection));
 
@@ -189,7 +184,7 @@ public class Weapon : MonoBehaviour
     
     private void HitScan(Ray ray)
     {
-        if (Physics.Raycast(ray, out var hit, int.MaxValue, _hitScanMask))
+        if (Physics.Raycast(ray, out var hit, int.MaxValue, _mainWeaponConfigs.HitScanMask))
         {
             _weaponVisualEffects.CreateTrail(hit.point);
 
@@ -237,6 +232,9 @@ public class Weapon : MonoBehaviour
 
                 _weaponAnimator.SetAimState(_inScope);
                 _aimPoint.gameObject.SetActive(!_inScope);
+
+                _weaponCamera.Camera.DOFieldOfView(_inScope ? 50 : 60, 0.5f);
+                _camera.DOFieldOfView(_inScope ? 50 : 60, 0.5f);
             }
         }
     }
@@ -292,7 +290,7 @@ public class Weapon : MonoBehaviour
 
             _weaponAnimator.PlayReloadAnimation(false);
 
-            yield return new WaitForSeconds(_reloadTime);
+            yield return new WaitForSeconds(_mainWeaponConfigs.ReloadTime);
 
             _weaponAnimator.StopReloadAnimation(false);
         }
@@ -302,7 +300,7 @@ public class Weapon : MonoBehaviour
             
             _weaponAnimator.PlayReloadAnimation(true);
             
-            yield return new WaitForSeconds(_reloadFullTime);
+            yield return new WaitForSeconds(_mainWeaponConfigs.ReloadFullTime);
 
             _weaponAnimator.StopReloadAnimation(true);
         }
@@ -359,17 +357,22 @@ public class Weapon : MonoBehaviour
                 _canShoot = false;
                 _canScope = false;
                 _inScope = false;
+                
+                _weaponAnimator.SetAimWalkState(false);
             }
             else
             {
                 _canReload = !_isReload;
                 _canShoot = !_isReload;
                 _canScope = !_isReload;
+                
+                _weaponAnimator.SetAimWalkState(_inScope);
             }
         }
         else
         {
             _weaponAnimator.SetMovementState(false, false);
+            _weaponAnimator.SetAimWalkState(false);
         }
     }
 

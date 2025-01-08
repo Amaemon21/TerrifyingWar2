@@ -1,61 +1,62 @@
 using NaughtyAttributes;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(AudioSource))]
 public class WeaponAudio : MonoBehaviour
 {
-    [SerializeField, BoxGroup("Audio")] private AudioClip _emptyMagSound;
-    [SerializeField, BoxGroup("Audio")] private AudioClip _reloadSound;
-    [SerializeField, BoxGroup("Audio")] private AudioClip _fullReloadSound;
-    [SerializeField, BoxGroup("Audio")] private AudioClip _equipSound;
+    [SerializeField, BoxGroup("Audio Weapon Config")] private AudioWeaponConfig _audioWeaponConfig;
     
-    [Space]
-    [SerializeField, BoxGroup("Audio")] private AudioClip[] _shootSounds;
-    
-    [SerializeField, BoxGroup("Audio"), HorizontalLine] private AudioSource _audioSource;
+    private AudioSource _audioSource;
 
     public void Awake()
     {
+        _audioSource = GetComponent<AudioSource>();
         _audioSource.playOnAwake = false;
     }
-    
-    public void PlayEquipSound()
+
+    private void OnEnable()
     {
-        if (_equipSound != null)
+        PlayEquipSound();
+    }
+
+    private void PlayEquipSound()
+    {
+        if (_audioWeaponConfig.EquipSound != null)
         {
-            _audioSource.PlayOneShot(_equipSound);
+            _audioSource.PlayOneShot(_audioWeaponConfig.EquipSound);
         }
     }
 
     public void PlayShootSound()
     {
-        if (_shootSounds.Length == 0) return;
+        if (_audioWeaponConfig.ShootSounds.Length == 0) return;
 
-        int randomIndex = Random.Range(0, _shootSounds.Length);
-        _audioSource.PlayOneShot(_shootSounds[randomIndex]);
+        int randomIndex = Random.Range(0, _audioWeaponConfig.ShootSounds.Length);
+        _audioSource.PlayOneShot(_audioWeaponConfig.ShootSounds[randomIndex]);
     }
 
     public void PlayReloadSound()
     {
-        if (_reloadSound != null)
+        if (_audioWeaponConfig.ReloadSound != null)
         {
-            _audioSource.PlayOneShot(_reloadSound);
+            _audioSource.PlayOneShot(_audioWeaponConfig.ReloadSound);
         }
     }
     
     public void PlayFullReloadSound()
     {
-        if (_fullReloadSound != null)
+        if (_audioWeaponConfig.FullReloadSound != null)
         {
-            _audioSource.PlayOneShot(_fullReloadSound);
+            _audioSource.PlayOneShot(_audioWeaponConfig.FullReloadSound);
         }
     }
 
     public void PlayEmptyClipSound()
     {
-        if (_emptyMagSound != null)
+        if (_audioWeaponConfig.EmptyMagSound != null)
         {
-            _audioSource.PlayOneShot(_emptyMagSound);
+            _audioSource.PlayOneShot(_audioWeaponConfig.EmptyMagSound);
         }
     }
 }

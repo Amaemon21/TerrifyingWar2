@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9906748eb56846668a9ad2a1474d916f, type: 3}
+  m_Name: AK-103 Audio Weapon Config
+  m_EditorClassIdentifier: 
+  <EmptyMagSound>k__BackingField: {fileID: 8300000, guid: f7d18a9c45d07144ea0c5a2cab427a9c, type: 3}
+  <ReloadSound>k__BackingField: {fileID: 8300000, guid: 992fdb5f2e6fb814bbef0819be2a6540, type: 3}
+  <FullReloadSound>k__BackingField: {fileID: 8300000, guid: b90c96ca55af7b342a0ff2e763436288, type: 3}
+  <EquipSound>k__BackingField: {fileID: 8300000, guid: 07b52d23b04595e47b8dba5c473d7141, type: 3}
+  <ShootSounds>k__BackingField:
+  - {fileID: 8300000, guid: 669ad723544d55442b0af054b1cbd38e, type: 3}
+  - {fileID: 8300000, guid: e5265c92185f69d4189bfdc7e89d8fe1, type: 3}
+  - {fileID: 8300000, guid: 05513f1407c6b9f489ebb322ea438097, type: 3}
+  - {fileID: 8300000, guid: 003c55a7f7bf74d4e913677ccfa1e2cf, type: 3}
+  - {fileID: 8300000, guid: ce41a2927e6422a48946b539088b7085, type: 3}

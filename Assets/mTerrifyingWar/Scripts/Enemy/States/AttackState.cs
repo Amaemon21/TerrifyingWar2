@@ -12,7 +12,7 @@
     {
         Enemy.RotateToTarget(Enemy.Target.position);
 
-        if (!Enemy.IsAttacking)
+        if (!Enemy.EnemyConfig.IsAttacking)
         {
             if (Enemy.IsInAttackRange())
             {

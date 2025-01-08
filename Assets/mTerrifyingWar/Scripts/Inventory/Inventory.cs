@@ -11,7 +11,7 @@ public class Inventory : MonoBehaviour
     [Inject] private readonly EventBus _eventBus;
     [Inject] private readonly InventoryManager _inventoryManager;
     
-    private readonly List<InventoryItemCell> _inventoryItemCells = new();
+    private List<InventoryItemCell> _inventoryItemCells = new();
 
     [SerializeField, BoxGroup("Common"), HorizontalLine] private RectTransform _cellContainer;
     [SerializeField, BoxGroup("Common")] private int _cellCount = 36;
@@ -60,7 +60,6 @@ public class Inventory : MonoBehaviour
 
         _eventBus.HandleDisplayItemsChanged();
     }
-
     
     public void AddItem(InventoryItemConfig config)
     {
@@ -198,20 +197,28 @@ public class Inventory : MonoBehaviour
     public void DropItem(InventoryItemConfig config, int amount, InventoryItemCell cell = null)
     {
         InventoryItemObject inventoryItemObject = Instantiate(config.ItemPrefab, _inventoryManager.DropPosition.transform.position, Quaternion.identity);
-        
-        config.RemoveCount(amount);
-        
-        var InventoryItemConfigCopy = Instantiate(config);
-        
-        InventoryItemConfigCopy.ResetCount();
-        InventoryItemConfigCopy.AddCount(amount);
 
-        if (config.ItemCount <= 0)
-            RemoveItem(config, cell);
-        else
-            inventoryItemObject.SetConfig(InventoryItemConfigCopy);
+        if (config.ItemCount < amount)
+        {   
+            config.RemoveCount(amount);
+            
+            var InventoryItemConfigCopy = Instantiate(config);
+        
+            InventoryItemConfigCopy.ResetCount();
+            InventoryItemConfigCopy.AddCount(amount);
+
+            if (config.ItemCount <= 0)
+                RemoveItem(config, cell);
+            else
+                inventoryItemObject.SetConfig(InventoryItemConfigCopy);
+        }
+
+        if (config.ItemCount == amount)
+        {
+            DropItem(config, cell);
+        }
     }
-    
+
     private void UpdatePrimaryWeapon() => UpdateWeapon(_primaryWeaponCell, ref _primaryWeapon, RequestPrimaryWeaponChanged);
 
     private void UpdateSecondWeapon() => UpdateWeapon(_secondWeaponCell, ref _secondWeapon, RequestSecondWeaponChanged);

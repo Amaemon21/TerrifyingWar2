@@ -1749,6 +1749,7 @@ MonoBehaviour:
   _reloadBoolName: Reload
   _reloadFullBoolName: Reload Full
   _aimBoolName: Aim
+  _aimWalkBoolName: Aim Walk
   _hideWaponName: Hide
   _animator: {fileID: 4523392078763559090}
 --- !u!114 &-1566276784851299913

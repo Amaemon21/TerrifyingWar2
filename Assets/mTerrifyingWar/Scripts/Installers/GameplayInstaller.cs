@@ -4,11 +4,22 @@ using Zenject;
 public class GameplayInstaller : MonoInstaller
 {
     [SerializeField] private PlayerController _playerController;
-    [SerializeField] private InputService _inputService;
+    [SerializeField] private UIManager _uiManager;
 
     public override void InstallBindings()
     {
+        PlayerBindings();
+        UIManagerBindings();
+    }
+    
+    private void PlayerBindings()
+    {
         Container.Bind<PlayerController>().FromInstance(_playerController).AsSingle();
-        Container.Bind<InputService>().FromInstance(_inputService).AsSingle();
+        Container.Bind<IInputService>().To<InputService>().FromNew().AsSingle();
+    }
+    
+    private void UIManagerBindings()
+    {
+        Container.Bind<UIManager>().FromInstance(_uiManager).AsSingle();
     }
 }
