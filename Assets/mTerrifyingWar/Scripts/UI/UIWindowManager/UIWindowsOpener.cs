@@ -3,40 +3,40 @@ using Zenject;
 
 public class UIWindowsOpener : MonoBehaviour
 {
-    [Inject] private readonly UIManager _uiManager;
+    [Inject] private readonly UIWindowService _uiWindowService;
     
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (_uiManager.HasAnyWindowOpen())
+            if (_uiWindowService.HasAnyWindowOpen())
             {
-                _uiManager.CloseAllWindows();
+                _uiWindowService.CloseAllWindows();
             }
             else
             {
-                _uiManager.ToogleWindow(WindowType.Pause);
+                _uiWindowService.ToogleWindow(WindowType.Pause);
             }
         }
 
         if (Input.GetKeyDown(KeyCode.I))
         {
-            _uiManager.ToogleWindow(WindowType.Inventory);
+            _uiWindowService.ToogleWindow(WindowType.Inventory);
         }
         
         if (Input.GetKeyDown(KeyCode.M))
         {
-            _uiManager.ToogleWindow(WindowType.Map);
+            _uiWindowService.ToogleWindow(WindowType.Map);
         }
     }
     
     public void ToogleWindowInventory()
     {
-        _uiManager.OpenWindow(WindowType.Inventory);
+        _uiWindowService.OpenWindow(WindowType.Inventory);
     }
 
     public void ToogleWindowMap()
     {
-        _uiManager.OpenWindow(WindowType.Map);
+        _uiWindowService.OpenWindow(WindowType.Map);
     }
 }

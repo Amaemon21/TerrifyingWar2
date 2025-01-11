@@ -6,7 +6,6 @@ using Zenject;
 public class ActionMenuObject : MonoBehaviour
 {
     [Inject] private readonly Inventory _inventory;
-    [Inject] private readonly InventoryManager _inventoryManager;
 
     [SerializeField] private Button _dropButton;
     [SerializeField] private Button _dropAllButton;
@@ -23,8 +22,8 @@ public class ActionMenuObject : MonoBehaviour
     {
         _rectTransform = GetComponent<RectTransform>();
 
-        _inventoryDatabase = _inventoryManager.InventoryDatabase;
-        _dropMenu = _inventoryManager.DropMenu;
+        _inventoryDatabase = _inventory.InventoryDatabase;
+        _dropMenu = _inventory.DropMenu;
 
         Hide();
     }

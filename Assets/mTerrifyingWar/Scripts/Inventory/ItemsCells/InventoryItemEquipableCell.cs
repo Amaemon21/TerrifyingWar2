@@ -9,8 +9,6 @@ using Zenject;
 public class InventoryItemEquipableCell : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
     [Inject] private readonly Inventory _inventory;
-    [Inject] private readonly InventoryManager _inventoryManager;
-    [Inject] private readonly EventBus _eventBus;
     
     private readonly string _nameItemDefault = "Отсутствует";
 
@@ -45,9 +43,9 @@ public class InventoryItemEquipableCell : MonoBehaviour, IPointerClickHandler, I
 
     private void Awake()
     {
-        _dragableObject = _inventoryManager.DragableObject;
-        _dropArea = _inventoryManager.DropArea;
-        _itemInfo = _inventoryManager.ItemInfo;
+        _dragableObject = _inventory.DragableObject;
+        _dropArea = _inventory.DropArea;
+        _itemInfo = _inventory.ItemInfo;
     }
     
     private void OnEnable()
@@ -272,7 +270,6 @@ public class InventoryItemEquipableCell : MonoBehaviour, IPointerClickHandler, I
             RedrawCell();
         
             DropItemChanged?.Invoke();
-            _eventBus.HandleDisplayItemsChanged();
         
             AnimateDrop();
         }

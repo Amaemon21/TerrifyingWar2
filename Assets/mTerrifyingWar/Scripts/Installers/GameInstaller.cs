@@ -9,21 +9,21 @@ public class GameInstaller : MonoInstaller
     {
         BindLoadingScreen();
         BindServices();
-        BindGameStateMachine();
         BindGame();
     }
 
-    private void BindGameStateMachine()
+    private void BindGame()
     {
-        //Container.Bind<GameStateMachine>().FromNew().AsSingle();
+        Container.Bind<GameStateMachine>().AsSingle();
+        
+        Container.Bind<Game>().AsSingle();
     }
 
     private void BindLoadingScreen()
     {
-        //Container.Bind<SceneLoader>().FromNew().AsSingle();
+        Container.Bind<SceneLoader>().FromNew().AsSingle();
         
-        //LoadingScreen loadingScreen = Container.InstantiatePrefabForComponent<LoadingScreen>(_loadingScreen, transform);
-        //Container.Bind<LoadingScreen>().FromInstance(loadingScreen).AsSingle();
+        Container.Bind<LoadingScreen>().FromComponentInNewPrefab(_loadingScreen).AsSingle();
     }
 
     private void BindServices()
@@ -31,17 +31,13 @@ public class GameInstaller : MonoInstaller
         //Container.Bind<IStorageService>().To<StorageService>().FromNew().AsSingle();
         //Container.Bind<IKeysProvider>().To<SaveDataKeysProvider>().FromNew().AsSingle();
         
+        Container.Bind<IInputService>().To<InputService>().FromNew().AsSingle();
+        
         Container.Bind<CursorStateService>().FromNew().AsSingle();
         
-        //Container.Bind<IAssetProvider>().To<AssetProvider>().FromNew().AsSingle();
+        Container.Bind<IAssetProvider>().To<AssetProvider>().FromNew().AsSingle();
 
-        //Container.Bind<IGameFactory>().To<GameFactory>().FromNew().AsSingle();
-
-        Container.Bind<EventBus>().FromNew().AsSingle();
-    }
-    
-    private void BindGame()
-    {
-        //Container.Bind<Game>().FromNew().AsSingle();
+        Container.Bind<IGameFactory>().To<GameFactory>().FromNew().AsSingle();
+        
     }
 }

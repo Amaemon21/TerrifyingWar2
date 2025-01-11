@@ -6,4 +6,9 @@
     {
         StateMachine = gameStateMachine;
     }
+
+    public void Run()
+    {
+        StateMachine.Enter<BootstrapState>();
+    }
 }

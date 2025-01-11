@@ -11,12 +11,12 @@ using Zenject;
 public class Weapon : MonoBehaviour
 {
     [Inject] private readonly IInputService _inputService;
-    [Inject] private readonly EventBus _eventBus;
     [Inject] private readonly WeaponRecoilAndShake _weaponRecoilAndShake;
     [Inject] private readonly ShootTransform _shootTransform;
     [Inject] private readonly AimPoint _aimPoint;
     [Inject] private readonly AmmoView _ammoView;
     [Inject] private readonly Inventory _inventory;
+    [Inject] private readonly InventorySystem _inventorySystem;
     [Inject] private readonly WeaponCamera _weaponCamera;
 
     [SerializeField, BoxGroup("Main Weapon Config"), HorizontalLine] private MainWeaponConfigs _mainWeaponConfigs;
@@ -65,16 +65,16 @@ public class Weapon : MonoBehaviour
 
     private void OnEnable()
     {
-        _eventBus.ItemAddedInventoryChanged.AddListener(RequestAmmo);
-        _eventBus.RemoveItemToInventoryChanged.AddListener(RemoveAmmo);
+        _inventory.ItemAddedInventoryChanged += RequestAmmo;
+        _inventory.ItemRemoveInventoryChanged += RemoveAmmo;
         
         RequestAmmo();
     }
 
     private void OnDisable()
     {
-        _eventBus.ItemAddedInventoryChanged.RemoveListener(RequestAmmo);
-        _eventBus.RemoveItemToInventoryChanged.RemoveListener(RemoveAmmo);
+        _inventory.ItemAddedInventoryChanged -= RequestAmmo;
+        _inventory.ItemRemoveInventoryChanged -= RemoveAmmo;
     }
 
     private void Update()
@@ -257,7 +257,7 @@ public class Weapon : MonoBehaviour
     {
         if (_weaponInventoryItemConfig != null)
         {
-            _ammoInventoryItemConfig = _inventory.RequestAmmo(_weaponInventoryItemConfig.AmmoID);
+            _ammoInventoryItemConfig = _inventorySystem.RequestAmmo(_weaponInventoryItemConfig.AmmoID);
         }
 
         HandleDisplayAmmo();

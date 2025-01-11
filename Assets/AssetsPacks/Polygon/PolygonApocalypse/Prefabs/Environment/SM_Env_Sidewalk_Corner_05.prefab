@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4441656691385436}
   - component: {fileID: 33674911276560570}
   - component: {fileID: 23279187254398522}
-  - component: {fileID: 65594379529720500}
+  - component: {fileID: 8792353069799921084}
   m_Layer: 0
   m_Name: SM_Env_Sidewalk_Corner_05
   m_TagString: Untagged
@@ -50,10 +50,10 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1743438724426502}
   m_Enabled: 1
-  m_CastShadows: 2
+  m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
+  m_StaticShadowCaster: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -88,8 +88,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &65594379529720500
-BoxCollider:
+--- !u!64 &8792353069799921084
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -106,6 +106,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 5, y: 0.079353094, z: 5}
-  m_Center: {x: -2.5, y: -0.039676547, z: -2.5}
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: 0bd08c7f48b94fb438e41ca9a8d3e7d5, type: 3}

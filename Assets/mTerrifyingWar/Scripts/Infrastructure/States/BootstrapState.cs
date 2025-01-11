@@ -11,15 +11,57 @@
 
     public void Enter()
     {
-        _sceneLoader.Load(Constans.Boot, EnterLoadMainMenu);
+        Run();
     }
 
     public void Exit()
     {
     }
 
-    private void EnterLoadMainMenu()
+    private void Run()
     {
-        _stateMachine.Enter<LoadMainMenuState, string>(Constans.MainMenu);
+#if UNITY_EDITOR
+        HandleEditorScenes();
+#else
+        LoadBootAndMainMenu();
+#endif
+    }
+    
+    private void HandleEditorScenes()
+    {
+        switch (_sceneLoader.GetSceneName())
+        {
+            case Constans.Gameplay:
+                LoadBootAndGameplay();
+                return;
+            case Constans.MainMenu:
+                LoadBootAndMainMenu();
+                return;
+            case Constans.Boot:
+                LoadBootAndMainMenu();
+                return;
+        }
+    }
+
+    private void LoadBootAndGameplay()
+    {
+        _sceneLoader.Load(Constans.Boot, () =>
+        {
+            _sceneLoader.Load(Constans.Gameplay, () =>
+            {
+                _stateMachine.Enter<LoadGameplayState>();
+            });
+        });
+    }
+
+    private void LoadBootAndMainMenu()
+    {
+        _sceneLoader.Load(Constans.Boot, () =>
+        {
+            _sceneLoader.Load(Constans.MainMenu, () =>
+            {
+                _stateMachine.Enter<LoadMainMenuState>();
+            });
+        });
     }
 }

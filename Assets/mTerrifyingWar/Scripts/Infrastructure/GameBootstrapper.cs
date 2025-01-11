@@ -1,10 +1,12 @@
 using UnityEngine;
+using Zenject;
 
 public class GameBootstrapper : MonoBehaviour
 {
-    public void Init(Game game)
+    [Inject] private Game _game;
+
+    private void Awake()
     {
-        game.StateMachine.Enter<BootstrapState>();
-        DontDestroyOnLoad(this);
+        _game.Run();
     }
 }

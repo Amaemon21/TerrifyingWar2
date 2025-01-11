@@ -15,6 +15,20 @@ MonoBehaviour:
   m_Active: 1
   downsampleDepthShader: {fileID: 4800000, guid: cffeaeec0396a2c4dad475266cc8dfeb, type: 3}
   volumetricFogShader: {fileID: 4800000, guid: 08f816187f9af0244a95556ee0cab83f, type: 3}
+--- !u!114 &-312123866117448472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e32e72b6a3f58a24c9033e2b9275eea0, type: 3}
+  m_Name: ScreenSpaceShadows
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  m_Shader: {fileID: 4800000, guid: 0f854b35a0cf61a429bd5dcfea30eddd, type: 3}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42,7 +56,8 @@ MonoBehaviour:
   m_RendererFeatures:
   - {fileID: 3201065433248982112}
   - {fileID: -1391077721549763233}
-  m_RendererFeatureMap: 606496330d786c2c5f0d11b82ee6b1ec
+  - {fileID: -312123866117448472}
+  m_RendererFeatureMap: 606496330d786c2c5f0d11b82ee6b1ece8dc255aff1cabfb
   m_UseNativeRenderPass: 0
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
@@ -61,7 +76,7 @@ MonoBehaviour:
     failOperation: 0
     zFailOperation: 0
   m_ShadowTransparentReceive: 1
-  m_RenderingMode: 0
+  m_RenderingMode: 2
   m_DepthPrimingMode: 0
   m_CopyDepthMode: 1
   m_DepthAttachmentFormat: 0
@@ -80,16 +95,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f62c9c65cf3354c93be831c8bc075510, type: 3}
   m_Name: ScreenSpaceAmbientOcclusion
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   m_Settings:
     AOMethod: 1
     Downsample: 0
     AfterOpaque: 0
     Source: 1
     NormalSamples: 1
-    Intensity: 3
+    Intensity: 3.12
     DirectLightingStrength: 0.25
-    Radius: 0.035
+    Radius: 0.39
     Samples: 1
     BlurQuality: 0
     Falloff: 100

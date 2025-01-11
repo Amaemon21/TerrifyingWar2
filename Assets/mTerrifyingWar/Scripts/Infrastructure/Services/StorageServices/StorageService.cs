@@ -51,7 +51,7 @@ public class StorageService : IStorageService
                 CreateNewData(key, callback);
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             Debug.LogError($"Failed to load data: {key}");
         }
@@ -70,7 +70,7 @@ public class StorageService : IStorageService
                 Debug.Log("Saved file");
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             Debug.LogError($"Error saving data: {key}");
             throw;

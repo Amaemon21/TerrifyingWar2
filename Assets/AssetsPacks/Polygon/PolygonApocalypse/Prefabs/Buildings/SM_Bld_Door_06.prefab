@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4698060512880666}
   - component: {fileID: 33531320173723134}
   - component: {fileID: 23814347555806378}
-  - component: {fileID: 6368866722456461969}
+  - component: {fileID: 8834040151760513909}
   m_Layer: 0
   m_Name: SM_Bld_Door_06
   m_TagString: Untagged
@@ -53,7 +53,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
+  m_StaticShadowCaster: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -88,8 +88,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6368866722456461969
-BoxCollider:
+--- !u!64 &8834040151760513909
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -106,6 +106,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.0253077, y: 2.224348, z: 0.23423827}
-  m_Center: {x: -0.51264894, y: 1.112174, z: 0.06711914}
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: cd33748440e35a14c8a8ecc21541729e, type: 3}

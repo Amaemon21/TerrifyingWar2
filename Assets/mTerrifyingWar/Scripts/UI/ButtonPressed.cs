@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -7,19 +8,44 @@ public class ButtonPressed : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     private readonly float _defaultValue = 1f;
     private readonly float _endValue = 0.9f;
     private readonly float _duration = 0.2f;
+
+    private Transform _transform;
     
+    private void Awake()
+    {
+        _transform = transform;
+    }
+
     private void OnEnable()
     {
-        transform.DOScale(_defaultValue, _duration);
+        _transform.DOKill();
+        
+        _transform.localScale = Vector3.one * _defaultValue;
+        _transform.DOScale(_defaultValue, _duration);
     }
-    
+
+    private void OnDestroy()
+    {
+        _transform.DOKill();
+    }
+
     public void OnPointerDown(PointerEventData eventData)
     {
-        transform.DOScale(_endValue, _duration);
+        if (_transform == null) 
+            return;
+        
+        _transform.DOKill();
+        
+        _transform.DOScale(_endValue, _duration);
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        transform.DOScale(_defaultValue, _duration);
+        if (_transform == null) 
+            return;
+        
+        _transform.DOKill();
+        
+        _transform.DOScale(_defaultValue, _duration);
     }
 }

@@ -7,6 +7,11 @@ public class SceneLoader
 {
     public float Progress { get; private set; }
     public event Action<float> OnProgressUpdated;
+
+    public string GetSceneName()
+    {
+        return SceneManager.GetActiveScene().name;
+    }
     
     public void Load(string sceneName, Action onLoaded = null)
     {
@@ -15,7 +20,7 @@ public class SceneLoader
     
     private async UniTask LoadSceneAsync(string sceneName, Action onLoaded = null)
     {
-        if (SceneManager.GetActiveScene().name == sceneName)
+        if (GetSceneName() == sceneName)
         {
             onLoaded?.Invoke();
             return;

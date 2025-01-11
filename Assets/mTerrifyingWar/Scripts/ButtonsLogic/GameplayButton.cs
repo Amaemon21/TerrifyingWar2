@@ -1,13 +1,12 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 using Zenject;
 
-public class GameplayButton : MonoBehaviour, IPointerDownHandler
+public class GameplayButton : MonoBehaviour
 {
-    //[Inject] private readonly Game _game;
+    [Inject] private readonly Game _game;
 
-    public void OnPointerDown(PointerEventData eventData)
+    public void HandleGameplayLoad()
     {
-        //_game.StateMachine.Enter<LoadGameplayState>();
+        _game.StateMachine.Enter<LoadGameplayState>();
     }
 }

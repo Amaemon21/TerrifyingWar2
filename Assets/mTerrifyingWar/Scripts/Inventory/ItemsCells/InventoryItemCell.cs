@@ -7,7 +7,6 @@ using Zenject;
 public class InventoryItemCell : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
     [Inject] private readonly Inventory _inventory;
-    [Inject] private readonly InventoryManager _inventoryManager;
     
     [SerializeField] protected Image _cellImage;
     [SerializeField] private TMP_Text _countText;
@@ -36,11 +35,11 @@ public class InventoryItemCell : MonoBehaviour, IPointerClickHandler, IPointerEn
     
     private void Awake()
     {
-        _dragableObject = _inventoryManager.DragableObject;
-        _dropArea = _inventoryManager.DropArea;
-        _itemInfo = _inventoryManager.ItemInfo;
-        _actionMenuObject = _inventoryManager.ActionMenuObject;
-        _dropMenu = _inventoryManager.DropMenu;
+        _dragableObject = _inventory.DragableObject;
+        _dropArea = _inventory.DropArea;
+        _itemInfo = _inventory.ItemInfo;
+        _actionMenuObject = _inventory.ActionMenuObject;
+        _dropMenu = _inventory.DropMenu;
     }
 
     private void OnEnable()

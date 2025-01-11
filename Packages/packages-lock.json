@@ -11,7 +11,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "9057452c86079e4265228480b1439442894d5078"
+      "hash": "8042b29ff87dd5506d7aad72bd6d8d7405985f27"
     },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
@@ -65,7 +65,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.rider": {
-      "version": "3.0.31",
+      "version": "3.0.34",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -94,15 +94,6 @@
       "depth": 3,
       "source": "registry",
       "dependencies": {},
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.postprocessing": {
-      "version": "3.4.0",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.modules.physics": "1.0.0"
-      },
       "url": "https://packages.unity.com"
     },
     "com.unity.profiling.core": {

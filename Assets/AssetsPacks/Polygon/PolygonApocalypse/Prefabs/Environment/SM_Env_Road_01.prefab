@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 33067983529309676}
   - component: {fileID: 23694561869267628}
   - component: {fileID: 3739197818120825985}
-  - component: {fileID: 5513453274351292785}
+  - component: {fileID: 7717877102843608005}
   m_Layer: 0
   m_Name: SM_Env_Road_01
   m_TagString: Untagged
@@ -51,10 +51,10 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1919677564439932}
   m_Enabled: 1
-  m_CastShadows: 2
+  m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
+  m_StaticShadowCaster: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -101,8 +101,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ImpactPrefab>k__BackingField: {fileID: 108086, guid: 547c2e12da8d4214098216299e70a3ba, type: 3}
---- !u!65 &5513453274351292785
-BoxCollider:
+--- !u!64 &7717877102843608005
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -119,6 +119,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 4.9999995, y: 0.000000011175871, z: 4.9999995}
-  m_Center: {x: -2.4999998, y: 0.000000005662441, z: -2.4999998}
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: 04f870339f4c164419ea01dd6aa73215, type: 3}

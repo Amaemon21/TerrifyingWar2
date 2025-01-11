@@ -4,11 +4,11 @@ using Zenject;
 public class InventoryInstaller : MonoInstaller
 {
     [SerializeField] private Inventory _inventory;
-    [SerializeField] private InventoryManager _inventoryManager;
+    [SerializeField] private InventorySystem _inventorySystem;
 
     public override void InstallBindings()
     {
         Container.Bind<Inventory>().FromInstance(_inventory).AsSingle();
-        Container.Bind<InventoryManager>().FromInstance(_inventoryManager).AsSingle();
+        Container.Bind<InventorySystem>().FromInstance(_inventorySystem).AsSingle();
     }
 }

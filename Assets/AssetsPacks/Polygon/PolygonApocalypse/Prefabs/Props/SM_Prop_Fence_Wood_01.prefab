@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4569620285573444}
   - component: {fileID: 33064630872532212}
   - component: {fileID: 23194119027456512}
+  - component: {fileID: 3563134832624307877}
   m_Layer: 0
   m_Name: SM_Prop_Fence_Wood_Gate_01
   m_TagString: Untagged
@@ -86,6 +87,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &3563134832624307877
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041420876188708}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300002, guid: b0aa78a81ecb6f74b9ececc00a755742, type: 3}
 --- !u!1 &1514125828210410
 GameObject:
   m_ObjectHideFlags: 0
@@ -97,7 +120,7 @@ GameObject:
   - component: {fileID: 4337073353691678}
   - component: {fileID: 33495576824639392}
   - component: {fileID: 23388489871720286}
-  - component: {fileID: 1843136720791479719}
+  - component: {fileID: 2622701131815145602}
   m_Layer: 0
   m_Name: SM_Prop_Fence_Wood_01
   m_TagString: Untagged
@@ -174,8 +197,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1843136720791479719
-BoxCollider:
+--- !u!64 &2622701131815145602
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -192,6 +215,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 2.6398323, y: 2.0960093, z: 0.2624511}
-  m_Center: {x: -1.2499992, y: 1.0387492, z: -0.06517698}
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: b0aa78a81ecb6f74b9ececc00a755742, type: 3}

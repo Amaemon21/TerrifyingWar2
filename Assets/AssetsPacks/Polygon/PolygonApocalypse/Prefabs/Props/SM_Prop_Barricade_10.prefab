@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4214878053136140}
   - component: {fileID: 33317732059250412}
   - component: {fileID: 23902471021548776}
-  - component: {fileID: 5603896619486121609}
+  - component: {fileID: 7838463755687987615}
   m_Layer: 0
   m_Name: SM_Prop_Barricade_10
   m_TagString: Untagged
@@ -87,8 +87,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5603896619486121609
-BoxCollider:
+--- !u!64 &7838463755687987615
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -105,6 +105,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.7468172, y: 1.8809047, z: 0.23933469}
-  m_Center: {x: 0.119571485, y: -0.000000059604645, z: -0.00000061094755}
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: bef6e024466891d4ca25689636d8b91f, type: 3}

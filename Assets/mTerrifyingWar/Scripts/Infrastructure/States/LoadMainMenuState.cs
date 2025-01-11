@@ -1,4 +1,4 @@
-﻿public class LoadMainMenuState : IPayloadedState<string>
+﻿public class LoadMainMenuState : IState
 {
     private readonly GameStateMachine _stateMachine;
     private readonly SceneLoader _sceneLoader;
@@ -13,11 +13,11 @@
         _cursorStateService = cursorStateService;
     }
 
-    public void Enter(string nameScene)
+    public void Enter()
     {
         _loadingScreen.Show();
         _cursorStateService.EnableCursor();
-        _sceneLoader.Load(nameScene, OnLoaded);
+        _sceneLoader.Load(Constans.MainMenu, OnLoaded);
     }
 
     public void Exit()
