@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
@@ -6,7 +7,7 @@ using Zenject;
 
 public class UIMapController : MonoBehaviour, IPointerDownHandler, IDragHandler
 {
-    [Inject] private readonly PlayerController player;
+    [Inject] private readonly PlayerProvider _playerProvider;
     
     [Header("Map Settings")]
     [SerializeField] private RectTransform mapRect; 
@@ -23,11 +24,11 @@ public class UIMapController : MonoBehaviour, IPointerDownHandler, IDragHandler
     private Transform playerTransform;
 
     private Vector2 pointerOffset; 
-    private bool isDragging = false; 
+    private bool isDragging = false;
 
     private void Awake()
     {
-        playerTransform = player.transform;
+        playerTransform = _playerProvider.PlayerController.transform;
     }
 
     private void Update()

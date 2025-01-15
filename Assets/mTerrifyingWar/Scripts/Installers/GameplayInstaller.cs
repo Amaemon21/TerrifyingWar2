@@ -3,17 +3,30 @@ using Zenject;
 
 public class GameplayInstaller : MonoInstaller
 {
-    [SerializeField] private PlayerController _playerController;
-
+    [Space(10)]
+    [SerializeField] private SpawnPlayerPoint _spawnPlayerPoint;
+    
     public override void InstallBindings()
     {
-        PlayerBindings();
+        BindServices();
+
+        BindGameplayEntryPoint();
+        
+        Container.Bind<DisplayProvider>().FromNew().AsSingle();
+        
         UIWindowServiceBindings();
     }
     
-    private void PlayerBindings()
+    private void BindServices()
     {
-        Container.Bind<PlayerController>().FromInstance(_playerController).AsSingle();
+        Container.Bind<IAssetProvider>().To<AssetProvider>().AsSingle();
+        Container.Bind<PlayerProvider>().AsSingle();
+        Container.Bind<IGameplayFactory>().To<GameplayFactory>().AsSingle();
+    }
+    
+    private void BindGameplayEntryPoint()
+    {
+        Container.Bind<SpawnPlayerPoint>().FromInstance(_spawnPlayerPoint).AsSingle();
     }
     
     private void UIWindowServiceBindings()

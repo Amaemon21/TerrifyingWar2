@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad3d06c94ac43dd48845d3a30d8d597e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _coroutines: {fileID: 2455944969104192751, guid: cf5fdcee86313f04f9acc6fdd996e011, type: 3}
   _loadingScreen: {fileID: 5644901704695696340, guid: 096e9e68f5db1e54ab25bfba0e9641d1, type: 3}
+  _gameBootstrapper: {fileID: 2088404165773494211, guid: a87bb90ca72b28841b3f114e3bb770f3, type: 3}
 --- !u!1 &8371657571903532763
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ using Zenject;
 
 public class InventoryItemCell : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
-    [Inject] private readonly Inventory _inventory;
+    [Inject] private readonly DisplayProvider _displayProvider;
     
     [SerializeField] protected Image _cellImage;
     [SerializeField] private TMP_Text _countText;
@@ -35,11 +35,11 @@ public class InventoryItemCell : MonoBehaviour, IPointerClickHandler, IPointerEn
     
     private void Awake()
     {
-        _dragableObject = _inventory.DragableObject;
-        _dropArea = _inventory.DropArea;
-        _itemInfo = _inventory.ItemInfo;
-        _actionMenuObject = _inventory.ActionMenuObject;
-        _dropMenu = _inventory.DropMenu;
+        _dragableObject = _displayProvider.Inventory.DragableObject;
+        _dropArea = _displayProvider.Inventory.DropArea;
+        _itemInfo = _displayProvider.Inventory.ItemInfo;
+        _actionMenuObject = _displayProvider.Inventory.ActionMenuObject;
+        _dropMenu = _displayProvider.Inventory.DropMenu;
     }
 
     private void OnEnable()
@@ -193,7 +193,7 @@ public class InventoryItemCell : MonoBehaviour, IPointerClickHandler, IPointerEn
                     }
                     else
                     {
-                        _inventory.DropItem(InventoryItemConfig, this);
+                        _displayProvider.Inventory.DropItem(InventoryItemConfig, this);
                     }
                 }
             }
@@ -223,6 +223,6 @@ public class InventoryItemCell : MonoBehaviour, IPointerClickHandler, IPointerEn
             }
         }
 
-        _inventory.DisplayItems();
+        _displayProvider.Inventory.DisplayItems();
     }
 }

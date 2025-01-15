@@ -2,16 +2,19 @@ using System;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
+using Zenject;
 
 public class Inventory : MonoBehaviour
 {
+    [Inject] private readonly PlayerProvider _playerProvider;
+    
     [field: SerializeField, BoxGroup("Database"), HorizontalLine] public InventoryDatabase InventoryDatabase { get; private set;}
     [field: SerializeField, BoxGroup("Utils"), HorizontalLine] public InventoryDragableObject DragableObject { get; private set;}
     [field: SerializeField, BoxGroup("Utils")] public DropArea DropArea { get; private set;}
-    [field: SerializeField, BoxGroup("Utils")] public DropPosition DropPosition { get; private set;}
     [field: SerializeField, BoxGroup("Utils")] public ItemInfo ItemInfo { get; private set;}
     [field: SerializeField, BoxGroup("Utils")] public ActionMenuObject ActionMenuObject { get; private set;}
     [field: SerializeField, BoxGroup("Utils")] public DropMenu DropMenu { get; private set;}
+    public DropPosition DropPosition { get; private set;}
     
     [SerializeField, BoxGroup("Weapons Cells"), HorizontalLine] private InventoryItemEquipableCell _primaryWeaponCell;
     [SerializeField, BoxGroup("Weapons Cells")] private InventoryItemEquipableCell _secondWeaponCell;
@@ -37,6 +40,8 @@ public class Inventory : MonoBehaviour
     {
         _inventoryCellFactory = GetComponent<InventoryCellFactory>();
         _inventoryCellFactory.SpawnCells(_inventoryItemsCells);
+        
+        DropPosition = _playerProvider.PlayerController.GetComponentInChildren<DropPosition>();
         
         DisplayItems();
     }

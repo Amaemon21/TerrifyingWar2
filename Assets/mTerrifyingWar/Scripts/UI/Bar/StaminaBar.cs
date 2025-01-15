@@ -1,16 +1,16 @@
-﻿using UnityEngine;
+﻿using Zenject;
 
 public class StaminaBar : Bar
 {
-    [SerializeField] private PlayerStamina _playerStamina;
+    [Inject] private PlayerProvider _playerProvider;
 
     protected override void OnEnable()
     {
-        _playerStamina.StaminaChanged += OnBarChanged;
+        _playerProvider.PlayerStamina.StaminaChanged += OnBarChanged;
     }
 
     protected override void OnDisable()
     {
-        _playerStamina.StaminaChanged -= OnBarChanged;
+        _playerProvider.PlayerStamina.StaminaChanged -= OnBarChanged;
     }
 }

@@ -20,7 +20,8 @@ public class InputService : IInputService, IDisposable
     public bool IsShoot => _inputActions.Player.Shoot.IsPressed();
     public bool IsAim => _inputActions.Player.Aim.IsPressed();
     public bool IsReload => _inputActions.Player.Reload.IsPressed();
-    
+    public bool IsInteract => _inputActions.Player.Interact.IsPressed();
+
     public void Enable()
     {
         _inputActions.Enable();

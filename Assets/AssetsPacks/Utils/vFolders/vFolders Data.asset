@@ -37,6 +37,10 @@ MonoBehaviour:
     - 79750022fbb767247b57d3776dc197d6
     - 31bde34183e044a429977eba0c7b8fd5
     - d46212c71025d43edb2fe77be5488612
+    - b4df10b850b42a64aa0aee4bf9d66820
+    - 0912b0455ba15ac4ca971a7c79a34243
+    - 59a35a487ba1414408e58aab01110336
+    - 8c32bdb6f01258c4db4b276990edbe20
     values:
     - colorIndex: 0
       iconNameOrGuid: ScriptableObject Icon
@@ -84,3 +88,11 @@ MonoBehaviour:
       iconNameOrGuid: Shader Icon
     - colorIndex: 0
       iconNameOrGuid: Shader Icon
+    - colorIndex: 2
+      iconNameOrGuid: 
+    - colorIndex: 4
+      iconNameOrGuid: 
+    - colorIndex: 6
+      iconNameOrGuid: 
+    - colorIndex: 5
+      iconNameOrGuid: 

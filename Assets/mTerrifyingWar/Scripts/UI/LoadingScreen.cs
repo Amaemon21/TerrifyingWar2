@@ -10,39 +10,36 @@ public class LoadingScreen : MonoBehaviour
     
     private readonly float _fadeDuration = 0.5f;
     
+    [SerializeField] private CanvasGroup _canvasGroup;
+    
     [SerializeField] private Image _fill;
     [SerializeField] private Image _arrow;
     
-    private CanvasGroup _canvasGroup;
-    
     private void Awake()
     {
-        _canvasGroup = GetComponent<CanvasGroup>();
-        
         gameObject.SetActive(false);
         _canvasGroup.alpha = 0;
     }
 
     private void OnEnable()
     {
-        _sceneLoader.OnProgressUpdated += UpdateProgress;
+        _sceneLoader.ProgressChanged += UpdateProgress;
     }
 
     private void OnDisable()
     {
-        _sceneLoader.OnProgressUpdated -= UpdateProgress;
+        _sceneLoader.ProgressChanged -= UpdateProgress;
     }
-
+    
     public void Show()
     {
         gameObject.SetActive(true);
         _canvasGroup.alpha = 1;
-        UpdateProgress(_sceneLoader.Progress);
     }
 
     public void Hide()
     {
-        _canvasGroup.DOFade(0, _fadeDuration).OnComplete(() => 
+        _canvasGroup.DOFade(0, _fadeDuration).OnComplete(() =>
         {
             gameObject.SetActive(false);
         });

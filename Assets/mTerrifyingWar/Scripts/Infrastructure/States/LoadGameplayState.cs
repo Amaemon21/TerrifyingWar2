@@ -1,4 +1,6 @@
-﻿public class LoadGameplayState : IState
+﻿using UnityEngine;
+
+public class LoadGameplayState : IState
 {
     private readonly GameStateMachine _stateMachine;
     private readonly SceneLoader _sceneLoader;
@@ -14,17 +16,16 @@
     public void Enter()
     {
         _loadingScreen.Show();
-        _sceneLoader.Load(Constans.Gameplay, OnLoaded);
+        _sceneLoader.Load(Scenes.Gameplay, OnLoaded);
     }
 
     public void Exit()
     {
-
     }
 
     private void OnLoaded()
     {
-        _loadingScreen.Hide();
-        _stateMachine.Enter<GameLoopState>();
+        var gameplayEntryPoint = Object.FindFirstObjectByType<GameplayEntryPoint>();
+        gameplayEntryPoint.Run();
     }
 }

@@ -5,7 +5,7 @@ using Zenject;
 
 public class ActionMenuObject : MonoBehaviour
 {
-    [Inject] private readonly Inventory _inventory;
+    [Inject] private readonly DisplayProvider _displayProvider;
 
     [SerializeField] private Button _dropButton;
     [SerializeField] private Button _dropAllButton;
@@ -22,8 +22,8 @@ public class ActionMenuObject : MonoBehaviour
     {
         _rectTransform = GetComponent<RectTransform>();
 
-        _inventoryDatabase = _inventory.InventoryDatabase;
-        _dropMenu = _inventory.DropMenu;
+        _inventoryDatabase = _displayProvider.Inventory.InventoryDatabase;
+        _dropMenu = _displayProvider.Inventory.DropMenu;
 
         Hide();
     }
@@ -39,7 +39,7 @@ public class ActionMenuObject : MonoBehaviour
     
     public void DropItem()
     {
-        _inventory.DropItem(_inventoryItemConfig, _inventoryItemCell);
+        _displayProvider.Inventory.DropItem(_inventoryItemConfig, _inventoryItemCell);
         Hide();
     }
 
@@ -52,7 +52,7 @@ public class ActionMenuObject : MonoBehaviour
         }
         else
         {
-            _inventory.DropItem(_inventoryItemConfig, _inventoryItemCell);
+            _displayProvider.Inventory.DropItem(_inventoryItemConfig, _inventoryItemCell);
         }
 
         Hide();
@@ -73,7 +73,7 @@ public class ActionMenuObject : MonoBehaviour
                     _ammoInventoryItemConfigCopy.ResetCount();
                     _ammoInventoryItemConfigCopy.AddCount(weaponInventoryItemConfig.CurrentAmmo);
                     
-                    _inventory.AddItem(_ammoInventoryItemConfigCopy);
+                    _displayProvider.Inventory.AddItem(_ammoInventoryItemConfigCopy);
                 
                     weaponInventoryItemConfig.ResetCurrentAmmo();
                 }

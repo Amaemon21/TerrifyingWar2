@@ -1,13 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Zenject;
 
 public class UIWindowService
 {
-    [Inject] private CursorStateService _cursorStateService;
+    private readonly CursorStateService _cursorStateService;
     
     private readonly Dictionary<WindowType, UIWindow> _windows = new();
 
+    public UIWindowService(CursorStateService cursorStateService)
+    {
+        _cursorStateService = cursorStateService;
+    }
+    
     public void SubscribeWindow(WindowType windowType, UIWindow window)
     {
         if (!_windows.ContainsKey(windowType))

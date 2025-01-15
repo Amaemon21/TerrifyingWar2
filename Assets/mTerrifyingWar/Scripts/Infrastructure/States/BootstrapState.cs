@@ -1,4 +1,6 @@
-﻿public class BootstrapState : IState
+﻿using UnityEngine.SceneManagement;
+
+public class BootstrapState : IState
 {
     private readonly GameStateMachine _stateMachine;
     private readonly SceneLoader _sceneLoader;
@@ -11,54 +13,46 @@
 
     public void Enter()
     {
-        Run();
-    }
-
-    public void Exit()
-    {
-    }
-
-    private void Run()
-    {
 #if UNITY_EDITOR
-        HandleEditorScenes();
-#else
-        LoadBootAndMainMenu();
-#endif
-    }
-    
-    private void HandleEditorScenes()
-    {
-        switch (_sceneLoader.GetSceneName())
+        var sceneName = SceneManager.GetActiveScene().name;
+
+        if (sceneName == Scenes.Gameplay)
         {
-            case Constans.Gameplay:
-                LoadBootAndGameplay();
-                return;
-            case Constans.MainMenu:
-                LoadBootAndMainMenu();
-                return;
-            case Constans.Boot:
-                LoadBootAndMainMenu();
-                return;
+            LoadAndStartGameplay();
+            return;
         }
+
+        if (sceneName == Scenes.MainMenu)
+        {
+            LoadAndStartMainMenu();
+        }
+
+        if (sceneName != Scenes.Boot)
+        {
+            return;
+        }
+#endif
+        LoadAndStartMainMenu();
     }
 
-    private void LoadBootAndGameplay()
+    public void Exit() { }
+    
+    private void LoadAndStartGameplay()
     {
-        _sceneLoader.Load(Constans.Boot, () =>
+        _sceneLoader.Load(Scenes.Boot, () =>
         {
-            _sceneLoader.Load(Constans.Gameplay, () =>
+            _sceneLoader.Load(Scenes.Gameplay, () =>
             {
                 _stateMachine.Enter<LoadGameplayState>();
             });
         });
     }
 
-    private void LoadBootAndMainMenu()
+    private void LoadAndStartMainMenu()
     {
-        _sceneLoader.Load(Constans.Boot, () =>
+        _sceneLoader.Load(Scenes.Boot, () =>
         {
-            _sceneLoader.Load(Constans.MainMenu, () =>
+            _sceneLoader.Load(Scenes.MainMenu, () =>
             {
                 _stateMachine.Enter<LoadMainMenuState>();
             });

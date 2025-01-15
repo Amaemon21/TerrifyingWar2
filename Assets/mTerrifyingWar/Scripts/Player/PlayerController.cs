@@ -6,8 +6,9 @@ using Zenject;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
-    [Inject] private readonly ShootTransform _cameraTransform;
     [Inject] private readonly IInputService _inputService;
+    
+    [SerializeField] private Transform _cameraTransform;
     
     [Space]
     [SerializeField] private float _speed = 10.0f;

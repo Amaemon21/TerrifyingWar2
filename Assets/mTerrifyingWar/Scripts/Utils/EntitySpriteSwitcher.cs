@@ -3,8 +3,9 @@ using Zenject;
 
 public class EntitySpriteSwitcher : MonoBehaviour
 {
-    [Inject] private readonly AimPoint _aimPoint;
-    [Inject] private readonly ShootTransform _shootTransform;
+    [Inject] private readonly DisplayProvider _displayProvider;
+    
+    [SerializeField] private Transform _cameraTransform;
 
     [Header("Sprites")]
     [SerializeField] private Sprite _defaultSprite;
@@ -17,26 +18,26 @@ public class EntitySpriteSwitcher : MonoBehaviour
     
     private void Update()
     {
-        Ray ray = new Ray(_shootTransform.transform.position, _shootTransform.transform.forward);
+        Ray ray = new Ray(_cameraTransform.transform.position, _cameraTransform.transform.forward);
         
         if (Physics.Raycast(ray, out RaycastHit hit, _raycastDistance, _hitScanMask))
         {
             if (hit.collider.TryGetComponent(out BodyPart enemy))
             {
-                _aimPoint.Image.sprite = _enemySprite;
+                _displayProvider.AimPoint.Image.sprite = _enemySprite;
             }
             else if (hit.collider.CompareTag("NPC"))
             {
-                _aimPoint.Image.sprite = _npcSprite;
+                _displayProvider.AimPoint.Image.sprite = _npcSprite;
             }
             else
             {
-                _aimPoint.Image.sprite = _defaultSprite;
+                _displayProvider.AimPoint.Image.sprite = _defaultSprite;
             }
         }
         else
         {
-            _aimPoint.Image.sprite = _defaultSprite;
+            _displayProvider.AimPoint.Image.sprite = _defaultSprite;
         }
     }
 }

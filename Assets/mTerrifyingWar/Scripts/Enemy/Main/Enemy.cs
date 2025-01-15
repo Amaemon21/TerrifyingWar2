@@ -9,8 +9,9 @@ using Zenject;
 [RequireComponent(typeof(EnemyDeath))]
 public class Enemy : MonoBehaviour
 {
-    [Inject] private readonly PlayerController _target;
-    [Inject] private readonly HeadTransform _headTransform;
+    [Inject] private readonly PlayerProvider _playerProvider;
+    
+    [SerializeField] private HeadTransform _headTransform;
     
     [SerializeField, BoxGroup("Enemy Config"), HorizontalLine] private EnemyConfig _enemyConfig;
     
@@ -24,8 +25,8 @@ public class Enemy : MonoBehaviour
     
     public NavMeshAgent NavMeshAgent { get; private set; }
     public EnemyAnimator EnemyAnimator{ get; private set; }
+    public Transform Target { get; private set;}
     public EnemyConfig EnemyConfig => _enemyConfig;
-    public Transform Target => _target.transform;
     public State CurrentState => _currentState;
 
     private void Awake()
@@ -33,10 +34,9 @@ public class Enemy : MonoBehaviour
         NavMeshAgent = GetComponent<NavMeshAgent>();
         EnemyAnimator = GetComponent<EnemyAnimator>();
         _enemyHealth = GetComponent<EnemyHealth>();
-    }
-
-    private void Start()
-    {
+        
+        Target = _playerProvider.PlayerController.transform;
+        
         ChangeState(new IdleState(this));
     }
 
@@ -45,7 +45,7 @@ public class Enemy : MonoBehaviour
         _enemyHealth.EnemyDeath += EnemyDeathChanged;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         _enemyHealth.EnemyDeath -= EnemyDeathChanged;
     }
@@ -66,9 +66,9 @@ public class Enemy : MonoBehaviour
     {
         Vector3 enemyPosition = _headTransform.transform.position;
         Vector3 forwardDirection = _headTransform.transform.forward;
-        Vector3 directionToPlayer = (_target.transform.position - enemyPosition).normalized;
+        Vector3 directionToPlayer = (Target.transform.position - enemyPosition).normalized;
         
-        float distanceToPlayer = Vector3.Distance(enemyPosition, _target.transform.position);
+        float distanceToPlayer = Vector3.Distance(enemyPosition, Target.transform.position);
 
         if (distanceToPlayer < _enemyConfig.DetectionRadius)
         {
@@ -91,7 +91,7 @@ public class Enemy : MonoBehaviour
 
     public bool IsInAttackRange()
     {
-        float distanceToPlayer = Vector3.Distance(transform.position, _target.transform.position);
+        float distanceToPlayer = Vector3.Distance(transform.position, Target.transform.position);
         return distanceToPlayer <= _enemyConfig.AttackRange;
     }
 

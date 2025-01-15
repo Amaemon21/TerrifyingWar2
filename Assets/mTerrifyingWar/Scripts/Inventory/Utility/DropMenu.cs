@@ -5,7 +5,7 @@ using Zenject;
 
 public class DropMenu : MonoBehaviour
 {
-    [Inject] private readonly Inventory _inventory;
+    [Inject] private readonly DisplayProvider _displayProvider;
     
     [SerializeField] private Image _iconItem;
     [SerializeField] private TMP_Text _maxDropCountText;
@@ -44,8 +44,8 @@ public class DropMenu : MonoBehaviour
 
     public void DropItem()
     {
-        _inventory.DropItem(_inventoryItemConfig, _value, _inventoryItemCell);
-        _inventory.DisplayItems();
+        _displayProvider.Inventory.DropItem(_inventoryItemConfig, _value, _inventoryItemCell);
+        _displayProvider.Inventory.DisplayItems();
         Close();
     }
 

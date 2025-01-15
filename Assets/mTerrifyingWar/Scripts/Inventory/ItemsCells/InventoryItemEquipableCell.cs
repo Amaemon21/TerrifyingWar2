@@ -8,7 +8,7 @@ using Zenject;
 
 public class InventoryItemEquipableCell : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
-    [Inject] private readonly Inventory _inventory;
+    [Inject] private readonly DisplayProvider _displayProvider;
     
     private readonly string _nameItemDefault = "Отсутствует";
 
@@ -43,9 +43,9 @@ public class InventoryItemEquipableCell : MonoBehaviour, IPointerClickHandler, I
 
     private void Awake()
     {
-        _dragableObject = _inventory.DragableObject;
-        _dropArea = _inventory.DropArea;
-        _itemInfo = _inventory.ItemInfo;
+        _dragableObject = _displayProvider.Inventory.DragableObject;
+        _dropArea = _displayProvider.Inventory.DropArea;
+        _itemInfo = _displayProvider.Inventory.ItemInfo;
     }
     
     private void OnEnable()
@@ -194,7 +194,7 @@ public class InventoryItemEquipableCell : MonoBehaviour, IPointerClickHandler, I
 
                     Debug.Log($"We dropped item to world: <color=#E78300>{InventoryItemConfig.ItemName}{count}</color>");
                     
-                    _inventory.DropItem(InventoryItemConfig);
+                    _displayProvider.Inventory.DropItem(InventoryItemConfig);
                 }
             }
         }
@@ -219,7 +219,7 @@ public class InventoryItemEquipableCell : MonoBehaviour, IPointerClickHandler, I
 
             if (draggedItemConfig != null && draggedItemConfig.ItemType == _cellType)
             {
-                if (InventoryItemConfig != null) // Выполняем свап
+                if (InventoryItemConfig != null) 
                 {
                     _dragableObject.InventoryItemCell.SetItem(InventoryItemConfig);
                     _dragableObject.SetupCell(_dragableObject.InventoryItemCell);

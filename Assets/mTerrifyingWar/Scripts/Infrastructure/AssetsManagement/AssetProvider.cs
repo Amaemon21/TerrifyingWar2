@@ -17,10 +17,10 @@ public class AssetProvider : IAssetProvider
         return gameObject;
     }
     
-    public GameObject Instantiate(string path, Vector3 position, Quaternion rotation, Transform parent)
+    public GameObject Instantiate(string path, Transform transform, Transform parent)
     {
         GameObject prefab = Resources.Load<GameObject>(path);
-        GameObject gameObject = _container.InstantiatePrefab(prefab, position, rotation, parent);
+        GameObject gameObject = _container.InstantiatePrefab(prefab, transform.position, transform.rotation, parent);
 
         return gameObject;
     }

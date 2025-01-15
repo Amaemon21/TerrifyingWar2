@@ -11,13 +11,7 @@ using Zenject;
 public class Weapon : MonoBehaviour
 {
     [Inject] private readonly IInputService _inputService;
-    [Inject] private readonly WeaponRecoilAndShake _weaponRecoilAndShake;
-    [Inject] private readonly ShootTransform _shootTransform;
-    [Inject] private readonly AimPoint _aimPoint;
-    [Inject] private readonly AmmoView _ammoView;
-    [Inject] private readonly Inventory _inventory;
-    [Inject] private readonly InventorySystem _inventorySystem;
-    [Inject] private readonly WeaponCamera _weaponCamera;
+    [Inject] private readonly DisplayProvider _displayProvider;
 
     [SerializeField, BoxGroup("Main Weapon Config"), HorizontalLine] private MainWeaponConfigs _mainWeaponConfigs;
 
@@ -36,6 +30,7 @@ public class Weapon : MonoBehaviour
     private WeaponVisualEffects _weaponVisualEffects;
 
     private Camera _camera;
+    private Transform _cameraTransform;
     
     private Transform _transform;
     
@@ -44,12 +39,16 @@ public class Weapon : MonoBehaviour
 
     private AmmoInventoryItemConfig _ammoInventoryItemConfig = null;
     private WeaponInventoryItemConfig _weaponInventoryItemConfig = null;
+    private WeaponRecoilAndShake _weaponRecoilAndShake;
+    private WeaponCamera _weaponCamera;
 
     public WeaponInventoryItemConfig WeaponInventoryItemConfig => _weaponInventoryItemConfig;
 
-    public void SetupWeapon(WeaponInventoryItemConfig weaponInventoryItemConfig)
+    public void SetupWeapon(WeaponInventoryItemConfig weaponInventoryItemConfig, WeaponRecoilAndShake weaponRecoilAndShake, WeaponCamera weaponCamera)
     {
         _weaponInventoryItemConfig = weaponInventoryItemConfig;
+        _weaponRecoilAndShake = weaponRecoilAndShake;
+        _weaponCamera = weaponCamera;
     }
     
     private void Awake()
@@ -57,6 +56,7 @@ public class Weapon : MonoBehaviour
         _transform = transform;
         
         _camera = Camera.main;
+        _cameraTransform = _camera.transform;
 
         _weaponAnimator = GetComponent<WeaponAnimator>();
         _weaponAudio = GetComponent<WeaponAudio>();
@@ -65,16 +65,16 @@ public class Weapon : MonoBehaviour
 
     private void OnEnable()
     {
-        _inventory.ItemAddedInventoryChanged += RequestAmmo;
-        _inventory.ItemRemoveInventoryChanged += RemoveAmmo;
+        _displayProvider.Inventory.ItemAddedInventoryChanged += RequestAmmo;
+        _displayProvider.Inventory.ItemRemoveInventoryChanged += RemoveAmmo;
         
         RequestAmmo();
     }
 
     private void OnDisable()
     {
-        _inventory.ItemAddedInventoryChanged -= RequestAmmo;
-        _inventory.ItemRemoveInventoryChanged -= RemoveAmmo;
+        _displayProvider.Inventory.ItemAddedInventoryChanged -= RequestAmmo;
+        _displayProvider.Inventory.ItemRemoveInventoryChanged -= RemoveAmmo;
     }
 
     private void Update()
@@ -153,7 +153,7 @@ public class Weapon : MonoBehaviour
 
         if (_inScope)
         {
-            HitScan(new Ray(_shootTransform.transform.position, _shootTransform.transform.forward));
+            HitScan(new Ray(_cameraTransform.transform.position, _cameraTransform.transform.forward));
 
             _weaponAnimator.PlayShootAnimation(_inScope);
         }
@@ -161,7 +161,7 @@ public class Weapon : MonoBehaviour
         {
             _finalDirection = WeaponUtilities.GetDirection(_transform.forward, _mainWeaponConfigs.ApplySpread, _mainWeaponConfigs.SpreadVariance);
 
-            HitScan(new Ray(_shootTransform.transform.position, _finalDirection));
+            HitScan(new Ray(_cameraTransform.transform.position, _finalDirection));
 
             _weaponAnimator.PlayShootAnimation(_inScope);
         }
@@ -179,7 +179,7 @@ public class Weapon : MonoBehaviour
         
         _weaponVisualEffects.CreateShell();
 
-        _ammoView.PlayShootAnimation();
+        _displayProvider.AmmoView.PlayShootAnimation();
     }
     
     private void HitScan(Ray ray)
@@ -218,7 +218,7 @@ public class Weapon : MonoBehaviour
             if (!_inScope)
                 _weaponVisualEffects.CreateTrail(_weaponVisualEffects.BarrelTransform.position + _finalDirection * 100);
             else
-                _weaponVisualEffects.CreateTrail(_shootTransform.transform.position + _shootTransform.transform.forward * 100);
+                _weaponVisualEffects.CreateTrail(_cameraTransform.transform.position + _cameraTransform.transform.forward * 100);
         }
     }
     
@@ -231,7 +231,7 @@ public class Weapon : MonoBehaviour
                 _inScope = _inputService.IsAim;
 
                 _weaponAnimator.SetAimState(_inScope);
-                _aimPoint.gameObject.SetActive(!_inScope);
+                _displayProvider.AimPoint.gameObject.SetActive(!_inScope);
 
                 _weaponCamera.Camera.DOFieldOfView(_inScope ? 50 : 60, 0.5f);
                 _camera.DOFieldOfView(_inScope ? 50 : 60, 0.5f);
@@ -249,7 +249,7 @@ public class Weapon : MonoBehaviour
         if (_ammoInventoryItemConfig != null)
         {
             _ammoInventoryItemConfig.ResetCount();
-            _inventory.RemoveItem(_ammoInventoryItemConfig);
+            _displayProvider.Inventory.RemoveItem(_ammoInventoryItemConfig);
         }
     }
 
@@ -257,7 +257,7 @@ public class Weapon : MonoBehaviour
     {
         if (_weaponInventoryItemConfig != null)
         {
-            _ammoInventoryItemConfig = _inventorySystem.RequestAmmo(_weaponInventoryItemConfig.AmmoID);
+            _ammoInventoryItemConfig = _displayProvider.InventorySystem.RequestAmmo(_weaponInventoryItemConfig.AmmoID);
         }
 
         HandleDisplayAmmo();
@@ -336,11 +336,11 @@ public class Weapon : MonoBehaviour
         {
             if (_ammoInventoryItemConfig != null)
             {
-                _ammoView.DisplayAmmo(_weaponInventoryItemConfig.CurrentAmmo, _ammoInventoryItemConfig.ItemCount, this);
+                _displayProvider.AmmoView.DisplayAmmo(_weaponInventoryItemConfig.CurrentAmmo, _ammoInventoryItemConfig.ItemCount, this);
             }
             else
             {
-                _ammoView.DisplayAmmo(_weaponInventoryItemConfig.CurrentAmmo, 0, this);
+                _displayProvider.AmmoView.DisplayAmmo(_weaponInventoryItemConfig.CurrentAmmo, 0, this);
             }
         }
     }

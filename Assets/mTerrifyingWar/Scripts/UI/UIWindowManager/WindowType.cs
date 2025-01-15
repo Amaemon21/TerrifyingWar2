@@ -2,5 +2,6 @@
 {
     Pause,
     Inventory,
-    Map
+    Map,
+    GameEnd
 }

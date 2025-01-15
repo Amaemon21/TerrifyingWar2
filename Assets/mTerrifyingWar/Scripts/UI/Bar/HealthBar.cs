@@ -1,16 +1,16 @@
-using UnityEngine;
+using Zenject;
 
 public class HealthBar : Bar
 {
-    [SerializeField] private PlayerHealth _playerHealth;
+    [Inject] private PlayerProvider _playerProvider;
 
     protected override void OnEnable()
     {
-        _playerHealth.HealthChanged += OnBarChanged;
+        _playerProvider.PlayerHealth.HealthChanged += OnBarChanged;
     }
 
     protected override void OnDisable()
     {
-        _playerHealth.HealthChanged -= OnBarChanged;
+        _playerProvider.PlayerHealth.HealthChanged -= OnBarChanged;
     }
 }

@@ -3,9 +3,12 @@ using Zenject;
 
 public class WeaponHolder : MonoBehaviour
 {
-    [Inject] private readonly Inventory _inventory;
+    [Inject] private DisplayProvider _displayProvider;
+    [Inject] private IGameplayFactory _gameplayFactory;
     [Inject] private readonly DiContainer _container;
-    [Inject] private readonly AmmoView _ammoView;
+    
+    [SerializeField] private WeaponRecoilAndShake _weaponRecoilAndShake;
+    [SerializeField] private WeaponCamera _weaponCamera;
 
     private int _currentWeaponIndex = 1;
 
@@ -15,14 +18,19 @@ public class WeaponHolder : MonoBehaviour
     
     private void OnEnable()
     {
-        _inventory.RequestPrimaryWeaponChanged += RequestPrimaryWeapon;
-        _inventory.RequestSecondWeaponChanged += RequestSecondWeapon;
+        _gameplayFactory.CreateHudChanged += Setup;
     }
 
     private void OnDisable()
     {
-        _inventory.RequestPrimaryWeaponChanged -= RequestPrimaryWeapon;
-        _inventory.RequestSecondWeaponChanged -= RequestSecondWeapon;
+        _displayProvider.Inventory.RequestPrimaryWeaponChanged -= RequestPrimaryWeapon;
+        _displayProvider.Inventory.RequestSecondWeaponChanged -= RequestSecondWeapon;
+    }
+
+    private void Setup()
+    {
+        _displayProvider.Inventory.RequestPrimaryWeaponChanged += RequestPrimaryWeapon;
+        _displayProvider.Inventory.RequestSecondWeaponChanged += RequestSecondWeapon;
     }
 
     private void Update()
@@ -44,12 +52,12 @@ public class WeaponHolder : MonoBehaviour
 
     private void RequestPrimaryWeapon()
     {
-        UpdateWeapon(ref _primaryWeapon, _inventory.PrimaryWeapon, 1);
+        UpdateWeapon(ref _primaryWeapon, _displayProvider.Inventory.PrimaryWeapon, 1);
     }
 
     private void RequestSecondWeapon()
     {
-        UpdateWeapon(ref _secondWeapon, _inventory.SecondWeapon, 2);
+        UpdateWeapon(ref _secondWeapon, _displayProvider.Inventory.SecondWeapon, 2);
     }
 
     private void UpdateWeapon(ref Weapon weaponSlot, WeaponInventoryItemConfig weaponConfig, int slotIndex)
@@ -102,11 +110,11 @@ public class WeaponHolder : MonoBehaviour
         if (_currentWeapon != null)
         {
             _currentWeapon.gameObject.SetActive(true);
-            _ammoView.gameObject.SetActive(true);
+            _displayProvider.AmmoView.gameObject.SetActive(true);
         }
         else
         {
-            _ammoView.gameObject.SetActive(false);
+            _displayProvider.AmmoView.gameObject.SetActive(false);
         }
     }
 
@@ -116,7 +124,7 @@ public class WeaponHolder : MonoBehaviour
             return null;
 
         var weapon = _container.InstantiatePrefabForComponent<Weapon>(weaponConfig.WeaponHandPrefab, transform);
-        weapon.SetupWeapon(weaponConfig);
+        weapon.SetupWeapon(weaponConfig, _weaponRecoilAndShake, _weaponCamera);
         weapon.gameObject.SetActive(false);
         
         return weapon;
