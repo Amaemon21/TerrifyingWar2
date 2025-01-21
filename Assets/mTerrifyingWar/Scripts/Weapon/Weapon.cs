@@ -232,12 +232,16 @@ public class Weapon : MonoBehaviour
 
                 _weaponAnimator.SetAimState(_inScope);
                 _displayProvider.AimPoint.gameObject.SetActive(!_inScope);
-
-                _weaponCamera.Camera.DOFieldOfView(_inScope ? 50 : 60, 0.5f);
-                _camera.DOFieldOfView(_inScope ? 50 : 60, 0.5f);
+                
+                DOTween.Kill(_weaponCamera.Camera);
+                DOTween.Kill(_camera);
+                
+                _weaponCamera.Camera.DOFieldOfView(_inScope ? 50 : 60, 0.5f).SetId(_weaponCamera.Camera);
+                _camera.DOFieldOfView(_inScope ? 50 : 60, 0.5f).SetId(_camera);
             }
         }
     }
+
 
     public void ResetCurrentAmmo()
     {

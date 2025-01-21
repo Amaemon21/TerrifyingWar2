@@ -22,16 +22,6 @@ public class InputService : IInputService, IDisposable
     public bool IsReload => _inputActions.Player.Reload.IsPressed();
     public bool IsInteract => _inputActions.Player.Interact.IsPressed();
 
-    public void Enable()
-    {
-        _inputActions.Enable();
-    }
-    
-    public void Disable()
-    {
-        _inputActions.Disable();
-    }
-
     public void Dispose()
     {
         _inputActions.Disable();

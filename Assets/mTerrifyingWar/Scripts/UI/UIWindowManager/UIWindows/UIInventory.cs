@@ -5,7 +5,6 @@ using Zenject;
 public class UIInventory : UIWindow
 {
     [Inject] private CursorStateService _cursorStateService;
-    [Inject] private IInputService _inputService;
     
     [SerializeField] private GameObject _menu;
     
@@ -19,7 +18,6 @@ public class UIInventory : UIWindow
         _menu.SetActive(IsOpen);
         
         _cursorStateService.EnableCursor();
-        _inputService.Disable();
     }
 
     protected override void OnClose()
@@ -27,6 +25,5 @@ public class UIInventory : UIWindow
         _menu.SetActive(IsOpen);
         
         _cursorStateService.DisableCursor();
-        _inputService.Enable();
     }
 }

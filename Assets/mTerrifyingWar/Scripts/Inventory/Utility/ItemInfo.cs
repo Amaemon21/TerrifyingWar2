@@ -29,15 +29,15 @@ public class ItemInfo : MonoBehaviour
 
             string text = "" +
                           $"{inventoryItemConfig.ItemName}\n" +
-                          "<color=#E78300>──────────────────</color>\n" +
+                          "<color=#E78300>-------------------</color>\n" +
                           $"<line-height=90%>{inventoryItemConfig.ItemRarity}</line-height>\n" +
-                          "<color=#E78300>──────────────────</color>\n" +
+                          "<color=#E78300>-------------------</color>\n" +
                           $"<color=#E78300>Damage:</color> {weaponInventoryItemConfig.Damage}\n" +
                           $"<color=#E78300>Fire Rate:</color> {weaponInventoryItemConfig.FireRate}\n" +
                           $"<color=#E78300>Magazine Size:</color> {weaponInventoryItemConfig.MagazineSize}\n" +
-                          "<color=#E78300>──────────────────</color>\n" +
+                          "<color=#E78300>-------------------</color>\n" +
                           $"{inventoryItemConfig.ItemDescription}\n" +
-                          "<color=#E78300>──────────────────</color>\n" +
+                          "<color=#E78300>-------------------</color>\n" +
                           $"<color=#E78300>Прочность:</color> {weaponInventoryItemConfig.Durability}";
 
             _infoText.text = text;
@@ -48,9 +48,9 @@ public class ItemInfo : MonoBehaviour
             
             string text = "" +
                           $"{inventoryItemConfig.ItemName}\n" +
-                          "<color=#E78300>──────────────────</color>\n" +
+                          "<color=#E78300>-------------------</color>\n" +
                           $"<line-height=90%>{inventoryItemConfig.ItemRarity}</line-height>\n" +
-                          "<color=#E78300>──────────────────</color>\n" +
+                          "<color=#E78300>-------------------</color>\n" +
                           $"{inventoryItemConfig.ItemDescription}";
             
             _infoText.text = text;

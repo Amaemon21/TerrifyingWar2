@@ -41,6 +41,7 @@ MonoBehaviour:
     - 0912b0455ba15ac4ca971a7c79a34243
     - 59a35a487ba1414408e58aab01110336
     - 8c32bdb6f01258c4db4b276990edbe20
+    - ce524bedaa8314045a09e8a7e7ab5f10
     values:
     - colorIndex: 0
       iconNameOrGuid: ScriptableObject Icon
@@ -96,3 +97,5 @@ MonoBehaviour:
       iconNameOrGuid: 
     - colorIndex: 5
       iconNameOrGuid: 
+    - colorIndex: 7
+      iconNameOrGuid: TextAsset Icon

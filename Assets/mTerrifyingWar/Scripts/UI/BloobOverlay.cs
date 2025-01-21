@@ -1,28 +1,24 @@
 using DG.Tweening;
+using MVVM;
+using R3;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class BloobOverlay : MonoBehaviour
+public class BloobOverlay : View
 {
-    [Inject] private PlayerProvider _playerProvider;
+    [Inject] private PlayerHealthViewModel _playerHealthModel;
     
     [SerializeField] private Image _bloobOverlay;
     [SerializeField] private float _fadeDuration = 0.5f;
 
     private void OnEnable()
     {
-        _playerProvider.PlayerHealth.HealthChanged += UpdateBloobOverlay;
+        Disposable = _playerHealthModel.Health.Subscribe(UpdateBloobOverlay);
     }
 
-    private void OnDisable()
-    { 
-        _playerProvider.PlayerHealth.HealthChanged  -= UpdateBloobOverlay;
-    }
-
-    private void UpdateBloobOverlay(int currentHealth, int maxHealth)
+    private void UpdateBloobOverlay(float currentHealth)
     {
-        float alpha = 1 - (float)currentHealth / maxHealth;
-        _bloobOverlay.DOFade(alpha, _fadeDuration);
+        _bloobOverlay.DOFade(1 - currentHealth, _fadeDuration);
     }
 }

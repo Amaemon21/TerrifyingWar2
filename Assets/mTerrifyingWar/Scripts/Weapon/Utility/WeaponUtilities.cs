@@ -32,7 +32,7 @@ public static class WeaponUtilities
         return trail;
     }
 
-    public static void CreateMuzzleFlash(bool enableMuzzle, GameObject[] muzzlePrefabs, Transform barrelTransform, float scaleFactor, float destroyTime)
+    public static void CreateMuzzleFlash(bool enableMuzzle, MuzzleFlash[] muzzlePrefabs, Transform barrelTransform, float scaleFactor, float destroyTime)
     {
         if (enableMuzzle == true)
         {

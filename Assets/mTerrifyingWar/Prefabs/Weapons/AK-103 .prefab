@@ -1770,7 +1770,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4022888798675820392}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2389,16 +2389,16 @@ MonoBehaviour:
   _scaleFactor: 0.1
   _destroyTime: 1
   _muzzlePrefabs:
-  - {fileID: 124018, guid: 1f389bb139e76154582cf3c5e4f9214b, type: 3}
-  - {fileID: 146992, guid: 24bc114e4759e464eab5d9664127a034, type: 3}
-  - {fileID: 153266, guid: 39b2a3d1ecfa5614b97e75a9b5561f21, type: 3}
-  - {fileID: 160582, guid: 8ff371e17619a504b9822fc6a2facdb2, type: 3}
-  - {fileID: 183908, guid: fa6d29df930056640bf15fb9b6a54e4a, type: 3}
-  - {fileID: 110062, guid: 30902f8af10daa04cabd79e9ef258f08, type: 3}
-  - {fileID: 179846, guid: a7730127594a3ad46a512f70521a6446, type: 3}
-  - {fileID: 141106, guid: c69a6f3b834888c468f57ec885c39db3, type: 3}
-  - {fileID: 136518, guid: 35277ee4b65d54d4199c4e0e48053745, type: 3}
-  - {fileID: 161002, guid: 489aba68c9dfe9342accb1f3a0be4e5b, type: 3}
+  - {fileID: 6837199803727938068, guid: 1f389bb139e76154582cf3c5e4f9214b, type: 3}
+  - {fileID: -1319145535549478434, guid: 24bc114e4759e464eab5d9664127a034, type: 3}
+  - {fileID: -3045454274578199678, guid: 39b2a3d1ecfa5614b97e75a9b5561f21, type: 3}
+  - {fileID: -902693585178577277, guid: 8ff371e17619a504b9822fc6a2facdb2, type: 3}
+  - {fileID: 8373181708433308072, guid: fa6d29df930056640bf15fb9b6a54e4a, type: 3}
+  - {fileID: -3563711133326833638, guid: 30902f8af10daa04cabd79e9ef258f08, type: 3}
+  - {fileID: 8728120865502642337, guid: a7730127594a3ad46a512f70521a6446, type: 3}
+  - {fileID: -3489459737852730392, guid: c69a6f3b834888c468f57ec885c39db3, type: 3}
+  - {fileID: -2956535669022742162, guid: 35277ee4b65d54d4199c4e0e48053745, type: 3}
+  - {fileID: 8198375712390860311, guid: 489aba68c9dfe9342accb1f3a0be4e5b, type: 3}
   _widthCurve:
     serializedVersion: 2
     m_Curve:

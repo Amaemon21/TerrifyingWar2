@@ -46,7 +46,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cee564932f2b154468037863150d02cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerHealth: {fileID: 5478819200484651468}
   _hitDuration: 0.2
   _rotationStrength: 10
   _audioSource: {fileID: 6468551352939149477}
@@ -688,7 +687,6 @@ GameObject:
   - component: {fileID: 5974793871571882887}
   - component: {fileID: 3204313931938228887}
   - component: {fileID: 4121944032220323784}
-  - component: {fileID: 5478819200484651468}
   - component: {fileID: 8099069338498567100}
   - component: {fileID: 8651329536006908982}
   - component: {fileID: 4420531850471660260}
@@ -864,19 +862,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &5478819200484651468
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7050827746880209526}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fa31e0ca30acef43a529ef3f5596fc9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _maxHealth: 100
 --- !u!114 &8099069338498567100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -889,7 +874,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eb303698e618b046b3f8265b0e9ac7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerHealth: {fileID: 5478819200484651468}
 --- !u!114 &8651329536006908982
 MonoBehaviour:
   m_ObjectHideFlags: 0

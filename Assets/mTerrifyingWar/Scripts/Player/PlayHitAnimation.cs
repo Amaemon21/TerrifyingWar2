@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class PlayHitAnimation : MonoBehaviour
 {
-    [SerializeField] private PlayerHealth _playerHealth;
     [SerializeField] private float _hitDuration = 0.2f;
     [SerializeField] private float _rotationStrength = 10f;
 
@@ -17,16 +16,6 @@ public class PlayHitAnimation : MonoBehaviour
     private void Awake()
     {
         _transform = transform;
-    }
-    
-    private void OnEnable()
-    {
-        _playerHealth.TakeDamageChanged += OnPlayHitAnimation;
-    }
-
-    private void OnDisable()
-    {
-        _playerHealth.TakeDamageChanged -= OnPlayHitAnimation;
     }
     
     private void OnPlayHitAnimation()

@@ -1,26 +1,20 @@
-using UnityEngine;
+using MVVM;
+using R3;
 using Zenject;
 
-public class PlayerDeath : MonoBehaviour
+public class PlayerDeath : View
 {
-    [Inject] private readonly IInputService _inputService;
+    [Inject] private readonly PlayerHealthViewModel _playerHealthViewModel;
     [Inject] private readonly UIWindowService _windowService;
-    
-    [SerializeField] private PlayerHealth _playerHealth;
     
     private bool _isDead = false;
 
     private void OnEnable()
     {
-        _playerHealth.PlayerDeathChanged += Die;
+        Disposable = _playerHealthViewModel.Dead.Subscribe(Die);
     }
 
-    private void OnDisable()
-    {
-        _playerHealth.PlayerDeathChanged -= Die;
-    }
-
-    private void Die()
+    private void Die(Unit unit)
     {
         if (_isDead) 
             return;

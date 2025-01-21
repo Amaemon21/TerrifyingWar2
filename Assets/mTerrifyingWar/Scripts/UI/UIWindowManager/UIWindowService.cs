@@ -3,14 +3,7 @@ using UnityEngine;
 
 public class UIWindowService
 {
-    private readonly CursorStateService _cursorStateService;
-    
     private readonly Dictionary<WindowType, UIWindow> _windows = new();
-
-    public UIWindowService(CursorStateService cursorStateService)
-    {
-        _cursorStateService = cursorStateService;
-    }
     
     public void SubscribeWindow(WindowType windowType, UIWindow window)
     {
@@ -43,39 +36,35 @@ public class UIWindowService
         {
             if (windowToOpen.IsOpen)
             {
-                _cursorStateService.DisableCursor();
                 windowToOpen.Close();
             }
             else
             {
                 CloseAllWindows();
                 
-                _cursorStateService.EnableCursor();
                 windowToOpen.Open();
             }
         }   
     }
     
-    public UIWindow OpenWindow(WindowType windowType)
+    public void OpenWindow(WindowType windowType)
     {
         foreach (var window in _windows.Values)
         {
             if (window.IsOpen)
             {
-                _cursorStateService.DisableCursor();
                 window.Close();
             }
         }
         
         if (_windows.TryGetValue(windowType, out UIWindow windowToOpen))
         {
-            _cursorStateService.EnableCursor();
             windowToOpen.Open();
-            return windowToOpen;
-        }      
-        
-        Debug.Log($"Window with type {windowType} not found");
-        return null;
+        }
+        else
+        {
+            Debug.Log($"Window with type {windowType} not found");
+        }
     }
     
     public void CloseWindow(WindowType windowType)
@@ -116,6 +105,8 @@ public class UIWindowService
             {
                 window.Close();
             }
+            
+            Object.Destroy(window.gameObject);
         }
         
         _windows.Clear();

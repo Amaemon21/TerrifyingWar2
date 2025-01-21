@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class LoadMainMenuState : IState
+public class LoadMainMenuState : IPayloadedState<IExitableState>
 {
     private readonly GameStateMachine _stateMachine;
     private readonly SceneLoader _sceneLoader;
@@ -13,15 +13,19 @@ public class LoadMainMenuState : IState
         _loadingScreen = loadingScreen;
     }
 
-    public void Enter()
+    public void Enter(IExitableState payload)
     {
-        _loadingScreen.Show();
+        if (payload is BootstrapState bootstrapState)
+            _loadingScreen.Hide();
+        else
+            _loadingScreen.Show();
         
         _sceneLoader.Load(Scenes.MainMenu, OnLoaded);
     }
 
     public void Exit()
     {
+        
     }
 
     private void OnLoaded()

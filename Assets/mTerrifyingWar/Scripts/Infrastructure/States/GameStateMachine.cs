@@ -42,6 +42,11 @@ public class GameStateMachine
             Debug.Log($"State of type {stateType} already exists in the state machine.");
         }
     }
+    
+    public IExitableState GetActiveState()
+    {
+        return _activeState;
+    }
 
     private TState ChangedState<TState>() where TState : class, IExitableState
     {

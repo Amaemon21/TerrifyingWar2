@@ -25,7 +25,7 @@ public class LoadGameplayState : IState
 
     private void OnLoaded()
     {
-        var gameplayEntryPoint = Object.FindFirstObjectByType<GameplayEntryPoint>();
+        GameplayEntryPoint gameplayEntryPoint = Object.FindFirstObjectByType<GameplayEntryPoint>();
         gameplayEntryPoint.Run();
     }
 }

@@ -9,7 +9,7 @@ public class WeaponVisualEffects : MonoBehaviour
     [SerializeField][Range(0.0f, 5.0f), BoxGroup("Muzzle Flash")] private float _destroyTime = 2.0f;
     
     [Space]
-    [SerializeField][Range(0.0f, 2.0f), BoxGroup("Muzzle Flash")] private GameObject[] _muzzlePrefabs;
+    [SerializeField, BoxGroup("Muzzle Flash")] private MuzzleFlash[] _muzzlePrefabs;
 
     [SerializeField, BoxGroup("Bullet Trail"), HorizontalLine] private AnimationCurve _widthCurve;
     [SerializeField, BoxGroup("Bullet Trail")] private float _duration = 0.1f;

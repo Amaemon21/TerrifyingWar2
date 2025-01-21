@@ -1,34 +1,25 @@
-using System;
+using R3;
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour, IHealth
+public class PlayerHealth
 {
-    [SerializeField] private int _maxHealth;
-
-    private int _currentHealth;
-
-    public event Action<int, int> HealthChanged;
-    public event Action PlayerDeathChanged;
-    public event Action TakeDamageChanged;
+    private readonly ReactiveProperty<float> _health;
+    public Observable<float> Health => _health;
+    public float MaxHealth { get; private set; }
     
-    private void Awake()
+    public PlayerHealth()
     {
-        _currentHealth = _maxHealth;
+        MaxHealth = 100;
+        _health = new ReactiveProperty<float>(MaxHealth);
+    }
+    
+    public void TakeDamage(float damage)
+    {
+        _health.Value = Mathf.Clamp(_health.Value - damage, 0, MaxHealth);
     }
 
-    public void TakeDamage(int damage)
+    public void Heal(float healAmount)
     {
-        if (damage >= 0)
-        {
-            _currentHealth -= damage;
-            TakeDamageChanged?.Invoke();
-        }
-
-        if (_currentHealth <= 0)
-        {
-            PlayerDeathChanged?.Invoke();
-        }
-        
-        HealthChanged?.Invoke(_currentHealth, _maxHealth);
+        _health.Value = Mathf.Clamp(_health.Value + healAmount, 0, MaxHealth);
     }
 }

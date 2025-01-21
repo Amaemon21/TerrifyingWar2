@@ -124,9 +124,9 @@ public class Enemy : MonoBehaviour
 
     public void DealDamage()
     {
-        if (IsInAttackRange() && Target.TryGetComponent<PlayerHealth>(out var playerHealth))
+        if (IsInAttackRange())
         {
-            playerHealth.TakeDamage(_enemyConfig.AttackDamage);
+            
         }
     }
     

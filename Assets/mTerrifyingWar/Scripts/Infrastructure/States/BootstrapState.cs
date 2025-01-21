@@ -54,7 +54,7 @@ public class BootstrapState : IState
         {
             _sceneLoader.Load(Scenes.MainMenu, () =>
             {
-                _stateMachine.Enter<LoadMainMenuState>();
+                _stateMachine.Enter<LoadMainMenuState, IExitableState>(_stateMachine.GetActiveState());
             });
         });
     }
