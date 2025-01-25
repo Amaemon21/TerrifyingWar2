@@ -19,15 +19,15 @@ public class GameplayFactory : IGameplayFactory
     public void CreatePlayer(Transform spawnTransform)
     {
         var plaeyrObject = InstantiateRegistered(AssetsPath.PlayerPath, spawnTransform);
-        var player = plaeyrObject.GetComponent<PlayerController>();
-        _playerProvider.Setup(player);
+        var playerContainer = plaeyrObject.GetComponent<PlayerContainer>();
+        _playerProvider.Setup(playerContainer);
     }
 
     public void CreateHud()
     {
         var hudObject = InstantiateRegistered(AssetsPath.UIPath);
-        var hud = hudObject.GetComponent<DisplayContainer>();
-        _displayProvider.Setup(hud.Inventory, hud.InventorySystem, hud.AimPoint, hud.AmmoView);
+        var displayContainer = hudObject.GetComponent<DisplayContainer>();
+        _displayProvider.Setup(displayContainer);
         CreateHudChanged?.Invoke();
     }
 

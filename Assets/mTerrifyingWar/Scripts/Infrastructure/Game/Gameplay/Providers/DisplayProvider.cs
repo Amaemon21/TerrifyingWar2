@@ -5,11 +5,11 @@ public class DisplayProvider
     public AimPoint AimPoint { get; private set; }
     public AmmoView AmmoView { get; private set; }
 
-    public void Setup(Inventory inventory, InventorySystem inventorySystem, AimPoint aimPoint, AmmoView ammoView)
+    public void Setup(DisplayContainer displayContainer)
     {
-        Inventory = inventory;
-        InventorySystem = inventorySystem;
-        AimPoint = aimPoint;
-        AmmoView = ammoView;
+        Inventory = displayContainer.Inventory;
+        InventorySystem = displayContainer.InventorySystem;
+        AimPoint = displayContainer.AimPoint;
+        AmmoView = displayContainer.AmmoView;
     }
 }

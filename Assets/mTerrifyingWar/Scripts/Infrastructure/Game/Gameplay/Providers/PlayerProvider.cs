@@ -1,11 +1,17 @@
-﻿public class PlayerProvider
+﻿using UnityEngine;
+
+public class PlayerProvider
 {
     public PlayerController PlayerController { get; private set; }
-    public PlayerStamina PlayerStamina { get; private set; }
+    public WeaponRecoilAndShake WeaponRecoilAndShake { get; private set; }
+    public Camera MainCamera { get; private set; }
+    public Camera WeaponCamera { get; private set; }
 
-    public void Setup(PlayerController playerController)
+    public void Setup(PlayerContainer playerContainer)
     {
-        PlayerController = playerController;
-        PlayerStamina = playerController.GetComponent<PlayerStamina>();
+        PlayerController = playerContainer.PlayerController;
+        WeaponRecoilAndShake = playerContainer.WeaponRecoilAndShake;
+        MainCamera = playerContainer.MainCamera;
+        WeaponCamera = playerContainer.WeaponCamera;
     }
 }

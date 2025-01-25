@@ -6,9 +6,6 @@ public class WeaponHolder : MonoBehaviour
     [Inject] private DisplayProvider _displayProvider;
     [Inject] private IGameplayFactory _gameplayFactory;
     [Inject] private readonly DiContainer _container;
-    
-    [SerializeField] private WeaponRecoilAndShake _weaponRecoilAndShake;
-    [SerializeField] private WeaponCamera _weaponCamera;
 
     private int _currentWeaponIndex = 1;
 
@@ -124,7 +121,7 @@ public class WeaponHolder : MonoBehaviour
             return null;
 
         var weapon = _container.InstantiatePrefabForComponent<Weapon>(weaponConfig.WeaponHandPrefab, transform);
-        weapon.SetupWeapon(weaponConfig, _weaponRecoilAndShake, _weaponCamera);
+        weapon.SetupWeapon(weaponConfig);
         weapon.gameObject.SetActive(false);
         
         return weapon;

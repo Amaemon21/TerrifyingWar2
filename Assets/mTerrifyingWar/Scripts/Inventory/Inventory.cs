@@ -11,7 +11,7 @@ public class Inventory : MonoBehaviour
     [field: SerializeField, BoxGroup("Database"), HorizontalLine] public InventoryDatabase InventoryDatabase { get; private set;}
     [field: SerializeField, BoxGroup("Utils"), HorizontalLine] public InventoryDragableObject DragableObject { get; private set;}
     [field: SerializeField, BoxGroup("Utils")] public DropArea DropArea { get; private set;}
-    [field: SerializeField, BoxGroup("Utils")] public ItemInfo ItemInfo { get; private set;}
+    [field: SerializeField, BoxGroup("Utils")] public ItemInfoView ItemInfoView { get; private set;}
     [field: SerializeField, BoxGroup("Utils")] public ActionMenuObject ActionMenuObject { get; private set;}
     [field: SerializeField, BoxGroup("Utils")] public DropMenu DropMenu { get; private set;}
     public DropPosition DropPosition { get; private set;}

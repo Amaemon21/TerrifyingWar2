@@ -42,16 +42,21 @@ MonoBehaviour:
     - 59a35a487ba1414408e58aab01110336
     - 8c32bdb6f01258c4db4b276990edbe20
     - ce524bedaa8314045a09e8a7e7ab5f10
+    - 00000000000000001000000000000000
+    - f4055a289c534e44182fa4a35e8dd317
+    - 9d4138be8037b7b45a0b4976b3ebe5a6
+    - d7afe8a2af06c8b429daacaab8a745a0
+    - 470788eea8db47e488512a104da0db81
     values:
-    - colorIndex: 0
+    - colorIndex: 1
       iconNameOrGuid: ScriptableObject Icon
     - colorIndex: 2
       iconNameOrGuid: SceneAsset Icon
-    - colorIndex: 0
+    - colorIndex: 5
       iconNameOrGuid: SceneAsset Icon
-    - colorIndex: 0
+    - colorIndex: 8
       iconNameOrGuid: cs Script Icon
-    - colorIndex: 0
+    - colorIndex: 3
       iconNameOrGuid: Prefab Icon
     - colorIndex: 0
       iconNameOrGuid: Material Icon
@@ -59,7 +64,7 @@ MonoBehaviour:
       iconNameOrGuid: Settings Icon
     - colorIndex: 4
       iconNameOrGuid: TextAsset Icon
-    - colorIndex: 0
+    - colorIndex: 9
       iconNameOrGuid: RawImage Icon
     - colorIndex: 1
       iconNameOrGuid: PrefabModel Icon
@@ -69,7 +74,7 @@ MonoBehaviour:
       iconNameOrGuid: Settings Icon
     - colorIndex: 7
       iconNameOrGuid: 
-    - colorIndex: 0
+    - colorIndex: 4
       iconNameOrGuid: Font Icon
     - colorIndex: 0
       iconNameOrGuid: ScriptableObject Icon
@@ -81,11 +86,11 @@ MonoBehaviour:
       iconNameOrGuid: 
     - colorIndex: 8
       iconNameOrGuid: 
-    - colorIndex: 0
+    - colorIndex: 1
       iconNameOrGuid: AudioMixerController Icon
-    - colorIndex: 0
+    - colorIndex: 2
       iconNameOrGuid: ScriptableObject Icon
-    - colorIndex: 0
+    - colorIndex: 3
       iconNameOrGuid: Shader Icon
     - colorIndex: 0
       iconNameOrGuid: Shader Icon
@@ -99,3 +104,13 @@ MonoBehaviour:
       iconNameOrGuid: 
     - colorIndex: 7
       iconNameOrGuid: TextAsset Icon
+    - colorIndex: 9
+      iconNameOrGuid: 
+    - colorIndex: 2
+      iconNameOrGuid: 
+    - colorIndex: 10
+      iconNameOrGuid: 
+    - colorIndex: 1
+      iconNameOrGuid: 
+    - colorIndex: 2
+      iconNameOrGuid: 

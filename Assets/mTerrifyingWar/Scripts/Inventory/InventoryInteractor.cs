@@ -1,4 +1,3 @@
-using DG.Tweening;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,8 +7,8 @@ using Zenject;
 public class InventoryInteractor : MonoBehaviour
 {
     [Inject] private readonly IInputService _inputService;
+    [Inject] private readonly InteractUIModel interactUIModel;
     
-    [SerializeField, BoxGroup("Interact"), HorizontalLine] private InteractView _interactView;
     [SerializeField, BoxGroup("Interact")] private LayerMask _hitScanMask;
     [SerializeField, BoxGroup("Interact")] private float _interactRange = 5f;
     [SerializeField, BoxGroup("Interact")] private InputActionReference _interactAction;
@@ -73,15 +72,16 @@ public class InventoryInteractor : MonoBehaviour
     {
         if (_currentItem == null) 
             return;
-
-        if (_interactView.CanvasGroup.alpha < 1f)
-            _interactView.CanvasGroup.DOFade(1f, 0.1f);
-
+        
         string coloredButton = $"<color=#E78300>{_interactAction.action.bindings[0].ToDisplayString()}</color>";
         string coloredName = $"<color=#E78300>{_currentItem.InventoryItemConfig.ItemName}</color>";
 
-        _interactView.Text.text = $"Press [{coloredButton}] to pickup: {coloredName}";
-        _interactView.Icon.sprite = _currentItem.InventoryItemConfig.ItemSprite;
+        string text = $"Press [{coloredButton}] to pickup: {coloredName}";
+        Sprite icon = _currentItem.InventoryItemConfig.ItemSprite;
+        
+        interactUIModel.SetupText(text);
+        interactUIModel.SetupIcon(icon);
+        interactUIModel.Visible(true);
         
         //_currentItem.Outline.enabled = true;
     }
@@ -94,7 +94,6 @@ public class InventoryInteractor : MonoBehaviour
             _currentItem = null;
         }
         
-        if (_interactView.CanvasGroup.alpha > 0f)
-            _interactView.CanvasGroup.DOFade(0f, 0.2f);
+        interactUIModel.Visible(false);
     }
 }

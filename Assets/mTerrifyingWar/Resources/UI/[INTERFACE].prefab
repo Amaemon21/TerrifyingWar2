@@ -6158,9 +6158,9 @@ GameObject:
   - component: {fileID: 6155336653017402651}
   - component: {fileID: 8820680218354099500}
   - component: {fileID: 47104184327778203}
-  - component: {fileID: 4493503396073145765}
   - component: {fileID: 5595341054091722067}
   - component: {fileID: 5315573591225523252}
+  - component: {fileID: 5536432032157540592}
   m_Layer: 5
   m_Name: InfoItem
   m_TagString: Untagged
@@ -6227,20 +6227,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4493503396073145765
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4710169501682940678}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9185e5e0ebfcee4e8e62be325dbe6e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _icon: {fileID: 2288804900118555994}
-  _infoText: {fileID: 1484152129841808390}
 --- !u!114 &5595341054091722067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6281,6 +6267,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &5536432032157540592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4710169501682940678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a176fe3a0175b240b4e557a485c53c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _icon: {fileID: 2288804900118555994}
+  _infoText: {fileID: 1484152129841808390}
 --- !u!1 &4739264387962972282
 GameObject:
   m_ObjectHideFlags: 0
@@ -6873,7 +6873,7 @@ MonoBehaviour:
   <InventoryDatabase>k__BackingField: {fileID: 11400000, guid: 3e6ba690c6ebd064eb5185436cecde94, type: 2}
   <DragableObject>k__BackingField: {fileID: 8884167429525686554}
   <DropArea>k__BackingField: {fileID: 8646406175569814997}
-  <ItemInfo>k__BackingField: {fileID: 4493503396073145765}
+  <ItemInfoView>k__BackingField: {fileID: 5536432032157540592}
   <ActionMenuObject>k__BackingField: {fileID: 751232113197602697}
   <DropMenu>k__BackingField: {fileID: 2394520125282249640}
   _primaryWeaponCell: {fileID: 3646451875824823334}
@@ -6905,7 +6905,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9dd62e89c3f9c348b37178d54633692, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interactView: {fileID: 2252191345207962336}
   _hitScanMask:
     serializedVersion: 2
     m_Bits: 64
@@ -9574,7 +9573,6 @@ GameObject:
   - component: {fileID: 3846982020018690041}
   - component: {fileID: 2484570530577446314}
   - component: {fileID: 8861223173704899518}
-  - component: {fileID: 7895144597969784211}
   m_Layer: 5
   m_Name: Stamina
   m_TagString: Untagged
@@ -9640,19 +9638,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7895144597969784211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6405328608729468990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77ac673a35ea4fe7a3ca788fa620afb9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _fillImage: {fileID: 9024441126344466085}
 --- !u!1 &6450471544524570456
 GameObject:
   m_ObjectHideFlags: 0
@@ -10719,8 +10704,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2161385463214488825}
-  - component: {fileID: 2252191345207962336}
   - component: {fileID: 7098808407923888255}
+  - component: {fileID: 6151579180561494567}
   m_Layer: 5
   m_Name: InteractView
   m_TagString: Untagged
@@ -10749,21 +10734,6 @@ RectTransform:
   m_AnchoredPosition: {x: -35.756714, y: 40}
   m_SizeDelta: {x: 717.4309, y: 110}
   m_Pivot: {x: 0.5, y: 0}
---- !u!114 &2252191345207962336
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6893531933724606110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e1d0176a62955549aeee4f76287b4b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Text: {fileID: 5786484703365470230}
-  Icon: {fileID: 9045788445772376148}
-  CanvasGroup: {fileID: 7098808407923888255}
 --- !u!225 &7098808407923888255
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -10776,6 +10746,21 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &6151579180561494567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6893531933724606110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9332ccbd20f346268ddb1fe2a7c93017, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interactText: {fileID: 5786484703365470230}
+  _interactImage: {fileID: 9045788445772376148}
+  _canvasGroup: {fileID: 7098808407923888255}
 --- !u!1 &6961388078960486348
 GameObject:
   m_ObjectHideFlags: 0
@@ -11377,7 +11362,6 @@ GameObject:
   - component: {fileID: 4509223115407045123}
   - component: {fileID: 7448195243420422450}
   - component: {fileID: 1051838512786025064}
-  - component: {fileID: 8442310754814281712}
   m_Layer: 5
   m_Name: Health
   m_TagString: Untagged
@@ -11456,26 +11440,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fillImage: {fileID: 9016216602395728375}
---- !u!114 &8442310754814281712
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7524601434839909820}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7497e456c5649798a55138ce21b5bf8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  viewBinding: 0
-  view: {fileID: 1051838512786025064}
-  viewType: {fileID: 0}
-  viewId: 
-  viewModelBinding: 1
-  viewModel: {fileID: 0}
-  viewModelType: {fileID: 11500000, guid: 7ff471ee1a2b43ee9407453ee63ebc14, type: 3}
-  viewModelId: 
 --- !u!1 &7729500117807545710
 GameObject:
   m_ObjectHideFlags: 0

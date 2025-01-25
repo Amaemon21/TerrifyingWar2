@@ -1,4 +1,5 @@
 using System.Collections;
+using NTC.Pool;
 using UnityEngine;
 
 public static class WeaponUtilities
@@ -31,17 +32,17 @@ public static class WeaponUtilities
 
         return trail;
     }
-
+    
     public static void CreateMuzzleFlash(bool enableMuzzle, MuzzleFlash[] muzzlePrefabs, Transform barrelTransform, float scaleFactor, float destroyTime)
     {
-        if (enableMuzzle == true)
+        if (enableMuzzle)
         {
             var currentMuzzle = muzzlePrefabs[Random.Range(0, muzzlePrefabs.Length)];
-            var spawnedMuzzle = GameObject.Instantiate(currentMuzzle, barrelTransform.position, barrelTransform.rotation, barrelTransform);
+            var spawnedMuzzle = NightPool.Spawn(currentMuzzle, barrelTransform.position, barrelTransform.rotation, barrelTransform);
 
             spawnedMuzzle.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
 
-            GameObject.Destroy(spawnedMuzzle, destroyTime);
+            NightPool.Despawn(spawnedMuzzle.gameObject, destroyTime);
         }
     }
 
@@ -51,23 +52,23 @@ public static class WeaponUtilities
         {
             yield return new WaitForSeconds(magSpawnDelay);
 
-            var mag = GameObject.Instantiate(magPrefab, magTransform.position, magTransform.rotation);
+            var mag = Object.Instantiate(magPrefab, magTransform.position, magTransform.rotation);
             var magRigidbody = mag.GetComponent<Rigidbody>();
             magRigidbody.AddForce(Vector3.forward * magDropForce);
             magRigidbody.AddTorque(Vector3.forward * magDropForce);
 
-            GameObject.Destroy(mag, 10.0f);
+            Object.Destroy(mag.gameObject, 10.0f);
         }
         else if (currentAmmo == 0)
         {
             yield return new WaitForSeconds(magEmptySpawnDelay);
 
-            var mag = GameObject.Instantiate(magEmptyPrefab, magTransform.position, magTransform.rotation);
+            var mag = Object.Instantiate(magEmptyPrefab, magTransform.position, magTransform.rotation);
             var magRigidbody = mag.GetComponent<Rigidbody>();
             magRigidbody.AddForce(Vector3.forward * magDropForce);
             magRigidbody.AddTorque(Vector3.forward * magDropForce);
 
-            GameObject.Destroy(mag, 10.0f);
+            Object.Destroy(mag.gameObject, 10.0f);
         }
     }
 }

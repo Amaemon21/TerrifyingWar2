@@ -7,6 +7,7 @@ using Zenject;
 public class InventoryItemCell : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
     [Inject] private readonly DisplayProvider _displayProvider;
+    [Inject] private readonly ItemInfo _itemInfo;
     
     [SerializeField] protected Image _cellImage;
     [SerializeField] private TMP_Text _countText;
@@ -27,7 +28,7 @@ public class InventoryItemCell : MonoBehaviour, IPointerClickHandler, IPointerEn
     
     private InventoryDragableObject _dragableObject;
     private DropArea _dropArea;
-    private ItemInfo _itemInfo;
+    private ItemInfoView _itemInfoView;
     private ActionMenuObject _actionMenuObject;
     private DropMenu _dropMenu;
     
@@ -37,7 +38,7 @@ public class InventoryItemCell : MonoBehaviour, IPointerClickHandler, IPointerEn
     {
         _dragableObject = _displayProvider.Inventory.DragableObject;
         _dropArea = _displayProvider.Inventory.DropArea;
-        _itemInfo = _displayProvider.Inventory.ItemInfo;
+        _itemInfoView = _displayProvider.Inventory.ItemInfoView;
         _actionMenuObject = _displayProvider.Inventory.ActionMenuObject;
         _dropMenu = _displayProvider.Inventory.DropMenu;
     }
@@ -50,7 +51,7 @@ public class InventoryItemCell : MonoBehaviour, IPointerClickHandler, IPointerEn
     private void OnDisable()
     {
         DisplayCellIconByItemType();
-        _itemInfo.gameObject.SetActive(false);
+        _itemInfoView.gameObject.SetActive(false);
         _actionMenuObject.gameObject.SetActive(false);
         _dropMenu.gameObject.SetActive(false);
     }
@@ -66,7 +67,7 @@ public class InventoryItemCell : MonoBehaviour, IPointerClickHandler, IPointerEn
 
             if (eventData.button == PointerEventData.InputButton.Right)
             {
-                _itemInfo.gameObject.SetActive(false);
+                _itemInfoView.gameObject.SetActive(false);
                 
                 _actionMenuObject.gameObject.SetActive(true);
                 _actionMenuObject.SetupActionMenu(InventoryItemConfig, this, eventData);
@@ -84,8 +85,8 @@ public class InventoryItemCell : MonoBehaviour, IPointerClickHandler, IPointerEn
 
         if (InventoryItemConfig != null)
         {
-            _itemInfo.gameObject.SetActive(true);
-            _itemInfo.SetConfig(InventoryItemConfig);
+            _itemInfo.Setup(InventoryItemConfig);
+            _itemInfoView.gameObject.SetActive(true);
         }
     }
 
@@ -93,7 +94,7 @@ public class InventoryItemCell : MonoBehaviour, IPointerClickHandler, IPointerEn
     {
         DisplayCellIconByItemType();
 
-        _itemInfo.gameObject.SetActive(false);
+        _itemInfoView.gameObject.SetActive(false);
     }
     
     public void SetItem(InventoryItemConfig config)
@@ -112,14 +113,7 @@ public class InventoryItemCell : MonoBehaviour, IPointerClickHandler, IPointerEn
 
             DisplayCellIconByItemType();
 
-            if (InventoryItemConfig.ItemCount > 1)
-            {
-                _countText.text = $"{Utils.FormatNumber(InventoryItemConfig.ItemCount, '.')}";
-            }
-            else
-            {
-                _countText.text = string.Empty;
-            }
+            _countText.text = InventoryItemConfig.ItemCount > 1 ? $"{Utils.FormatNumber(InventoryItemConfig.ItemCount, '.')}" : string.Empty;
         }
         else
         {
@@ -200,7 +194,7 @@ public class InventoryItemCell : MonoBehaviour, IPointerClickHandler, IPointerEn
         }
         
         _dropArea.Hide();
-        _itemInfo.gameObject.SetActive(false);
+        _itemInfoView.gameObject.SetActive(false);
     }
 
     public void OnDrop(PointerEventData eventData)

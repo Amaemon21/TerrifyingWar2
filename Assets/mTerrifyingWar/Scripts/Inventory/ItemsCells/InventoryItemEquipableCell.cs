@@ -9,6 +9,7 @@ using Zenject;
 public class InventoryItemEquipableCell : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
     [Inject] private readonly DisplayProvider _displayProvider;
+    [Inject] private readonly ItemInfo _itemInfo;
     
     private readonly string _nameItemDefault = "Отсутствует";
 
@@ -35,7 +36,7 @@ public class InventoryItemEquipableCell : MonoBehaviour, IPointerClickHandler, I
     
     private InventoryDragableObject _dragableObject;
     private DropArea _dropArea;
-    private ItemInfo _itemInfo;
+    private ItemInfoView ItemInfoView;
 
     public InventoryItemConfig InventoryItemConfig { get; private set; }
 
@@ -45,7 +46,7 @@ public class InventoryItemEquipableCell : MonoBehaviour, IPointerClickHandler, I
     {
         _dragableObject = _displayProvider.Inventory.DragableObject;
         _dropArea = _displayProvider.Inventory.DropArea;
-        _itemInfo = _displayProvider.Inventory.ItemInfo;
+        ItemInfoView = _displayProvider.Inventory.ItemInfoView;
     }
     
     private void OnEnable()
@@ -57,7 +58,7 @@ public class InventoryItemEquipableCell : MonoBehaviour, IPointerClickHandler, I
     {
         DisplayCellIconByItemType();
         
-        _itemInfo.gameObject.SetActive(false);
+        ItemInfoView.gameObject.SetActive(false);
     }
     
     public void OnPointerClick(PointerEventData eventData)
@@ -66,7 +67,7 @@ public class InventoryItemEquipableCell : MonoBehaviour, IPointerClickHandler, I
         {
             if (eventData.button == PointerEventData.InputButton.Right)
             {
-                _itemInfo.gameObject.SetActive(false);
+                ItemInfoView.gameObject.SetActive(false);
             }
         }
     }
@@ -77,8 +78,8 @@ public class InventoryItemEquipableCell : MonoBehaviour, IPointerClickHandler, I
         
         if (InventoryItemConfig != null)
         {
-            _itemInfo.gameObject.SetActive(true);
-            _itemInfo.SetConfig(InventoryItemConfig);
+            ItemInfoView.gameObject.SetActive(true);
+            _itemInfo.Setup(InventoryItemConfig);
         }
     }
 
@@ -86,7 +87,7 @@ public class InventoryItemEquipableCell : MonoBehaviour, IPointerClickHandler, I
     {
         DisplayCellIconByItemType();
         
-        _itemInfo.gameObject.SetActive(false);
+        ItemInfoView.gameObject.SetActive(false);
     }
     
     public void SetItem(InventoryItemConfig config)
@@ -202,7 +203,7 @@ public class InventoryItemEquipableCell : MonoBehaviour, IPointerClickHandler, I
         _dragableObject.gameObject.SetActive(false);
         
         DropItemChanged?.Invoke();
-        _itemInfo.gameObject.SetActive(false);
+        ItemInfoView.gameObject.SetActive(false);
         _dropArea.Hide();
     }
     

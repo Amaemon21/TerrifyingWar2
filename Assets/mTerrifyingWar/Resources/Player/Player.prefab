@@ -191,8 +191,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb7b558b011530f4baba6dda1b20c240, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weaponRecoilAndShake: {fileID: 4277329225814956920}
-  _weaponCamera: {fileID: 2073985314503521519}
 --- !u!1 &3941342223955989355
 GameObject:
   m_ObjectHideFlags: 0
@@ -238,7 +236,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 040f5e5c44edf7041b9c438afd17cea4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerController: {fileID: 3204313931938228887}
   _tiltAmount: 15
   _tiltSpeed: 5
 --- !u!1 &4155761699569504052
@@ -251,9 +248,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7329508316020298331}
   - component: {fileID: 4216768872688171705}
-  - component: {fileID: 2073985314503521519}
   - component: {fileID: 2992019624109927173}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: WeponCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -321,25 +317,12 @@ Camera:
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
-  m_AllowMSAA: 0
+  m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
-  m_OcclusionCulling: 0
+  m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!114 &2073985314503521519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4155761699569504052}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c7f1dd50ed6d584cb3ad2d274b0b9ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Camera>k__BackingField: {fileID: 4216768872688171705}
 --- !u!114 &2992019624109927173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,10 +343,10 @@ MonoBehaviour:
   m_RendererIndex: 0
   m_VolumeLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 256
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -573,7 +556,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -602,16 +585,16 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 8063
+    m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
-  m_AllowMSAA: 0
+  m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 1
-  m_OcclusionCulling: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
 --- !u!81 &4220489784366713074
@@ -651,7 +634,7 @@ MonoBehaviour:
   m_RendererIndex: 0
   m_VolumeLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 0
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
@@ -689,7 +672,7 @@ GameObject:
   - component: {fileID: 4121944032220323784}
   - component: {fileID: 8099069338498567100}
   - component: {fileID: 8651329536006908982}
-  - component: {fileID: 4420531850471660260}
+  - component: {fileID: 3940556926963558501}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -758,7 +741,6 @@ MonoBehaviour:
   _jumpHeight: 2
   _junMultiplier: 2
   _jumpSlopeLimit: 45
-  _isGrounded: 0
   _mouseSensitivity: 0.2
   _crouchHeight: 1
   _standingHeight: 2
@@ -902,7 +884,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 77b0958831ad0c449bf6166b83729680, type: 3}
   - {fileID: 8300000, guid: 083f3c2f1983dd8419a9336eef471567, type: 3}
   _baseStepInterval: 0.5
---- !u!114 &4420531850471660260
+--- !u!114 &3940556926963558501
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -911,14 +893,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7050827746880209526}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3b0f919facb05640a2765bbf3fb1328, type: 3}
+  m_Script: {fileID: 11500000, guid: 906fb5ddb2922c74b867de4ccffeebd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxStamina: 200
-  _sprintStaminaCost: 0.35
-  _jumpStaminaCost: 0
-  _staminaRecoveryDelay: 0.15
-  _staminaRecoveryRate: 15
+  <PlayerController>k__BackingField: {fileID: 3204313931938228887}
+  <WeaponRecoilAndShake>k__BackingField: {fileID: 4277329225814956920}
+  <MainCamera>k__BackingField: {fileID: 4771096598852221625}
+  <WeaponCamera>k__BackingField: {fileID: 4216768872688171705}
 --- !u!1 &8077632862142462504
 GameObject:
   m_ObjectHideFlags: 0

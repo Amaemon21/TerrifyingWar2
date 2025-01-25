@@ -12,6 +12,7 @@ public class Weapon : MonoBehaviour
 {
     [Inject] private readonly IInputService _inputService;
     [Inject] private readonly DisplayProvider _displayProvider;
+    [Inject] private readonly PlayerProvider _playerProvider;
 
     [SerializeField, BoxGroup("Main Weapon Config"), HorizontalLine] private MainWeaponConfigs _mainWeaponConfigs;
 
@@ -28,9 +29,6 @@ public class Weapon : MonoBehaviour
     private WeaponAnimator _weaponAnimator;
     private WeaponAudio _weaponAudio;
     private WeaponVisualEffects _weaponVisualEffects;
-
-    private Camera _camera;
-    private Transform _cameraTransform;
     
     private Transform _transform;
     
@@ -38,25 +36,16 @@ public class Weapon : MonoBehaviour
     private Vector3 _finalDirection;
 
     private AmmoInventoryItemConfig _ammoInventoryItemConfig = null;
-    private WeaponInventoryItemConfig _weaponInventoryItemConfig = null;
-    private WeaponRecoilAndShake _weaponRecoilAndShake;
-    private WeaponCamera _weaponCamera;
+    public WeaponInventoryItemConfig WeaponInventoryItemConfig { get; private set; }
 
-    public WeaponInventoryItemConfig WeaponInventoryItemConfig => _weaponInventoryItemConfig;
-
-    public void SetupWeapon(WeaponInventoryItemConfig weaponInventoryItemConfig, WeaponRecoilAndShake weaponRecoilAndShake, WeaponCamera weaponCamera)
+    public void SetupWeapon(WeaponInventoryItemConfig weaponInventoryItemConfig)
     {
-        _weaponInventoryItemConfig = weaponInventoryItemConfig;
-        _weaponRecoilAndShake = weaponRecoilAndShake;
-        _weaponCamera = weaponCamera;
+        WeaponInventoryItemConfig = weaponInventoryItemConfig;
     }
     
     private void Awake()
     {
         _transform = transform;
-        
-        _camera = Camera.main;
-        _cameraTransform = _camera.transform;
 
         _weaponAnimator = GetComponent<WeaponAnimator>();
         _weaponAudio = GetComponent<WeaponAudio>();
@@ -92,16 +81,16 @@ public class Weapon : MonoBehaviour
     
     private void ApplyRecoil()
     {
-        _weaponRecoilAndShake.Recoil(_recoilPreset.ReturnSpeed, _recoilPreset.Snappiness);
+        _playerProvider.WeaponRecoilAndShake.Recoil(_recoilPreset.ReturnSpeed, _recoilPreset.Snappiness);
     }
     
     private void ShootButtonChecker()
     {
         if (_canShoot)
         {
-            if (Time.time - _lastShootTime > 1.0f / (_weaponInventoryItemConfig.FireRate / 60.0f))
+            if (Time.time - _lastShootTime > 1.0f / (WeaponInventoryItemConfig.FireRate / 60.0f))
             {
-                if (_weaponInventoryItemConfig.CurrentAmmo > 0)
+                if (WeaponInventoryItemConfig.CurrentAmmo > 0)
                 {
                     if (_mainWeaponConfigs.WeaponType == WeaponType.AssaultRifle)
                     {
@@ -133,12 +122,12 @@ public class Weapon : MonoBehaviour
                 {
                     if (_inputService.IsReload)
                     {
-                        if (_ammoInventoryItemConfig != null && _ammoInventoryItemConfig.ItemCount > 0 && _weaponInventoryItemConfig.CurrentAmmo < _weaponInventoryItemConfig.MagazineSize)
+                        if (_ammoInventoryItemConfig != null && _ammoInventoryItemConfig.ItemCount > 0 && WeaponInventoryItemConfig.CurrentAmmo < WeaponInventoryItemConfig.MagazineSize)
                         {
                             StartCoroutine(ReloadCoroutine());
                         }
                     }
-                    else if (_ammoInventoryItemConfig != null && _ammoInventoryItemConfig.ItemCount > 0 && _weaponInventoryItemConfig.CurrentAmmo == 0)
+                    else if (_ammoInventoryItemConfig != null && _ammoInventoryItemConfig.ItemCount > 0 && WeaponInventoryItemConfig.CurrentAmmo == 0)
                     {
                         StartCoroutine(ReloadCoroutine());
                     }
@@ -153,7 +142,7 @@ public class Weapon : MonoBehaviour
 
         if (_inScope)
         {
-            HitScan(new Ray(_cameraTransform.transform.position, _cameraTransform.transform.forward));
+            HitScan(new Ray(_playerProvider.MainCamera.transform.position, _playerProvider.MainCamera.transform.forward));
 
             _weaponAnimator.PlayShootAnimation(_inScope);
         }
@@ -161,21 +150,20 @@ public class Weapon : MonoBehaviour
         {
             _finalDirection = WeaponUtilities.GetDirection(_transform.forward, _mainWeaponConfigs.ApplySpread, _mainWeaponConfigs.SpreadVariance);
 
-            HitScan(new Ray(_cameraTransform.transform.position, _finalDirection));
+            HitScan(new Ray(_playerProvider.MainCamera.transform.position, _finalDirection));
 
             _weaponAnimator.PlayShootAnimation(_inScope);
         }
 
-        _weaponRecoilAndShake.PlayShakeAnimation(_shakePreset);
-        
-        _weaponRecoilAndShake.AddRecoil(_recoilPreset);
-        
-        _weaponInventoryItemConfig.RemoveCurrentAmmo();
-        HandleDisplayAmmo();
-        
         _weaponVisualEffects.CreateMuzzleFlash();
-
         _weaponAudio.PlayShootSound();
+        
+        _playerProvider.WeaponRecoilAndShake.PlayShakeAnimation(_shakePreset);
+        _playerProvider.WeaponRecoilAndShake.AddRecoil(_recoilPreset);
+        
+        WeaponInventoryItemConfig.RemoveCurrentAmmo();
+        
+        HandleDisplayAmmo();
         
         _weaponVisualEffects.CreateShell();
 
@@ -207,7 +195,7 @@ public class Weapon : MonoBehaviour
                     Vector3 hitPosition = hit.point;
 
                     bodyPart.Hit(force, hitPosition);
-                    bodyPart.TakeDamage(_weaponInventoryItemConfig.Damage);
+                    bodyPart.TakeDamage(WeaponInventoryItemConfig.Damage);
                 }
                 
                 Destroy(spawnedObject, 2.0f);
@@ -218,7 +206,7 @@ public class Weapon : MonoBehaviour
             if (!_inScope)
                 _weaponVisualEffects.CreateTrail(_weaponVisualEffects.BarrelTransform.position + _finalDirection * 100);
             else
-                _weaponVisualEffects.CreateTrail(_cameraTransform.transform.position + _cameraTransform.transform.forward * 100);
+                _weaponVisualEffects.CreateTrail(_playerProvider.MainCamera.transform.position + _playerProvider.MainCamera.transform.forward * 100);
         }
     }
     
@@ -233,11 +221,11 @@ public class Weapon : MonoBehaviour
                 _weaponAnimator.SetAimState(_inScope);
                 _displayProvider.AimPoint.gameObject.SetActive(!_inScope);
                 
-                DOTween.Kill(_weaponCamera.Camera);
-                DOTween.Kill(_camera);
+                DOTween.Kill(_playerProvider.MainCamera);
+                DOTween.Kill(_playerProvider.WeaponCamera);
                 
-                _weaponCamera.Camera.DOFieldOfView(_inScope ? 50 : 60, 0.5f).SetId(_weaponCamera.Camera);
-                _camera.DOFieldOfView(_inScope ? 50 : 60, 0.5f).SetId(_camera);
+                _playerProvider.WeaponCamera.DOFieldOfView(_inScope ? 50 : 60, 0.5f).SetId(_playerProvider.WeaponCamera);
+                _playerProvider.MainCamera.DOFieldOfView(_inScope ? 50 : 60, 0.5f).SetId(_playerProvider.MainCamera);
             }
         }
     }
@@ -245,7 +233,7 @@ public class Weapon : MonoBehaviour
 
     public void ResetCurrentAmmo()
     {
-        _weaponInventoryItemConfig.ResetCurrentAmmo();
+        WeaponInventoryItemConfig.ResetCurrentAmmo();
     }
 
     public void ResetAvailableAmmo()
@@ -259,9 +247,9 @@ public class Weapon : MonoBehaviour
 
     private void RequestAmmo()
     {
-        if (_weaponInventoryItemConfig != null)
+        if (WeaponInventoryItemConfig != null)
         {
-            _ammoInventoryItemConfig = _displayProvider.InventorySystem.RequestAmmo(_weaponInventoryItemConfig.AmmoID);
+            _ammoInventoryItemConfig = _displayProvider.InventorySystem.RequestAmmo(WeaponInventoryItemConfig.AmmoID);
         }
 
         HandleDisplayAmmo();
@@ -271,7 +259,7 @@ public class Weapon : MonoBehaviour
     {
         if (config is AmmoInventoryItemConfig ammoInventoryItem)
         {
-            if (ammoInventoryItem.ItemID == _weaponInventoryItemConfig.AmmoID)
+            if (ammoInventoryItem.ItemID == WeaponInventoryItemConfig.AmmoID)
             {
                 _ammoInventoryItemConfig = null;
                 HandleDisplayAmmo();
@@ -286,9 +274,9 @@ public class Weapon : MonoBehaviour
         _canReload = false;
         _isReload = true;
 
-        _weaponVisualEffects.CreateMag(_weaponInventoryItemConfig);
+        _weaponVisualEffects.CreateMag(WeaponInventoryItemConfig);
 
-        if (_weaponInventoryItemConfig.CurrentAmmo > 0)
+        if (WeaponInventoryItemConfig.CurrentAmmo > 0)
         {
             _weaponAudio.PlayReloadSound();
 
@@ -298,7 +286,7 @@ public class Weapon : MonoBehaviour
 
             _weaponAnimator.StopReloadAnimation(false);
         }
-        else if (_weaponInventoryItemConfig.CurrentAmmo == 0)
+        else if (WeaponInventoryItemConfig.CurrentAmmo == 0)
         {
             _weaponAudio.PlayFullReloadSound();
             
@@ -320,31 +308,31 @@ public class Weapon : MonoBehaviour
     
     private void AddAmmo()
     {
-        int amountNeeded = _weaponInventoryItemConfig.MagazineSize - _weaponInventoryItemConfig.CurrentAmmo;
+        int amountNeeded = WeaponInventoryItemConfig.MagazineSize - WeaponInventoryItemConfig.CurrentAmmo;
 
         if (amountNeeded >= _ammoInventoryItemConfig.ItemCount)
         {
-            _weaponInventoryItemConfig.AddCurrentAmmo(_ammoInventoryItemConfig.ItemCount);
+            WeaponInventoryItemConfig.AddCurrentAmmo(_ammoInventoryItemConfig.ItemCount);
             _ammoInventoryItemConfig.RemoveCount(amountNeeded);
         }
         else
         {
-            _weaponInventoryItemConfig.SetCurrentAmmo();
+            WeaponInventoryItemConfig.SetCurrentAmmo();
             _ammoInventoryItemConfig.RemoveCount(amountNeeded);
         }
     }
     
     private void HandleDisplayAmmo()
     {
-        if (_weaponInventoryItemConfig != null)
+        if (WeaponInventoryItemConfig != null)
         {
             if (_ammoInventoryItemConfig != null)
             {
-                _displayProvider.AmmoView.DisplayAmmo(_weaponInventoryItemConfig.CurrentAmmo, _ammoInventoryItemConfig.ItemCount, this);
+                _displayProvider.AmmoView.DisplayAmmo(WeaponInventoryItemConfig.CurrentAmmo, _ammoInventoryItemConfig.ItemCount, this);
             }
             else
             {
-                _displayProvider.AmmoView.DisplayAmmo(_weaponInventoryItemConfig.CurrentAmmo, 0, this);
+                _displayProvider.AmmoView.DisplayAmmo(WeaponInventoryItemConfig.CurrentAmmo, 0, this);
             }
         }
     }

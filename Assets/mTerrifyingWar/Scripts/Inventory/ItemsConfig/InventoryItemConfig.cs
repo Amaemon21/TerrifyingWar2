@@ -13,6 +13,11 @@ public abstract class InventoryItemConfig : ScriptableObject
     [field: SerializeField, BoxGroup("Global item config"), ShowAssetPreview] public Sprite ItemSprite { get; private set;}
     [field: SerializeField, BoxGroup("Global item config"), ShowAssetPreview] public InventoryItemObject ItemPrefab { get; private set;}
 
+    public void SetupId(string id)
+    {
+        ItemID = id;
+    }
+    
     public void AddCount(int value)
     {
         if (!IsStackable)

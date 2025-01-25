@@ -3,12 +3,12 @@ using UnityEngine;
 
 [RequireComponent(typeof(EnemyAnimator))]
 [RequireComponent(typeof(RagdollHandler))]
-public class EnemyHealth : MonoBehaviour, IHealth
+public class EnemyHealth : MonoBehaviour, IDamageable
 {
     [Space(5)]
-    [SerializeField] private int _maxHealth;
+    [SerializeField] private float _maxHealth;
     
-    private int _currentHealth;
+    private float _currentHealth;
     private bool _isDeath;
     
     public event Action EnemyDeath;
@@ -18,7 +18,7 @@ public class EnemyHealth : MonoBehaviour, IHealth
         _currentHealth = _maxHealth;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         _currentHealth -= damage;
 

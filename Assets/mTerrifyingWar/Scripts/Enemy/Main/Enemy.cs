@@ -10,24 +10,20 @@ using Zenject;
 public class Enemy : MonoBehaviour
 {
     [Inject] private readonly PlayerProvider _playerProvider;
+    [Inject] private readonly PlayerHealth _playerHealth;
     
     [SerializeField] private HeadTransform _headTransform;
     
-    [SerializeField, BoxGroup("Enemy Config"), HorizontalLine] private EnemyConfig _enemyConfig;
-    
+    [field: SerializeField,  BoxGroup("Enemy Config"), HorizontalLine] public EnemyConfig EnemyConfig;
     [field: SerializeField, BoxGroup("Patrol Settings"), HorizontalLine] public Transform[] PatrolPoints { get; private set; }
     
     private EnemyHealth _enemyHealth;
-    
-    private State _currentState;
-    
     private Vector3 _positionToLook;
     
+    public State CurrentState { get; private set; }
     public NavMeshAgent NavMeshAgent { get; private set; }
     public EnemyAnimator EnemyAnimator{ get; private set; }
     public Transform Target { get; private set;}
-    public EnemyConfig EnemyConfig => _enemyConfig;
-    public State CurrentState => _currentState;
 
     private void Awake()
     {
@@ -52,14 +48,14 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        _currentState?.Update();
+        CurrentState?.Update();
     }
 
     public void ChangeState(State newState)
     {
-        _currentState?.Exit();
-        _currentState = newState;
-        _currentState.Enter();
+        CurrentState?.Exit();
+        CurrentState = newState;
+        CurrentState.Enter();
     }
 
     public bool DetectPlayer()
@@ -70,13 +66,13 @@ public class Enemy : MonoBehaviour
         
         float distanceToPlayer = Vector3.Distance(enemyPosition, Target.transform.position);
 
-        if (distanceToPlayer < _enemyConfig.DetectionRadius)
+        if (distanceToPlayer < EnemyConfig.DetectionRadius)
         {
             float angle = Vector3.Angle(forwardDirection, directionToPlayer);
             
-            if (angle < _enemyConfig.DetectionAngle / 2)
+            if (angle < EnemyConfig.DetectionAngle / 2)
             {
-                if (Physics.Raycast(enemyPosition, directionToPlayer, out RaycastHit hit, _enemyConfig.DetectionRadius))
+                if (Physics.Raycast(enemyPosition, directionToPlayer, out RaycastHit hit, EnemyConfig.DetectionRadius))
                 {
                     if (hit.collider.TryGetComponent(out PlayerController controller))
                     {
@@ -92,17 +88,17 @@ public class Enemy : MonoBehaviour
     public bool IsInAttackRange()
     {
         float distanceToPlayer = Vector3.Distance(transform.position, Target.transform.position);
-        return distanceToPlayer <= _enemyConfig.AttackRange;
+        return distanceToPlayer <= EnemyConfig.AttackRange;
     }
 
     public void StartAttack()
     {
-        _enemyConfig.AttackingChanged(true);
+        EnemyConfig.AttackingChanged(true);
     }
 
     public void EndAttack()
     {
-        _enemyConfig.AttackingChanged(false);
+        EnemyConfig.AttackingChanged(false);
     }
 
     public void MoveTo(Vector3 position)
@@ -126,7 +122,7 @@ public class Enemy : MonoBehaviour
     {
         if (IsInAttackRange())
         {
-            
+            _playerHealth.TakeDamage(EnemyConfig.AttackDamage);
         }
     }
     
@@ -150,7 +146,7 @@ public class Enemy : MonoBehaviour
     
     private Quaternion SmoothedRotation(Quaternion rotation, Vector3 positionToLook) => Quaternion.Lerp(rotation, TargetRotation(positionToLook), SpeedFactor());
 
-    private float SpeedFactor() => _enemyConfig.SpeedRotation * Time.deltaTime;
+    private float SpeedFactor() => EnemyConfig.SpeedRotation * Time.deltaTime;
     
     private Quaternion TargetRotation(Vector3 position) => Quaternion.LookRotation(position);
 }

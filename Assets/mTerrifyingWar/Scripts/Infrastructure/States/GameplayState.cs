@@ -5,14 +5,14 @@ public class GameplayState : IState
     private readonly GameStateMachine _stateMachine;
     private readonly IGameplayFactory _gameplayFactory;
     private readonly LoadingScreen _loadingScreen;
-    private readonly SpawnPlayerPoint _spawnPlayerPoint;
+    private readonly PlayerSpawn playerSpawn;
 
-    public GameplayState(GameStateMachine stateMachine, IGameplayFactory gameplayFactory, LoadingScreen loadingScreen, SpawnPlayerPoint spawnPlayerPoint)
+    public GameplayState(GameStateMachine stateMachine, IGameplayFactory gameplayFactory, LoadingScreen loadingScreen, PlayerSpawn playerSpawn)
     {
         _stateMachine = stateMachine;
         _gameplayFactory = gameplayFactory;
         _loadingScreen = loadingScreen;
-        _spawnPlayerPoint = spawnPlayerPoint;
+        this.playerSpawn = playerSpawn;
     }
 
     public void Enter()
@@ -26,7 +26,7 @@ public class GameplayState : IState
 
     private void SetupWorld()
     {
-        _gameplayFactory.CreatePlayer(_spawnPlayerPoint.transform);
+        _gameplayFactory.CreatePlayer(playerSpawn.transform);
         _gameplayFactory.CreateHud();
         _loadingScreen.Hide();
     }
