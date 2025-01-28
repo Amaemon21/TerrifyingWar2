@@ -8,8 +8,8 @@ public class SceneLoader
     public event Action<float> ProgressChanged;
     
     public void Load(string sceneName, Action onLoaded = null)
-    {
-        _ = LoadSceneAsync(sceneName, onLoaded);
+    { 
+        LoadSceneAsync(sceneName, onLoaded);
     }
     
     private async UniTask LoadSceneAsync(string sceneName, Action onLoaded = null)

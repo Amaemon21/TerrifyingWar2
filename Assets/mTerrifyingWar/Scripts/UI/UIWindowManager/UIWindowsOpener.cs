@@ -4,6 +4,7 @@ using Zenject;
 public class UIWindowsOpener : MonoBehaviour
 {
     [Inject] private readonly UIWindowService _uiWindowService;
+    [Inject] private readonly IInputService _inputService;
     
     private void Update()
     {
@@ -19,9 +20,16 @@ public class UIWindowsOpener : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.I))
+        if (_inputService.IsInventory)
         {
-            _uiWindowService.ToogleWindow(WindowType.Inventory);
+            if (_uiWindowService.IsWindowOpened(WindowType.Inventory))
+            {
+                _uiWindowService.CloseWindow(WindowType.Inventory);
+            }
+            else
+            {
+                _uiWindowService.OpenWindow(WindowType.Inventory);
+            }
         }
         
         if (Input.GetKeyDown(KeyCode.M))

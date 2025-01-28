@@ -4,7 +4,9 @@ using UnityEngine;
 public class PlayerHealth : IHealth
 {
     private readonly ReactiveProperty<float> _health;
+    
     public Observable<float> Health => _health;
+    
     public float MaxHealth { get; private set; }
     
     public PlayerHealth(PlayerSettingsConfig playerSettingsConfig)

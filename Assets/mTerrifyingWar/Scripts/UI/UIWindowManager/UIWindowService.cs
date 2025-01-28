@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UIWindowService
@@ -110,6 +111,16 @@ public class UIWindowService
         }
         
         _windows.Clear();
+    }
+
+    public bool IsWindowOpened(WindowType windowType)
+    {
+        if (_windows.TryGetValue(windowType, out UIWindow window))
+        {
+            return window.IsOpen;
+        }
+
+        return false;
     }
     
     public bool HasAnyWindowOpen()

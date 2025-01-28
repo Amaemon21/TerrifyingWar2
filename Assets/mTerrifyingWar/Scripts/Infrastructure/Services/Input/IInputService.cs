@@ -11,4 +11,6 @@ public interface IInputService
     public bool IsAim {get;}
     public bool IsReload {get;}
     public bool IsInteract {get;}
+    
+    public bool IsInventory { get; }
 }

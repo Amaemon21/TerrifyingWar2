@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class InputService : IInputService, IDisposable
 {
-    private PlayerInputActions _inputActions;
+    private readonly PlayerInputActions _inputActions;
 
     public InputService()
     {
@@ -21,6 +21,7 @@ public class InputService : IInputService, IDisposable
     public bool IsAim => _inputActions.Player.Aim.IsPressed();
     public bool IsReload => _inputActions.Player.Reload.IsPressed();
     public bool IsInteract => _inputActions.Player.Interact.IsPressed();
+    public bool IsInventory => _inputActions.Player.Inventory.triggered;
 
     public void Dispose()
     {
