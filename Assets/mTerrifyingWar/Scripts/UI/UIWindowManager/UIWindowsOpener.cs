@@ -3,39 +3,32 @@ using Zenject;
 
 public class UIWindowsOpener : MonoBehaviour
 {
+    [Inject] private readonly PlayerProvider _playerProvider;
+    [Inject] private readonly CursorStateService _cursorStateService;
     [Inject] private readonly UIWindowService _uiWindowService;
     [Inject] private readonly IInputService _inputService;
     
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (_inputService.IsEscape)
         {
             if (_uiWindowService.HasAnyWindowOpen())
             {
+                _cursorStateService.DisableCursor();
+                _playerProvider.EnablePlaeyr();
                 _uiWindowService.CloseAllWindows();
             }
             else
             {
-                _uiWindowService.ToogleWindow(WindowType.Pause);
+                ToogleWindow(WindowType.Pause);
             }
         }
 
         if (_inputService.IsInventory)
-        {
-            if (_uiWindowService.IsWindowOpened(WindowType.Inventory))
-            {
-                _uiWindowService.CloseWindow(WindowType.Inventory);
-            }
-            else
-            {
-                _uiWindowService.OpenWindow(WindowType.Inventory);
-            }
-        }
+            ToogleWindow(WindowType.Inventory);
         
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            _uiWindowService.ToogleWindow(WindowType.Map);
-        }
+        if (_inputService.IsMap)
+            ToogleWindow(WindowType.Map);        
     }
     
     public void ToogleWindowInventory()
@@ -46,5 +39,21 @@ public class UIWindowsOpener : MonoBehaviour
     public void ToogleWindowMap()
     {
         _uiWindowService.OpenWindow(WindowType.Map);
+    }
+
+    private void ToogleWindow(WindowType type)
+    {
+        if (_uiWindowService.IsWindowOpened(type))
+        {
+            _cursorStateService.DisableCursor();
+            _playerProvider.EnablePlaeyr();
+            _uiWindowService.CloseWindow(type);
+        }
+        else
+        {
+            _cursorStateService.EnableCursor();
+            _playerProvider.DisablePlaeyr();
+            _uiWindowService.OpenWindow(type);
+        }
     }
 }

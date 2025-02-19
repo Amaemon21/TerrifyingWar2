@@ -35,7 +35,7 @@ public class Weapon : MonoBehaviour
     private float _lastShootTime = 0.0f;
     private Vector3 _finalDirection;
 
-    private AmmoInventoryItemConfig _ammoInventoryItemConfig = null;
+    public AmmoInventoryItemConfig AmmoInventoryItemConfig { get; private set; }
     public WeaponInventoryItemConfig WeaponInventoryItemConfig { get; private set; }
 
     public void SetupWeapon(WeaponInventoryItemConfig weaponInventoryItemConfig)
@@ -122,12 +122,12 @@ public class Weapon : MonoBehaviour
                 {
                     if (_inputService.IsReload)
                     {
-                        if (_ammoInventoryItemConfig != null && _ammoInventoryItemConfig.ItemCount > 0 && WeaponInventoryItemConfig.CurrentAmmo < WeaponInventoryItemConfig.MagazineSize)
+                        if (AmmoInventoryItemConfig != null && AmmoInventoryItemConfig.ItemCount > 0 && WeaponInventoryItemConfig.CurrentAmmo < WeaponInventoryItemConfig.MagazineSize)
                         {
                             StartCoroutine(ReloadCoroutine());
                         }
                     }
-                    else if (_ammoInventoryItemConfig != null && _ammoInventoryItemConfig.ItemCount > 0 && WeaponInventoryItemConfig.CurrentAmmo == 0)
+                    else if (AmmoInventoryItemConfig != null && AmmoInventoryItemConfig.ItemCount > 0 && WeaponInventoryItemConfig.CurrentAmmo == 0)
                     {
                         StartCoroutine(ReloadCoroutine());
                     }
@@ -238,10 +238,10 @@ public class Weapon : MonoBehaviour
 
     public void ResetAvailableAmmo()
     {
-        if (_ammoInventoryItemConfig != null)
+        if (AmmoInventoryItemConfig != null)
         {
-            _ammoInventoryItemConfig.ResetCount();
-            _displayProvider.Inventory.RemoveItem(_ammoInventoryItemConfig);
+            AmmoInventoryItemConfig.ResetCount();
+            _displayProvider.Inventory.RemoveItem(AmmoInventoryItemConfig);
         }
     }
 
@@ -249,7 +249,7 @@ public class Weapon : MonoBehaviour
     {
         if (WeaponInventoryItemConfig != null)
         {
-            _ammoInventoryItemConfig = _displayProvider.InventorySystem.RequestAmmo(WeaponInventoryItemConfig.AmmoID);
+            AmmoInventoryItemConfig = _displayProvider.InventorySystem.RequestAmmo(WeaponInventoryItemConfig.EAmmoType);
         }
 
         HandleDisplayAmmo();
@@ -259,9 +259,9 @@ public class Weapon : MonoBehaviour
     {
         if (config is AmmoInventoryItemConfig ammoInventoryItem)
         {
-            if (ammoInventoryItem.ItemID == WeaponInventoryItemConfig.AmmoID)
+            if (ammoInventoryItem.EAmmoType == WeaponInventoryItemConfig.EAmmoType)
             {
-                _ammoInventoryItemConfig = null;
+                AmmoInventoryItemConfig = null;
                 HandleDisplayAmmo();
             }
         }
@@ -310,15 +310,15 @@ public class Weapon : MonoBehaviour
     {
         int amountNeeded = WeaponInventoryItemConfig.MagazineSize - WeaponInventoryItemConfig.CurrentAmmo;
 
-        if (amountNeeded >= _ammoInventoryItemConfig.ItemCount)
+        if (amountNeeded >= AmmoInventoryItemConfig.ItemCount)
         {
-            WeaponInventoryItemConfig.AddCurrentAmmo(_ammoInventoryItemConfig.ItemCount);
-            _ammoInventoryItemConfig.RemoveCount(amountNeeded);
+            WeaponInventoryItemConfig.AddCurrentAmmo(AmmoInventoryItemConfig.ItemCount);
+            AmmoInventoryItemConfig.RemoveCount(amountNeeded);
         }
         else
         {
             WeaponInventoryItemConfig.SetCurrentAmmo();
-            _ammoInventoryItemConfig.RemoveCount(amountNeeded);
+            AmmoInventoryItemConfig.RemoveCount(amountNeeded);
         }
     }
     
@@ -326,9 +326,9 @@ public class Weapon : MonoBehaviour
     {
         if (WeaponInventoryItemConfig != null)
         {
-            if (_ammoInventoryItemConfig != null)
+            if (AmmoInventoryItemConfig != null)
             {
-                _displayProvider.AmmoView.DisplayAmmo(WeaponInventoryItemConfig.CurrentAmmo, _ammoInventoryItemConfig.ItemCount, this);
+                _displayProvider.AmmoView.DisplayAmmo(WeaponInventoryItemConfig.CurrentAmmo, AmmoInventoryItemConfig.ItemCount, this);
             }
             else
             {

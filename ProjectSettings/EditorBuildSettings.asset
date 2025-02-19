@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/mTerrifyingWar/Scenes/Boot.unity
     guid: dabaace9da535484bbfb410ee7022ae9
   - enabled: 1
+    path: Assets/mTerrifyingWar/Scenes/Authorization.unity
+    guid: e88df06b50eecb544811ce1bbcbfd75b
+  - enabled: 1
     path: Assets/mTerrifyingWar/Scenes/MainMenu.unity
     guid: 5cf8bb81818f7d64f956ac1591f87746
   - enabled: 1

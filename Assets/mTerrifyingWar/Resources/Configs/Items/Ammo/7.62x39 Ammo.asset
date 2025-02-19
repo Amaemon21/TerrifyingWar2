@@ -33,3 +33,4 @@ MonoBehaviour:
   <ItemCount>k__BackingField: 30
   <ItemSprite>k__BackingField: {fileID: 2099321387, guid: b68113cc0d138d94ab10f397ceaf9d67, type: 3}
   <ItemPrefab>k__BackingField: {fileID: 1772793256569941492, guid: eb5b5d2c483318d4a93845420212c932, type: 3}
+  <EAmmoType>k__BackingField: 3

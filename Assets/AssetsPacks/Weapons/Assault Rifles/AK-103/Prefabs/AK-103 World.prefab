@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2955337503641166874}
   - component: {fileID: 4487421442442726806}
   - component: {fileID: 6385486531332745553}
+  - component: {fileID: 2964880350655000172}
   m_Layer: 6
   m_Name: AK-103 World
   m_TagString: Untagged
@@ -150,3 +151,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.065476775, y: 0.23051703, z: 0.84789}
   m_Center: {x: -0.010015505, y: -0.06029846, z: 0.015493736}
+--- !u!114 &2964880350655000172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9068740455797741010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 0.49803922, b: 0, a: 1}
+  outlineWidth: 4
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []

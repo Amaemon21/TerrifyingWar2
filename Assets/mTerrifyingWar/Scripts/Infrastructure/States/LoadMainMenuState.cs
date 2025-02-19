@@ -1,21 +1,21 @@
-﻿using UnityEngine;
-
-public class LoadMainMenuState : IPayloadedState<IExitableState>
+﻿public class LoadMainMenuState : IPayloadedState<IExitableState>
 {
     private readonly GameStateMachine _stateMachine;
     private readonly SceneLoader _sceneLoader;
     private readonly LoadingScreen _loadingScreen;
-
-    public LoadMainMenuState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingScreen loadingScreen)
+    private readonly CursorStateService _cursorStateService;
+    
+    public LoadMainMenuState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingScreen loadingScreen, CursorStateService cursorStateService)
     {
         _stateMachine = stateMachine;
         _sceneLoader = sceneLoader;
         _loadingScreen = loadingScreen;
+        _cursorStateService = cursorStateService;
     }
 
     public void Enter(IExitableState payload)
     {
-        if (payload is BootstrapState bootstrapState)
+        if (payload is BootstrapState)
             _loadingScreen.Hide();
         else
             _loadingScreen.Show();
@@ -30,6 +30,7 @@ public class LoadMainMenuState : IPayloadedState<IExitableState>
 
     private void OnLoaded()
     {
+        _cursorStateService.EnableCursor();
         _loadingScreen.Hide();
     }
 }

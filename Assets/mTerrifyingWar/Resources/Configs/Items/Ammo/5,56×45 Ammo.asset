@@ -21,3 +21,4 @@ MonoBehaviour:
   <ItemCount>k__BackingField: 20
   <ItemSprite>k__BackingField: {fileID: -77083525, guid: b68113cc0d138d94ab10f397ceaf9d67, type: 3}
   <ItemPrefab>k__BackingField: {fileID: 6831440517446038523, guid: fb5dd66ba65f84a4c87ecc4529373873, type: 3}
+  <EAmmoType>k__BackingField: 2

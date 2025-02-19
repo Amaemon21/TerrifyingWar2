@@ -132,6 +132,7 @@ public class UIWindowService
                 return true;
             }
         }
+        
         return false;
     }
 }

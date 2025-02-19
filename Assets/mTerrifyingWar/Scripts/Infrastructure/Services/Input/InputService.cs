@@ -22,6 +22,8 @@ public class InputService : IInputService, IDisposable
     public bool IsReload => _inputActions.Player.Reload.IsPressed();
     public bool IsInteract => _inputActions.Player.Interact.IsPressed();
     public bool IsInventory => _inputActions.Player.Inventory.triggered;
+    public bool IsMap => _inputActions.Player.Map.triggered;
+    public bool IsEscape => _inputActions.Player.Escap.triggered;
 
     public void Dispose()
     {

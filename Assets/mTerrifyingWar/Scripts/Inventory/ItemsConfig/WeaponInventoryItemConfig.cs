@@ -9,7 +9,7 @@ public class WeaponInventoryItemConfig : InventoryItemConfig
     [field: SerializeField, BoxGroup("Weapon item config")] public int Damage { get; private set;}
     [field: SerializeField, BoxGroup("Weapon item config")] public int FireRate { get; private set;}
     
-    [field: SerializeField, BoxGroup("Weapon item config")] public string AmmoID { get; private set;}
+    [field: SerializeField, BoxGroup("Weapon item config")] public EAmmoType EAmmoType { get; private set;}
     [field: SerializeField, BoxGroup("Weapon item config")] public int MagazineSize { get; private set;}
     [field: SerializeField, BoxGroup("Weapon item config")] public int CurrentAmmo { get; private set;}
     

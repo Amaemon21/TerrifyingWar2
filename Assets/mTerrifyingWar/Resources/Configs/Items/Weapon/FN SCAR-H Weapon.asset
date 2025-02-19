@@ -38,7 +38,7 @@ MonoBehaviour:
   <WeaponHandPrefab>k__BackingField: {fileID: 388604120819519589, guid: 9a7de407817a157468d43225d73c360a, type: 3}
   <Damage>k__BackingField: 15
   <FireRate>k__BackingField: 650
-  <AmmoID>k__BackingField: "5,56\xD745"
+  <EAmmoType>k__BackingField: 2
   <MagazineSize>k__BackingField: 20
   <CurrentAmmo>k__BackingField: 20
   <Durability>k__BackingField: 28

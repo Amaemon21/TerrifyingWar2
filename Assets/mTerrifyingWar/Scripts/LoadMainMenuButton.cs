@@ -5,7 +5,7 @@ public class LoadMainMenuButton : MonoBehaviour
 {
     [Inject] private readonly GameStateMachine _gameStateMachine;
 
-    public void Click()
+    public void HandleMainMenuLoad()
     {
         _gameStateMachine.Enter<LoadMainMenuState, IExitableState>(_gameStateMachine.GetActiveState());
     }

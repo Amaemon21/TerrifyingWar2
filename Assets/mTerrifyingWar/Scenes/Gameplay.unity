@@ -110192,6 +110192,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 23319732365447850, guid: 035229fa58a607c4bb37eaea515e4e7c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -150687,18 +150691,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8079971522471732486, guid: eb5b5d2c483318d4a93845420212c932, type: 3}
-      propertyPath: outlineTargets.Array.data[0].IsVisible
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8079971522471732486, guid: eb5b5d2c483318d4a93845420212c932, type: 3}
-      propertyPath: outlineTargets.Array.data[1].IsVisible
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8079971522471732486, guid: eb5b5d2c483318d4a93845420212c932, type: 3}
-      propertyPath: outlineTargets.Array.data[2].IsVisible
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 9046355290053868059, guid: eb5b5d2c483318d4a93845420212c932, type: 3}
       propertyPath: m_Name
       value: 7.62x39 Ammo
@@ -189583,18 +189575,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8079971522471732486, guid: eb5b5d2c483318d4a93845420212c932, type: 3}
-      propertyPath: outlineTargets.Array.data[0].IsVisible
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8079971522471732486, guid: eb5b5d2c483318d4a93845420212c932, type: 3}
-      propertyPath: outlineTargets.Array.data[1].IsVisible
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8079971522471732486, guid: eb5b5d2c483318d4a93845420212c932, type: 3}
-      propertyPath: outlineTargets.Array.data[2].IsVisible
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 9046355290053868059, guid: eb5b5d2c483318d4a93845420212c932, type: 3}
       propertyPath: m_Name
       value: 7.62x39 Ammo (1)
@@ -195954,18 +195934,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 443299044}
     m_Modifications:
-    - target: {fileID: 1723222758388350754, guid: fb5dd66ba65f84a4c87ecc4529373873, type: 3}
-      propertyPath: outlineTargets.Array.data[0].IsVisible
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1723222758388350754, guid: fb5dd66ba65f84a4c87ecc4529373873, type: 3}
-      propertyPath: outlineTargets.Array.data[1].IsVisible
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1723222758388350754, guid: fb5dd66ba65f84a4c87ecc4529373873, type: 3}
-      propertyPath: outlineTargets.Array.data[2].IsVisible
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2991784327589760645, guid: fb5dd66ba65f84a4c87ecc4529373873, type: 3}
       propertyPath: m_Name
       value: 5,56x45 Ammo (1)
@@ -196010,21 +195978,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7360659248089923340, guid: fb5dd66ba65f84a4c87ecc4529373873, type: 3}
-      propertyPath: outlineTargets.Array.data[0].IsVisible
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7360659248089923340, guid: fb5dd66ba65f84a4c87ecc4529373873, type: 3}
-      propertyPath: outlineTargets.Array.data[1].IsVisible
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7360659248089923340, guid: fb5dd66ba65f84a4c87ecc4529373873, type: 3}
-      propertyPath: outlineTargets.Array.data[2].IsVisible
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 7360659248089923340, guid: fb5dd66ba65f84a4c87ecc4529373873, type: 3}
-    - {fileID: 3475247501004220944, guid: fb5dd66ba65f84a4c87ecc4529373873, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -312323,7 +312277,7 @@ MonoBehaviour:
   priority: 0
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 11400000, guid: 72f93a47e0293ca4ea4da657589db65c, type: 2}
+  sharedProfile: {fileID: 11400000, guid: 7659909ba2c27ea43a0dce24a265b11f, type: 2}
 --- !u!1001 &1585021240
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -334579,14 +334533,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 771093377332908852, guid: c63081b7c68aab742937fce11cf85e90, type: 3}
-      propertyPath: outlineTargets.Array.data[0].IsVisible
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1799442282058113165, guid: c63081b7c68aab742937fce11cf85e90, type: 3}
-      propertyPath: _inventoryItemConfig
-      value: 
-      objectReference: {fileID: 11400000, guid: d5e43f74ccca65f4f9f40321f524a164, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -449352,10 +449298,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
-    - target: {fileID: 7385928499048937883, guid: 8aeb956568858d2459622a357142a59c, type: 3}
-      propertyPath: outlineTargets.Array.data[0].IsVisible
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 9068740455797741010, guid: 8aeb956568858d2459622a357142a59c, type: 3}
       propertyPath: m_Name
       value: AK-103
@@ -449472,13 +449414,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2501004622913773073}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.22144724, y: -0.6709197, z: 0.22181423, w: 0.67203146}
+  m_LocalRotation: {x: 0.69005877, y: -0.15162647, z: 0.69120306, w: 0.15187714}
   m_LocalPosition: {x: 0, y: 4.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 285212283}
-  m_LocalEulerAnglesHint: {x: 36.532, y: -89.882, z: 0.07}
+  m_LocalEulerAnglesHint: {x: 24.785, y: 89.895, z: 179.956}
 --- !u!4 &8182895793339753942 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4642244803991818, guid: 67a0a859b33b090408684371359b5888, type: 3}
@@ -449492,13 +449434,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1100335616}
     m_Modifications:
-    - target: {fileID: 5932083746701111705, guid: 4e437828b0d88c847a99f5050e062f75, type: 3}
-      propertyPath: outlineTargets.Array.data[0].IsVisible
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6755000363281631837, guid: 4e437828b0d88c847a99f5050e062f75, type: 3}
       propertyPath: m_Name
       value: 'FN SCAR-H '
+      objectReference: {fileID: 0}
+    - target: {fileID: 6755000363281631837, guid: 4e437828b0d88c847a99f5050e062f75, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7107147826430889776, guid: 4e437828b0d88c847a99f5050e062f75, type: 3}
       propertyPath: m_LocalPosition.x

@@ -13,4 +13,6 @@ public interface IInputService
     public bool IsInteract {get;}
     
     public bool IsInventory { get; }
+    public bool IsMap { get; }
+    public bool IsEscape { get; }
 }

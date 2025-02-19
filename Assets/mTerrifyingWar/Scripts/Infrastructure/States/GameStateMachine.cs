@@ -7,13 +7,14 @@ public class GameStateMachine
     private readonly Dictionary<Type, IExitableState> _states;
     private IExitableState _activeState;
 
-    public GameStateMachine(SceneLoader sceneLoader, LoadingScreen loadingScreen)
+    public GameStateMachine(SceneLoader sceneLoader, LoadingScreen loadingScreen, CursorStateService cursorStateService)
     {
         _states = new Dictionary<Type, IExitableState>
         {
             [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader),
-            [typeof(LoadMainMenuState)] = new LoadMainMenuState(this, sceneLoader, loadingScreen),
-            [typeof(LoadGameplayState)] = new LoadGameplayState(this, sceneLoader, loadingScreen),
+            [typeof(AuthorizationState)] = new AuthorizationState(this, sceneLoader, loadingScreen, cursorStateService),
+            [typeof(LoadMainMenuState)] = new LoadMainMenuState(this, sceneLoader, loadingScreen, cursorStateService),
+            [typeof(LoadGameplayState)] = new LoadGameplayState(this, sceneLoader, loadingScreen, cursorStateService),
         };
     }
 

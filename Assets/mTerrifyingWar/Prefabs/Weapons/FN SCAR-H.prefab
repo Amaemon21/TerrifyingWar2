@@ -1713,9 +1713,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0df2ae6563430fa47a63e0634464c492, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mainWeaponConfigs: {fileID: 0}
-  _shakePreset: {fileID: 11400000, guid: fd35ba6443560ec4c9f071182f332d9d, type: 2}
-  _recoilPreset: {fileID: 11400000, guid: 6ada82545d9cf7f45a716c0d99a8487b, type: 2}
+  _mainWeaponConfigs: {fileID: 11400000, guid: 40f685195744d314b9fd892d262926ab, type: 2}
+  _shakePreset: {fileID: 11400000, guid: 0162aadadd0a35648b765b006533dd40, type: 2}
+  _recoilPreset: {fileID: 11400000, guid: 47dc38f64ec6cfd40883d60402cacc3d, type: 2}
 --- !u!114 &-6842748822826364530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1740,7 +1740,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 232424cedaed8fd4a9b214ad6ef6e568, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioWeaponConfig: {fileID: 0}
+  _audioWeaponConfig: {fileID: 11400000, guid: aa00ec025af769a4b9ecdfc80a938ec9, type: 2}
 --- !u!114 &1908680152703733848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1757,16 +1757,7 @@ MonoBehaviour:
   _scaleFactor: 0.2
   _destroyTime: 2
   _muzzlePrefabs:
-  - {fileID: 124018, guid: 1f389bb139e76154582cf3c5e4f9214b, type: 3}
-  - {fileID: 146992, guid: 24bc114e4759e464eab5d9664127a034, type: 3}
-  - {fileID: 153266, guid: 39b2a3d1ecfa5614b97e75a9b5561f21, type: 3}
-  - {fileID: 160582, guid: 8ff371e17619a504b9822fc6a2facdb2, type: 3}
-  - {fileID: 183908, guid: fa6d29df930056640bf15fb9b6a54e4a, type: 3}
-  - {fileID: 110062, guid: 30902f8af10daa04cabd79e9ef258f08, type: 3}
-  - {fileID: 179846, guid: a7730127594a3ad46a512f70521a6446, type: 3}
-  - {fileID: 141106, guid: c69a6f3b834888c468f57ec885c39db3, type: 3}
-  - {fileID: 136518, guid: 35277ee4b65d54d4199c4e0e48053745, type: 3}
-  - {fileID: 161002, guid: 489aba68c9dfe9342accb1f3a0be4e5b, type: 3}
+  - {fileID: -1319145535549478434, guid: 24bc114e4759e464eab5d9664127a034, type: 3}
   _widthCurve:
     serializedVersion: 2
     m_Curve:

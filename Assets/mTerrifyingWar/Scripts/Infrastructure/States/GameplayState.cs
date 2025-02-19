@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class GameplayState : IState
+﻿public class GameplayState : IState
 {
     private readonly GameStateMachine _stateMachine;
     private readonly IGameplayFactory _gameplayFactory;

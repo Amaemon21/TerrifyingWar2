@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NaughtyAttributes;
-using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "InventoryDatabase", menuName = "Inventory/InventoryDatabase")]
@@ -50,8 +49,6 @@ public class InventoryDatabase : ScriptableObject
                 {
                     Debug.Log($"Item already exists in the database: {item.name}");
                 }
-            
-                EditorUtility.SetDirty(this);
             }
         }
         else
@@ -71,8 +68,6 @@ public class InventoryDatabase : ScriptableObject
                 string id = $"{item.ItemName}_{Guid.NewGuid().ToString()}";
         
                 item.SetupId(id);
-        
-                EditorUtility.SetDirty(item); 
             }
         }
     }

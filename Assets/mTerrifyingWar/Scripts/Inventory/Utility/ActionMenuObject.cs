@@ -66,9 +66,9 @@ public class ActionMenuObject : MonoBehaviour
             {
                 if (weaponInventoryItemConfig.CurrentAmmo > 1)
                 {
-                    var ammoInventoryItemConfig = _inventoryDatabase.FindItemByID(weaponInventoryItemConfig.AmmoID);
+                    InventoryItemConfig ammoInventoryItemConfig = _inventoryDatabase.FindItemByID(_inventoryItemConfig.ItemID);
                     
-                    var _ammoInventoryItemConfigCopy = Instantiate(ammoInventoryItemConfig);
+                    InventoryItemConfig _ammoInventoryItemConfigCopy = Instantiate(ammoInventoryItemConfig);
                     
                     _ammoInventoryItemConfigCopy.ResetCount();
                     _ammoInventoryItemConfigCopy.AddCount(weaponInventoryItemConfig.CurrentAmmo);

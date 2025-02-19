@@ -9,7 +9,7 @@ public class SceneLoader
     
     public void Load(string sceneName, Action onLoaded = null)
     { 
-        LoadSceneAsync(sceneName, onLoaded);
+        _ = LoadSceneAsync(sceneName, onLoaded);
     }
     
     private async UniTask LoadSceneAsync(string sceneName, Action onLoaded = null)

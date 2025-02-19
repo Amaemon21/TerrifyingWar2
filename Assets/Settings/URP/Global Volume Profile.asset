@@ -154,10 +154,10 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.318
+    m_Value: 0.274
   smoothness:
     m_OverrideState: 1
-    m_Value: 0.8
+    m_Value: 0.533
   rounded:
     m_OverrideState: 1
     m_Value: 0
@@ -224,20 +224,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   postExposure:
-    m_OverrideState: 1
-    m_Value: 0.5
-  contrast:
-    m_OverrideState: 1
-    m_Value: 20
-  colorFilter:
-    m_OverrideState: 1
-    m_Value: {r: 1, g: 0.9732105, b: 0.8915094, a: 1}
-  hueShift:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0.25
+  contrast:
+    m_OverrideState: 0
+    m_Value: 12.4
+  colorFilter:
+    m_OverrideState: 0
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+  hueShift:
+    m_OverrideState: 0
+    m_Value: 0
   saturation:
-    m_OverrideState: 1
-    m_Value: -30
+    m_OverrideState: 0
+    m_Value: 63.5
 --- !u!114 &6395603741177038240
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -275,13 +275,13 @@ MonoBehaviour:
   enableMainLightContribution:
     m_OverrideState: 1
     m_Value: 1
-  mainLightAnisotropy:
+  anisotropy:
     m_OverrideState: 0
     m_Value: 0.4
-  mainLightScattering:
+  scattering:
     m_OverrideState: 0
     m_Value: 0.15
-  mainLightColorTint:
+  tint:
     m_OverrideState: 0
     m_Value: {r: 1, g: 1, b: 1, a: 1}
   enableAdditionalLightsContribution:

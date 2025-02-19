@@ -1,6 +1,4 @@
-﻿using UnityEngine.SceneManagement;
-
-public class BootstrapState : IState
+﻿public class BootstrapState : IState
 {
     private readonly GameStateMachine _stateMachine;
     private readonly SceneLoader _sceneLoader;
@@ -14,7 +12,7 @@ public class BootstrapState : IState
     public void Enter()
     {
 #if UNITY_EDITOR
-        var sceneName = SceneManager.GetActiveScene().name;
+        string sceneName = _sceneLoader.GetSceneName();
 
         if (sceneName == Scenes.Gameplay)
         {
@@ -25,6 +23,13 @@ public class BootstrapState : IState
         if (sceneName == Scenes.MainMenu)
         {
             LoadAndStartMainMenu();
+            return;
+        }
+        
+        if (sceneName == Scenes.Authorization)
+        {
+            LoadAndStartAuthorization();
+            return;
         }
 
         if (sceneName != Scenes.Boot)
@@ -32,7 +37,7 @@ public class BootstrapState : IState
             return;
         }
 #endif
-        LoadAndStartMainMenu();
+        LoadAndStartAuthorization();
     }
 
     public void Exit() { }
@@ -55,6 +60,17 @@ public class BootstrapState : IState
             _sceneLoader.Load(Scenes.MainMenu, () =>
             {
                 _stateMachine.Enter<LoadMainMenuState, IExitableState>(_stateMachine.GetActiveState());
+            });
+        });
+    }
+    
+    private void LoadAndStartAuthorization()
+    {
+        _sceneLoader.Load(Scenes.Boot, () =>
+        {
+            _sceneLoader.Load(Scenes.Authorization, () =>
+            {
+                _stateMachine.Enter<AuthorizationState>();
             });
         });
     }
