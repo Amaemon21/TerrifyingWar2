@@ -12,7 +12,7 @@ public class GameInstaller : MonoInstaller
         BindServices();
         BindGameEntryPoint();
         
-        Container.BindInterfacesAndSelfTo<MYSQLProvider>().AsSingle().NonLazy();
+        Container.Bind<BackendManager>().AsSingle();
     }
     
     private void BindGameStateMachine()

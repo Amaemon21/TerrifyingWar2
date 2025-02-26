@@ -1,13 +1,13 @@
 using NaughtyAttributes;
 using UnityEngine;
 
-[RequireComponent(typeof(Outline))]
+//[RequireComponent(typeof(Outline))]
 [RequireComponent(typeof(Rigidbody))]
 public class InventoryItemObject : MonoBehaviour
 {
     [SerializeField, Expandable] private InventoryItemConfig _inventoryItemConfig;
     
-    public Outline Outline { get; private set; }
+    //public Outline Outline { get; private set; }
     public InventoryItemConfig InventoryItemConfig { get; private set; }
     
     public void SetConfig(InventoryItemConfig inventoryItemConfig)
@@ -19,8 +19,8 @@ public class InventoryItemObject : MonoBehaviour
     {
         InitializeItem();
         
-        Outline = GetComponent<Outline>();
-        Outline.enabled = false;
+        //Outline = GetComponent<Outline>();
+        //Outline.enabled = false;
     }
 
     private void InitializeItem()

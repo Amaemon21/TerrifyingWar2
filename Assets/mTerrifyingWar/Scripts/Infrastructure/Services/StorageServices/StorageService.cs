@@ -41,8 +41,8 @@ public class StorageService : IStorageService
         {
             if (File.Exists(path))
             {
-                var json = File.ReadAllText(path);
-                var data = JsonUtility.FromJson<T>(json);
+                string json = File.ReadAllText(path);
+                T data = JsonUtility.FromJson<T>(json);
                 Debug.Log("Load data - " + key);
                 callback?.Invoke(data);
             }

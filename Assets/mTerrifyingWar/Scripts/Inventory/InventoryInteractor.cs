@@ -83,14 +83,14 @@ public class InventoryInteractor : MonoBehaviour
         interactUIModel.SetupIcon(icon);
         interactUIModel.Visible(true);
         
-        _currentItem.Outline.enabled = true;
+        //_currentItem.Outline.enabled = true;
     }
 
     private void ClearCurrentItem()
     {
         if (_currentItem != null)
         {
-            _currentItem.Outline.enabled = false;
+            //_currentItem.Outline.enabled = false;
             _currentItem = null;
         }
         
