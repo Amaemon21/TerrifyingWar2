@@ -18,8 +18,10 @@ public class AuthorizationSystem : MonoBehaviour
     [SerializeField, BoxGroup("Registration")] private TMP_InputField _passwordOneRegInputField;
     [SerializeField, BoxGroup("Registration")] private TMP_InputField _passwordTwoRegInputField;
 
-    [SerializeField] private GameObject _authButton;
-    [SerializeField] private GameObject _regButton;
+    [SerializeField, BoxGroup("Buttons"), HorizontalLine] private GameObject _authButton;
+    [SerializeField, BoxGroup("Buttons")] private GameObject _regButton;
+    
+    [SerializeField, BoxGroup("NotificationSystem"), HorizontalLine] private NotificationSystem _notificationSystem;
 
     private void Awake()
     {
@@ -30,7 +32,7 @@ public class AuthorizationSystem : MonoBehaviour
     {
         if (IsInputEmpty(_loginAutInputField, _passwordAutInputField))
         {
-            Debug.LogError("Введите логин и пароль");
+            _notificationSystem.AddMessage("Введите логин и пароль");
             return;
         }
 
@@ -41,13 +43,13 @@ public class AuthorizationSystem : MonoBehaviour
     {
         if (IsInputEmpty(_loginRegInputField, _nameRegInputField, _passwordOneRegInputField, _passwordTwoRegInputField))
         {
-            Debug.LogError("Все поля должны быть заполнены");
+            _notificationSystem.AddMessage("Все поля должны быть заполнены");
             return;
         }
 
         if (_passwordOneRegInputField.text != _passwordTwoRegInputField.text)
         {
-            Debug.LogError("Пароли не совпадают");
+            _notificationSystem.AddMessage("Пароли не совпадают");
             return;
         }
 
@@ -66,7 +68,7 @@ public class AuthorizationSystem : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Пользователь не найден");
+            _notificationSystem.AddMessage("Пользователь не найден");
         }
 
         SetButtonsInteractable(true);
@@ -86,12 +88,12 @@ public class AuthorizationSystem : MonoBehaviour
 
         if (regTask.Result)
         {
-            Debug.Log("Регистрация успешна");
+            _notificationSystem.AddMessage("Регистрация успешна");
             ClearInputFields();
         }
         else
         {
-            Debug.LogError("Ошибка регистрации: логин уже используется или сервер недоступен");
+            _notificationSystem.AddMessage("Ошибка регистрации: логин уже используется или сервер недоступен");
         }
 
         SetButtonsInteractable(true);

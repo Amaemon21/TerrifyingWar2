@@ -1,7 +1,12 @@
 ﻿public enum WindowType
 {
+    //gameplay
     Pause,
     Inventory,
     Map,
-    GameEnd
+    GameEnd,
+    
+    //Authorization
+    InternetConnection,
+    Authorization
 }

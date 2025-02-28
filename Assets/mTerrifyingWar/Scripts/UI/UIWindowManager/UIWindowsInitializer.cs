@@ -1,20 +1,23 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Zenject;
 
 public class UIWindowsInitializer : MonoBehaviour
 {
-    [Inject] private readonly UIWindowService _uiWindowService;
-
-    [SerializeField] private UIPause _pause;
-    [SerializeField] private UIInventory _inventory;
-    [SerializeField] private UIMap _map;
-    [SerializeField] private UIGameEnd _gameEnd;
+    [Inject] private readonly UIWindowService _windowService;
+    
+    [SerializeField] private UIWindowEntry[] _windows;
 
     private void OnEnable()
     {
         SubscribeWindows();
     }
-    
+
+    private void Start()
+    {
+        _windowService.OpenWindow(WindowType.InternetConnection);
+    }
+
     private void OnDisable()
     {
         UnsubscribeWindows();
@@ -22,17 +25,24 @@ public class UIWindowsInitializer : MonoBehaviour
 
     private void SubscribeWindows()
     {
-        _uiWindowService.SubscribeWindow(WindowType.Pause, _pause);
-        _uiWindowService.SubscribeWindow(WindowType.Inventory, _inventory);
-        _uiWindowService.SubscribeWindow(WindowType.Map, _map);
-        _uiWindowService.SubscribeWindow(WindowType.GameEnd, _gameEnd);
+        foreach (UIWindowEntry entry in _windows)
+        {
+            _windowService.SubscribeWindow(entry.Type, entry.Window);
+        }
     }
 
     private void UnsubscribeWindows()
     {
-        _uiWindowService.UnsubscribeWindow(WindowType.Pause);
-        _uiWindowService.UnsubscribeWindow(WindowType.Inventory);
-        _uiWindowService.UnsubscribeWindow(WindowType.Map);
-        _uiWindowService.UnsubscribeWindow(WindowType.GameEnd);
+        foreach (UIWindowEntry entry in _windows)
+        {
+            _windowService.UnsubscribeWindow(entry.Type);
+        }
     }
+}
+
+[Serializable]
+public class UIWindowEntry
+{
+    public WindowType Type;
+    public UIWindow Window;
 }

@@ -1,5 +1,5 @@
+using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class UIWindowService
@@ -46,6 +46,12 @@ public class UIWindowService
                 windowToOpen.Open();
             }
         }   
+    }
+
+    public IEnumerator OpenWindowWithDelay(WindowType windowType, float timeToOpen)
+    {
+        yield return new WaitForSeconds(timeToOpen);
+        OpenWindow(windowType);
     }
     
     public void OpenWindow(WindowType windowType)
