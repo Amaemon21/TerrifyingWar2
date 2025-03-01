@@ -29,6 +29,18 @@ public class GameStateMachine
         TState state = ChangedState<TState>();
         state.Enter(payload);
     }
+
+    public bool CheckIsState<TState>() where TState : class, IExitableState
+    {
+        Type stateType = typeof(TState);
+    
+        if (_states.ContainsKey(stateType))
+        {
+            return true;
+        }
+
+        return false;
+    }
     
     public void AddState<TState>(TState state) where TState : class, IExitableState
     {
@@ -40,7 +52,21 @@ public class GameStateMachine
         }
         else
         {
-            Debug.Log($"State of type {stateType} already exists in the state machine.");
+            Debug.Log($"State of type {stateType} already exists in the state machine."); 
+        }
+    }
+
+    public void RemoveState<TState>(TState state) where TState : class, IExitableState
+    {
+        Type stateType = typeof(TState);
+    
+        if (_states.ContainsKey(stateType))
+        {
+            _states.Remove(stateType);
+        }
+        else
+        {
+            Debug.Log($"State of type {stateType} already exists in the state machine."); 
         }
     }
     

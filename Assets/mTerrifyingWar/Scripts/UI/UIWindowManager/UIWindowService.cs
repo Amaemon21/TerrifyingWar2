@@ -47,12 +47,6 @@ public class UIWindowService
             }
         }   
     }
-
-    public IEnumerator OpenWindowWithDelay(WindowType windowType, float timeToOpen)
-    {
-        yield return new WaitForSeconds(timeToOpen);
-        OpenWindow(windowType);
-    }
     
     public void OpenWindow(WindowType windowType)
     {

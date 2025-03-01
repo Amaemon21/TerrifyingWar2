@@ -10826,10 +10826,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604af73ee219464c958d97cf382c522c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pause: {fileID: 1963439331828715418}
-  _inventory: {fileID: 8466794688431440317}
-  _map: {fileID: 3835299495031853063}
-  _gameEnd: {fileID: 3751378674267290421}
+  _windows:
+  - Type: 0
+    Window: {fileID: 1963439331828715418}
+  - Type: 1
+    Window: {fileID: 8466794688431440317}
+  - Type: 2
+    Window: {fileID: 3835299495031853063}
+  - Type: 3
+    Window: {fileID: 1963439331828715418}
 --- !u!114 &6477253719737514763
 MonoBehaviour:
   m_ObjectHideFlags: 0

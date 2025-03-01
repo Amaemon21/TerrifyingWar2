@@ -11,21 +11,18 @@ public class GameplayInstaller : MonoInstaller
     
     public override void InstallBindings()
     {
-        BindServices();
-
         BindGameplayEntryPoint();
-        
+        BindServices();
         UIWindowServiceBindings();
-        
         ConfigBindings();
     }
     
     private void BindServices()
     {
-        Container.Bind<IAssetProvider>().To<GameplayAssetProvider>().AsSingle();
+        Container.BindInterfacesAndSelfTo<GameplayAssetProvider>().AsSingle();
+        Container.BindInterfacesAndSelfTo<GameplayFactory>().AsSingle();
         Container.Bind<PlayerProvider>().AsSingle();
-        Container.Bind<IGameplayFactory>().To<GameplayFactory>().AsSingle();
-        Container.Bind<DisplayProvider>().FromNew().AsSingle();
+        Container.Bind<DisplayProvider>().AsSingle();
     }
     
     private void BindGameplayEntryPoint()
@@ -35,7 +32,7 @@ public class GameplayInstaller : MonoInstaller
     
     private void UIWindowServiceBindings()
     {
-        Container.Bind<UIWindowService>().FromNew().AsSingle();
+        Container.Bind<UIWindowService>().AsSingle();
     }
     
     private void ConfigBindings()

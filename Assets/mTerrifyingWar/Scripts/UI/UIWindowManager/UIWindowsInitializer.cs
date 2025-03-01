@@ -12,12 +12,7 @@ public class UIWindowsInitializer : MonoBehaviour
     {
         SubscribeWindows();
     }
-
-    private void Start()
-    {
-        _windowService.OpenWindow(WindowType.InternetConnection);
-    }
-
+    
     private void OnDisable()
     {
         UnsubscribeWindows();

@@ -596,9 +596,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _windows:
   - Type: 4
-    Window: {fileID: 1221762715}
+    Window: {fileID: 2079578099}
   - Type: 5
-    Window: {fileID: 403166334}
+    Window: {fileID: 669310951}
 --- !u!1 &122579060
 GameObject:
   m_ObjectHideFlags: 0
@@ -1427,15 +1427,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 403166331}
-  - component: {fileID: 403166333}
-  - component: {fileID: 403166334}
   m_Layer: 5
   m_Name: AuthorizationMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &403166331
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1456,32 +1454,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!225 &403166333
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 403166330}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
---- !u!114 &403166334
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 403166330}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49e2ffde3b6741598f2e4980c5aaa692, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _canvasGroup: {fileID: 403166333}
-  _durationFade: 0.3
 --- !u!1 &431936357
 GameObject:
   m_ObjectHideFlags: 0
@@ -1491,14 +1463,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 431936358}
-  - component: {fileID: 431936360}
   m_Layer: 5
   m_Name: RegistrationMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &431936358
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1519,18 +1490,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!225 &431936360
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 431936357}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1 &622572858
 GameObject:
   m_ObjectHideFlags: 0
@@ -1768,13 +1727,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 669310950}
+  - component: {fileID: 669310951}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &669310950
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1797,6 +1757,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &669310951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669310949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49e2ffde3b6741598f2e4980c5aaa692, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &675235278
 GameObject:
   m_ObjectHideFlags: 0
@@ -4433,8 +4405,6 @@ GameObject:
   - component: {fileID: 1221762710}
   - component: {fileID: 1221762712}
   - component: {fileID: 1221762711}
-  - component: {fileID: 1221762714}
-  - component: {fileID: 1221762715}
   m_Layer: 5
   m_Name: InternetConnectionTest
   m_TagString: Untagged
@@ -4476,7 +4446,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _notificationSystem: {fileID: 289919381}
   _internetAccess: {fileID: 1221762712}
-  _statusText: {fileID: 1023214514}
 --- !u!114 &1221762712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4492,32 +4461,6 @@ MonoBehaviour:
   _uris:
   - http://google.com
   - https://wikipedia.org
---- !u!225 &1221762714
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1221762709}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
---- !u!114 &1221762715
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1221762709}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 199537adc6c7b3248aa02a7d15abc54b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _canvasGroup: {fileID: 1221762714}
-  _durationFade: 0.3
 --- !u!1 &1260147087
 GameObject:
   m_ObjectHideFlags: 0
@@ -4847,7 +4790,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1275003271
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7453,6 +7396,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2079578098}
+  - component: {fileID: 2079578099}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -7480,6 +7424,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2079578099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079578097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 199537adc6c7b3248aa02a7d15abc54b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2084002831
 GameObject:
   m_ObjectHideFlags: 0

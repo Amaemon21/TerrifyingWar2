@@ -3,7 +3,7 @@ using UnityEngine;
 
 public interface IGameplayFactory : IService
 {
-    public void CreatePlayer(Transform spawnTransform);
+    public void CreatePlayer(Vector3 position);
     public void CreateHud();
     public event Action CreateHudChanged;
 }

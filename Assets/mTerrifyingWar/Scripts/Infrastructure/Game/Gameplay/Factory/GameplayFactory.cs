@@ -16,9 +16,9 @@ public class GameplayFactory : IGameplayFactory
         _displayProvider = displayProvider;
     }
     
-    public void CreatePlayer(Transform spawnTransform)
+    public void CreatePlayer(Vector3 position)
     {
-        var plaeyrObject = InstantiateRegistered(AssetsPath.PlayerPath, spawnTransform);
+        var plaeyrObject = InstantiateRegistered(AssetsPath.PlayerPath, position);
         var playerContainer = plaeyrObject.GetComponent<PlayerContainer>();
         _playerProvider.Setup(playerContainer);
     }
@@ -31,9 +31,9 @@ public class GameplayFactory : IGameplayFactory
         CreateHudChanged?.Invoke();
     }
 
-    private GameObject InstantiateRegistered(string prefabPath, Transform transform)
+    private GameObject InstantiateRegistered(string prefabPath, Vector3 position)
     {
-        GameObject gameObject = _assetProvider.Instantiate(prefabPath, transform, null);
+        GameObject gameObject = _assetProvider.Instantiate(prefabPath, position, Quaternion.identity, null);
         return gameObject;
     }
 

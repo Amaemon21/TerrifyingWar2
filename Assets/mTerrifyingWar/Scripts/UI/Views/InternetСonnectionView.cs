@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using Zenject;
 
@@ -10,7 +11,14 @@ public class InternetConnectionView : MonoBehaviour
 
     private void Start()
     {
+        StartCoroutine(StartConnection());
+    }
+    
+    private IEnumerator StartConnection()
+    {
         _notificationSystem.AddMessage("Проверка подключения к интернету");
+
+        yield return new WaitForSeconds(2f);
         
         StartCoroutine(_internetAccess.TestConnection(UpdateConnectionStatus));
     }
@@ -20,7 +28,7 @@ public class InternetConnectionView : MonoBehaviour
         if (isConnected)
         {
             _notificationSystem.AddMessage("Подключение успешно");
-            StartCoroutine(_windowService.OpenWindowWithDelay(WindowType.Authorization, 3f));
+            _windowService.OpenWindow(WindowType.Authorization);
         }
         else
         {
