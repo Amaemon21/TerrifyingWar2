@@ -10,32 +10,57 @@ public class BackendManager
     private readonly string ServerUrl = "http://212.109.196.234:3000";
     
     private readonly HttpClient _client = new();
+    
+    public int PlayerId { get; private set; }
     public string PlayerName { get; private set; } = "";
     
-    public async Task<bool> CheckUserAsync(string login, string password)
+    public async Task<bool> LoginAsync(string login, string password)
     {
+        if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
+        {
+            Debug.LogError("Login and password cannot be empty");
+            return false;
+        }
+
         var requestData = new { login, password };
         string json = JsonConvert.SerializeObject(requestData);
-        StringContent content = new(json, Encoding.UTF8, "application/json");
+        using StringContent content = new(json, Encoding.UTF8, "application/json");
 
         try
         {
-            HttpResponseMessage response = await _client.PostAsync($"{ServerUrl}/checkUser", content);
-            string responseString = await response.Content.ReadAsStringAsync();
+            using HttpResponseMessage response = await _client.PostAsync($"{ServerUrl}/login", content).ConfigureAwait(false);
+            string responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
             if (!response.IsSuccessStatusCode)
             {
-                Debug.LogError($"CheckUser error: {response.StatusCode} - {responseString}");
+                Debug.LogError($"Login failed: {response.StatusCode} - {responseString}");
                 return false;
             }
 
-            CheckUserResponse result = JsonConvert.DeserializeObject<CheckUserResponse>(responseString);
-            PlayerName = result.Success ? result.PlayerName : "";
-            return result.Success;
+            LoginResponse result = JsonConvert.DeserializeObject<LoginResponse>(responseString);
+            
+            Debug.Log(result.PlayerName);
+            
+            if (result == null || !result.Success)
+            {
+                Debug.LogError("Invalid login response");
+                return false;
+            }
+
+            if (result.PlayerId <= 0 || string.IsNullOrEmpty(result.PlayerName))
+            {
+                Debug.LogError("Invalid player data");
+                return false;
+            }
+
+            PlayerId = result.PlayerId;
+            PlayerName = result.PlayerName;
+
+            return true;
         }
         catch (Exception ex)
         {
-            Debug.LogError($"CheckUser request failed: {ex.Message}");
+            Debug.LogError($"Login request failed: {ex.Message}");
             return false;
         }
     }
@@ -65,11 +90,53 @@ public class BackendManager
             return false;
         }
     }
+    
+    public async Task AddItemAsync(int playerID, string playerName, int itemID, int itemCount)
+    {
+        var data = new
+        {
+            playerID,
+            playerName,
+            itemID,
+            itemCount
+        };
+
+        string json = JsonConvert.SerializeObject(data);
+        StringContent content = new(json, Encoding.UTF8, "application/json");
+
+        HttpResponseMessage response = await _client.PostAsync($"{ServerUrl}/addItem", content);
+
+        string result = await response.Content.ReadAsStringAsync();
+        Debug.Log(result);
+    }
+
+    public async Task RemoveItemAsync(int playerID, int itemID, int itemCount)
+    {
+        var data = new
+        {
+            playerID,
+            itemID,
+            itemCount
+        };
+
+        string json = JsonConvert.SerializeObject(data);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        HttpResponseMessage response = await _client.PostAsync($"{ServerUrl}/removeItem", content);
+
+        string result = await response.Content.ReadAsStringAsync();
+    }
 }
 
 [Serializable]
-public class CheckUserResponse
+public class LoginResponse
 {
-    public bool Success;
-    public string PlayerName;
+    [JsonProperty("success")]
+    public bool Success { get; set; }
+
+    [JsonProperty("playerId")] 
+    public int PlayerId { get; set; }
+
+    [JsonProperty("playerName")]
+    public string PlayerName { get; set; }
 }

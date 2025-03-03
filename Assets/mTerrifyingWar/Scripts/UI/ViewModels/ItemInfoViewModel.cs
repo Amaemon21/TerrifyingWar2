@@ -33,25 +33,18 @@ public class ItemInfoViewModel : ViewModel
         {
             _itemText.Value =
                 $"{inventoryItemConfig.ItemName}\n" +
-                "<color=#E78300>-------------------</color>\n" +
                 $"<line-height=90%>{inventoryItemConfig.ItemRarity}</line-height>\n" +
-                "<color=#E78300>-------------------</cw" +
-                "olor>\n" +
                 $"<color=#E78300>Damage:</color> {weaponInventoryItemConfig.Damage}\n" +
                 $"<color=#E78300>Fire Rate:</color> {weaponInventoryItemConfig.FireRate}\n" +
                 $"<color=#E78300>Magazine Size:</color> {weaponInventoryItemConfig.MagazineSize}\n" +
-                "<color=#E78300>-------------------</color>\n" +
                 $"{inventoryItemConfig.ItemDescription}\n" +
-                "<color=#E78300>-------------------</color>\n" +
                 $"<color=#E78300>Strength:</color> {weaponInventoryItemConfig.Durability}";
         }
         else
         {
             _itemText.Value =
                 $"{inventoryItemConfig.ItemName}\n" +
-                "<color=#E78300>-------------------</color>\n" +
                 $"<line-height=90%>{inventoryItemConfig.ItemRarity}</line-height>\n" +
-                "<color=#E78300>-------------------</color>\n" +
                 $"{inventoryItemConfig.ItemDescription}";
         }
     }

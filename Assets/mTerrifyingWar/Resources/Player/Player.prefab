@@ -900,6 +900,7 @@ MonoBehaviour:
   <WeaponRecoilAndShake>k__BackingField: {fileID: 4277329225814956920}
   <MainCamera>k__BackingField: {fileID: 4771096598852221625}
   <WeaponCamera>k__BackingField: {fileID: 4216768872688171705}
+  <WeaponHolder>k__BackingField: {fileID: 6249494368186064562}
 --- !u!1 &8077632862142462504
 GameObject:
   m_ObjectHideFlags: 0

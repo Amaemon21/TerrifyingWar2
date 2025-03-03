@@ -22,7 +22,7 @@ public class Enemy : MonoBehaviour
     
     public State CurrentState { get; private set; }
     public NavMeshAgent NavMeshAgent { get; private set; }
-    public EnemyAnimator EnemyAnimator{ get; private set; }
+    public EnemyAnimator EnemyAnimator { get; private set; }
     public Transform Target { get; private set;}
 
     private void Awake()

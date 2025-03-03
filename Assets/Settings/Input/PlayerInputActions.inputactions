@@ -85,33 +85,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Inventory",
-                    "type": "Button",
-                    "id": "772e77f0-d4b9-40c3-ad53-22531adca149",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Map",
-                    "type": "Button",
-                    "id": "7e76d94a-01b3-4a19-89eb-15e93dc57af2",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Escap",
-                    "type": "Button",
-                    "id": "6cff219d-be0c-43f1-a8b1-8f28c3b0c54d",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -268,10 +241,45 @@
                     "action": "Crouch",
                     "isComposite": false,
                     "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "UI",
+            "id": "2e1e112a-6b75-4ec2-9f28-80e83547acbd",
+            "actions": [
+                {
+                    "name": "Inventory",
+                    "type": "Button",
+                    "id": "459e680a-acdd-407e-9cc7-b46a34cf465a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
+                    "name": "Map",
+                    "type": "Button",
+                    "id": "cab39acf-5070-40a4-bb37-fb672b389ebf",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Escap",
+                    "type": "Button",
+                    "id": "28cd94d7-cc5b-4057-afb4-4d2f441cfe56",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
                     "name": "",
-                    "id": "e940d387-f54c-4ded-9270-45451d41b2c8",
+                    "id": "6e607bde-ddb7-450d-b23c-ad408e068ece",
                     "path": "<Keyboard>/i",
                     "interactions": "",
                     "processors": "",
@@ -282,22 +290,22 @@
                 },
                 {
                     "name": "",
-                    "id": "af8af946-a33d-4a3e-936e-38af78537404",
+                    "id": "b8c8c55e-3aeb-4572-9875-0d58333e8fcc",
                     "path": "<Keyboard>/m",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Keyboard and Mouse",
                     "action": "Map",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "b130d812-c730-4d67-bb95-e66a971cdebd",
+                    "id": "63776fb1-5d93-4f6d-9dbb-5e680de99205",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Keyboard and Mouse",
                     "action": "Escap",
                     "isComposite": false,
                     "isPartOfComposite": false

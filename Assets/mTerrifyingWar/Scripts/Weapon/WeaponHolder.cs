@@ -8,10 +8,10 @@ public class WeaponHolder : MonoBehaviour
     [Inject] private readonly DiContainer _container;
 
     private int _currentWeaponIndex = 1;
-
-    private Weapon _currentWeapon;
+    
     private Weapon _primaryWeapon;
     private Weapon _secondWeapon;
+    private Weapon _currentWeapon;
     
     private void OnEnable()
     {

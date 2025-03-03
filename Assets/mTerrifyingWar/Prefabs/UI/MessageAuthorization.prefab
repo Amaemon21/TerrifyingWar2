@@ -58,8 +58,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.39607844, g: 0.39607844, b: 0.39607844, a: 1}
-  m_RaycastTarget: 1
+  m_Color: {r: 0.13207549, g: 0.111516565, b: 0.111516565, a: 1}
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -236,7 +236,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6647433087391890217}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -262,6 +262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a06352618be407591ca0339aba969ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rectTransform: {fileID: 5967301965704073299}
   _canvasGroup: {fileID: 1282490403978038596}
   _messageText: {fileID: 6687876194124724662}
   _timeToDestroy: 3
@@ -273,7 +274,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6647433087391890217}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
+  m_Alpha: 0
+  m_Interactable: 0
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0

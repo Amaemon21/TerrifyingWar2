@@ -15,4 +15,7 @@ public interface IInputService
     public bool IsInventory { get; }
     public bool IsMap { get; }
     public bool IsEscape { get; }
+
+    public void EnablePlayerMap();
+    public void DisablePlayerMap();
 }

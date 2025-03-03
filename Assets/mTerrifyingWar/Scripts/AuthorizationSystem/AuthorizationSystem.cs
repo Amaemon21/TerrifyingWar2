@@ -32,7 +32,7 @@ public class AuthorizationSystem : MonoBehaviour
     {
         if (IsInputEmpty(_loginAutInputField, _passwordAutInputField))
         {
-            _notificationSystem.AddMessage("Введите логин и пароль");
+            _notificationSystem.AddMessage("Введите логин и пароль", Color.red);
             return;
         }
 
@@ -42,14 +42,14 @@ public class AuthorizationSystem : MonoBehaviour
     public void RegistrationButtonClick()
     {
         if (IsInputEmpty(_loginRegInputField, _nameRegInputField, _passwordOneRegInputField, _passwordTwoRegInputField))
-        {
-            _notificationSystem.AddMessage("Все поля должны быть заполнены");
+        { 
+            _notificationSystem.AddMessage("Все поля должны быть заполнены", Color.red);
             return;
         }
 
         if (_passwordOneRegInputField.text != _passwordTwoRegInputField.text)
         {
-            _notificationSystem.AddMessage("Пароли не совпадают");
+            _notificationSystem.AddMessage("Пароли не совпадают", Color.red);
             return;
         }
 
@@ -59,7 +59,7 @@ public class AuthorizationSystem : MonoBehaviour
     private IEnumerator HandleAuthorization()
     {
         SetButtonsInteractable(false);
-        Task<bool> authTask = _backendManager.CheckUserAsync(_loginAutInputField.text, _passwordAutInputField.text);
+        Task<bool> authTask = _backendManager.LoginAsync(_loginAutInputField.text, _passwordAutInputField.text);
         yield return new WaitUntil(() => authTask.IsCompleted);
 
         if (authTask.Result)
@@ -68,7 +68,7 @@ public class AuthorizationSystem : MonoBehaviour
         }
         else
         {
-            _notificationSystem.AddMessage("Пользователь не найден");
+            _notificationSystem.AddMessage("Пользователь не найден", Color.red);
         }
 
         SetButtonsInteractable(true);
@@ -88,12 +88,12 @@ public class AuthorizationSystem : MonoBehaviour
 
         if (regTask.Result)
         {
-            _notificationSystem.AddMessage("Регистрация успешна");
+            _notificationSystem.AddMessage("Регистрация успешна", Color.green);
             ClearInputFields();
         }
         else
         {
-            _notificationSystem.AddMessage("Ошибка регистрации: логин уже используется или сервер недоступен");
+            _notificationSystem.AddMessage("Ошибка регистрации: логин уже используется или сервер недоступен", Color.red);
         }
 
         SetButtonsInteractable(true);

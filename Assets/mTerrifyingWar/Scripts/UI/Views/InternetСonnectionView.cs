@@ -16,7 +16,7 @@ public class InternetConnectionView : MonoBehaviour
     
     private IEnumerator StartConnection()
     {
-        _notificationSystem.AddMessage("Проверка подключения к интернету");
+        _notificationSystem.AddMessage("Проверка подключения к интернету", Color.white);
 
         yield return new WaitForSeconds(2f);
         
@@ -27,12 +27,12 @@ public class InternetConnectionView : MonoBehaviour
     {
         if (isConnected)
         {
-            _notificationSystem.AddMessage("Подключение успешно");
+            _notificationSystem.AddMessage("Подключение успешно", Color.green);
             _windowService.OpenWindow(WindowType.Authorization);
         }
         else
         {
-            _notificationSystem.AddMessage("Ошибка подключения");
+            _notificationSystem.AddMessage("Ошибка подключения", Color.red);
         }
     }
 }

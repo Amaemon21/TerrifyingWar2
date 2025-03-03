@@ -19,7 +19,7 @@ public class GameplayFactory : IGameplayFactory
     public void CreatePlayer(Vector3 position)
     {
         var plaeyrObject = InstantiateRegistered(AssetsPath.PlayerPath, position);
-        var playerContainer = plaeyrObject.GetComponent<PlayerContainer>();
+        PlayerContainer playerContainer = plaeyrObject.GetComponent<PlayerContainer>();
         _playerProvider.Setup(playerContainer);
     }
 

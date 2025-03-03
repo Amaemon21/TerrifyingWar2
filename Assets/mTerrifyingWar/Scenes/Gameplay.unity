@@ -391768,6 +391768,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2020340113}
+  - component: {fileID: 2020340114}
+  - component: {fileID: 2020340115}
   m_Layer: 0
   m_Name: EnemySpawners
   m_TagString: Untagged
@@ -391784,12 +391786,37 @@ Transform:
   m_GameObject: {fileID: 2020340112}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -10.44, y: 0, z: 1.93}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2020340114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2020340112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4e3264bd81a66541a7293a30193804a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyTypeId: 0
+--- !u!114 &2020340115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2020340112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cf7e57a0c7ec6e469ad678d2b75c94e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2021187599
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -449441,7 +449468,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6755000363281631837, guid: 4e437828b0d88c847a99f5050e062f75, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7107147826430889776, guid: 4e437828b0d88c847a99f5050e062f75, type: 3}
       propertyPath: m_LocalPosition.x

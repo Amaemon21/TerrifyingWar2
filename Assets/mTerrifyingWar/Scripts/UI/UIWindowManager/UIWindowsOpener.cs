@@ -3,7 +3,6 @@ using Zenject;
 
 public class UIWindowsOpener : MonoBehaviour
 {
-    [Inject] private readonly PlayerProvider _playerProvider;
     [Inject] private readonly CursorStateService _cursorStateService;
     [Inject] private readonly UIWindowService _uiWindowService;
     [Inject] private readonly IInputService _inputService;
@@ -15,7 +14,6 @@ public class UIWindowsOpener : MonoBehaviour
             if (_uiWindowService.HasAnyWindowOpen())
             {
                 _cursorStateService.DisableCursor();
-                _playerProvider.EnablePlaeyr();
                 _uiWindowService.CloseAllWindows();
             }
             else
@@ -46,13 +44,11 @@ public class UIWindowsOpener : MonoBehaviour
         if (_uiWindowService.IsWindowOpened(type))
         {
             _cursorStateService.DisableCursor();
-            _playerProvider.EnablePlaeyr();
             _uiWindowService.CloseWindow(type);
         }
         else
         {
             _cursorStateService.EnableCursor();
-            _playerProvider.DisablePlaeyr();
             _uiWindowService.OpenWindow(type);
         }
     }

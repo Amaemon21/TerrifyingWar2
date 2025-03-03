@@ -14,14 +14,4 @@ public class PlayerProvider
         MainCamera = playerContainer.MainCamera;
         WeaponCamera = playerContainer.WeaponCamera;
     }
-
-    public void EnablePlaeyr()
-    {
-        PlayerController.enabled = true;
-    }
-
-    public void DisablePlaeyr()
-    {
-        PlayerController.enabled = false;
-    }
 }

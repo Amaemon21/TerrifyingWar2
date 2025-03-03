@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class UIMap : UIWindow
 {
+    [Inject] private readonly IInputService _inputService;
+    
     [SerializeField] private GameObject _menu;
     
     [SerializeField] private Image _line;
@@ -13,10 +16,14 @@ public class UIMap : UIWindow
         _line.sprite = _sprite;
 
         _menu.SetActive(IsOpen);
+        
+        _inputService.DisablePlayerMap();
     }
 
     protected override void OnClose()
     {
         _menu.SetActive(IsOpen);
+        
+        _inputService.EnablePlayerMap();
     }
 }
