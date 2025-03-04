@@ -229,8 +229,7 @@ public class Weapon : MonoBehaviour
             }
         }
     }
-
-
+    
     public void ResetCurrentAmmo()
     {
         WeaponInventoryItemConfig.ResetCurrentAmmo();

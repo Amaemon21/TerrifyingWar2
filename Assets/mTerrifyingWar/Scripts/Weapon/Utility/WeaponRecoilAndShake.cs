@@ -13,11 +13,6 @@ public class WeaponRecoilAndShake : MonoBehaviour
         _currentRotation = Vector3.Slerp(_currentRotation, _targetRotation, snappiness * Time.deltaTime);
         transform.localRotation = Quaternion.Euler(_currentRotation);
     }
-
-    public void AddRecoil(float recoilX, float recoilY, float recoilZ)
-    {
-        _targetRotation += new Vector3(-recoilX, Random.Range(-recoilY, recoilY), Random.Range(-recoilZ, recoilZ));
-    }
     
     public void AddRecoil(RecoilPreset recoilPreset)
     {

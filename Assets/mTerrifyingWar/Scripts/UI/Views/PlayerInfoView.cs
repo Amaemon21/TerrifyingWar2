@@ -10,6 +10,6 @@ public class PlayerInfoView : MonoBehaviour
 
     private void Awake()
     {
-        _playerNameText.text = _backendManager.PlayerName;
+        _playerNameText.text = _backendManager.PlayerLogin;
     }
 }

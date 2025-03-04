@@ -1428,6 +1428,7 @@ GameObject:
   m_Component:
   - component: {fileID: 403166331}
   - component: {fileID: 403166332}
+  - component: {fileID: 403166333}
   m_Layer: 5
   m_Name: AuthorizationMenu
   m_TagString: Untagged
@@ -1469,6 +1470,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e2ffde3b6741598f2e4980c5aaa692, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canvasGroup: {fileID: 403166333}
+--- !u!225 &403166333
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 403166330}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &431936357
 GameObject:
   m_ObjectHideFlags: 0
@@ -1797,7 +1811,7 @@ GameObject:
   m_Component:
   - component: {fileID: 682866931}
   m_Layer: 5
-  m_Name: Name
+  m_Name: Email
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6153,7 +6167,7 @@ GameObject:
   - component: {fileID: 1699259743}
   - component: {fileID: 1699259742}
   m_Layer: 5
-  m_Name: Name_Title
+  m_Name: Email_Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6290,7 +6304,7 @@ GameObject:
   - component: {fileID: 1745518811}
   - component: {fileID: 1745518810}
   m_Layer: 5
-  m_Name: Name_InputField
+  m_Name: Email_InputField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

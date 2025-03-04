@@ -12,16 +12,10 @@ public class BackendManager
     private readonly HttpClient _client = new();
     
     public int PlayerId { get; private set; }
-    public string PlayerName { get; private set; } = "";
+    public string PlayerLogin { get; private set; } = "";
     
     public async Task<bool> LoginAsync(string login, string password)
     {
-        if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
-        {
-            Debug.LogError("Login and password cannot be empty");
-            return false;
-        }
-
         var requestData = new { login, password };
         string json = JsonConvert.SerializeObject(requestData);
         using StringContent content = new(json, Encoding.UTF8, "application/json");
@@ -32,29 +26,18 @@ public class BackendManager
             string responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
             if (!response.IsSuccessStatusCode)
-            {
-                Debug.LogError($"Login failed: {response.StatusCode} - {responseString}");
                 return false;
-            }
 
             LoginResponse result = JsonConvert.DeserializeObject<LoginResponse>(responseString);
             
-            Debug.Log(result.PlayerName);
-            
             if (result == null || !result.Success)
-            {
-                Debug.LogError("Invalid login response");
                 return false;
-            }
 
-            if (result.PlayerId <= 0 || string.IsNullOrEmpty(result.PlayerName))
-            {
-                Debug.LogError("Invalid player data");
+            if (result.PlayerId <= 0)
                 return false;
-            }
 
             PlayerId = result.PlayerId;
-            PlayerName = result.PlayerName;
+            PlayerLogin = login;
 
             return true;
         }
@@ -77,10 +60,7 @@ public class BackendManager
             string responseString = await response.Content.ReadAsStringAsync();
 
             if (!response.IsSuccessStatusCode)
-            {
-                Debug.LogError($"RegisterPlayer error: {response.StatusCode} - {responseString}");
                 return false;
-            }
 
             return responseString.Contains("\"success\":true");
         }
@@ -136,7 +116,4 @@ public class LoginResponse
 
     [JsonProperty("playerId")] 
     public int PlayerId { get; set; }
-
-    [JsonProperty("playerName")]
-    public string PlayerName { get; set; }
 }

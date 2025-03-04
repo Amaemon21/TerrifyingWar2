@@ -4,14 +4,14 @@ public abstract class UIWindow : MonoBehaviour
 {    
     public bool IsOpen { get; private set; } = false;
 
-    public virtual void Open()
+    public void Open()
     {
         gameObject.SetActive(true);
         IsOpen = true;
         OnOpen();
     }
     
-    public virtual void Close()
+    public void Close()
     {
         gameObject.SetActive(false);
         IsOpen = false;
