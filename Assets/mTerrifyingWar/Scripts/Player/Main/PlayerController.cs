@@ -1,180 +1,135 @@
-﻿using System.Collections;
+using KINEMATION.ProceduralRecoilAnimationSystem.Runtime;
 using UnityEngine;
 using Zenject;
 
-[RequireComponent(typeof(AudioSource))]
-[RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
     [Inject] private readonly IInputService _inputService;
+    [Inject] private readonly WeaponProvider _weaponProvider;
+    [Inject] private readonly FPSPlayerSettings _playerSettings;
+
+    private PlayerSound _playerSound;
+    private WeaponIKHandler _weaponIKHandler;
+
+    private int _tacSprintLayerIndex;
+    private int _triggerDisciplineLayerIndex;
+    private int _rightHandLayerIndex;
+
+    private bool _isAiming;
+
+    private float _smoothGait;
+    private bool _sprinting;
+    private bool _tacSprinting;
     
-    [SerializeField] private Transform _cameraTransform;
-    
-    [Space]
-    [SerializeField] private float _speed = 10.0f;
-    [SerializeField] private float _crouchSpeed = 5.0f;
-    [SerializeField] private float _gravity = -20.0f;
-    [SerializeField] private float _jumpHeight = 2.0f;
-    [SerializeField] private float _junMultiplier = 2.0f;
-
-    [Space]
-    [SerializeField, Range(0f, 90f)] private float _jumpSlopeLimit = 0.0f;
-    
-    [Space]
-    [SerializeField] private float _mouseSensitivity = 2.0f;
-
-    [Header("Crouch")]
-    [SerializeField] private float _crouchHeight = 0.5f;
-    [SerializeField] private float _standingHeight = 2.0f;
-    [SerializeField] private float _timeToCrouch = 0.25f;
-    [SerializeField] private Vector3 _crouchingCenter = new(0.0f, 0.5f, 0.0f);
-    [SerializeField] private Vector3 _standingCenter = new(0.0f, 0.0f, 0.0f);
-
-    private Transform _transform;
-    private CharacterController _characterController = null;
-    private float _jumpMultiplier = 0.0f;
-    private float _yVelocity = 0.0f;
-    private float _originalSlopeLimit = 0.0f;
-    private float _xRotation = 0.0f;
-    private float _defaultSpeed = 0.0f;
-
-    public bool IsCrouching { get; set; } = false;
-    public bool DuringCrouchAnimation { get; set; } = false;
-    public bool IsSprinting { get; set; } = false;
-    public bool IsWalking { get; set; } = false;
+    public float AdsWeight {get; private set;}
     
     private void Awake()
     {
-        _transform = transform;
-        
-        _characterController = GetComponent<CharacterController>();
+        _playerSound = GetComponent<PlayerSound>();
+        _weaponIKHandler = GetComponent<WeaponIKHandler>();
 
-        _originalSlopeLimit = _characterController.slopeLimit;
-        _jumpMultiplier = Mathf.Sqrt(_jumpHeight * -2f * _gravity);
-        _defaultSpeed = _speed;
-
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        _triggerDisciplineLayerIndex = _weaponProvider.Animator.GetLayerIndex("TriggerDiscipline");
+        _rightHandLayerIndex = _weaponProvider.Animator.GetLayerIndex("RightHand");
+        _tacSprintLayerIndex = _weaponProvider.Animator.GetLayerIndex("TacSprint");
     }
 
     private void Update()
     {
-        CheckGround();
-        Move();
-        CrouchCheck();
-    }
+        OnAim();
 
-    private void LateUpdate()
-    {
-        Look();
-    }
-
-    private void Look()
-    {
-        var mouseX = _inputService.LookDirection.x * _mouseSensitivity;
-        var mouseY = _inputService.LookDirection.y * _mouseSensitivity;
-
-        _xRotation -= mouseY;
-        _xRotation = Mathf.Clamp(_xRotation, -90f, 90f);
-
-        _cameraTransform.transform.localRotation = Quaternion.Euler(_xRotation, 0.0f, 0.0f);
-        _transform.Rotate(Vector3.up * mouseX);
-    }
-
-    private void CrouchCheck()
-    {
-        if (_inputService.IsCrouching && _characterController.isGrounded && !DuringCrouchAnimation)
-        {
-            Crouch();
-        }
-    }
-
-    private void Crouch() 
-    {
-        if (IsCrouching)
-        {
-            _speed = _defaultSpeed;
-        }
-        else
-        {
-            _speed = _crouchSpeed;
-        }
-
-        StartCoroutine(CrouchHandle()); 
-    }
-
-    private void Move()
-    {
-        var x = _inputService.MoveDirection.x;
-        var z = _inputService.MoveDirection.y;
-
-        var move = (_transform.right * x + _transform.forward * z).normalized;
-        move = _speed * Time.deltaTime * move;
+        UpdateAnimatorLayers();
         
-        if (IsSprinting)
+        OnChangeFireMode();
+        OnReload();
+        OnSprint();
+    }
+    
+    private void OnChangeFireMode()
+    {
+        if (_inputService.ChangeFireMode)
         {
-            move *= _junMultiplier;
+            FireMode prevFireMode = _weaponProvider.WeaponHolder.GetActiveWeapon().FireMode;
+            _weaponProvider.WeaponHolder.GetActiveWeapon().OnFireModeChange();
+
+            if (prevFireMode != _weaponProvider.WeaponHolder.GetActiveWeapon().FireMode)
+            {
+                _playerSound.PlayFireModeSwitchSound();
+                _weaponIKHandler.PlayIkMotion(_playerSettings.fireModeMotion);
+            }
         }
+    }
 
-        if (_inputService.IsJump && _characterController.isGrounded)
+    private void OnReload()
+    {
+        if (_inputService.IsReload)
         {
-            _yVelocity += _jumpMultiplier;
+            _weaponProvider.WeaponHolder.GetActiveWeapon().OnReload();
         }
-
-        _yVelocity += _gravity * Time.deltaTime;
-
-        move.y = _yVelocity * Time.deltaTime;
-
-        _characterController.Move(move);
-
-        if (x == 0 && z == 0)
+    }
+    
+    private void OnSprint()
+    {
+        if (_inputService.MoveDirection.magnitude >= 0.01f)
         {
-            IsWalking = false;
-            IsSprinting = false;
+            _sprinting = _inputService.IsRun;
         }
         else
         {
-            IsWalking = true;
-
-            if (IsWalking)
-                IsSprinting = _inputService.IsRun && !IsCrouching;
-            else
-                IsSprinting = false;
+            _sprinting = false;
         }
+        
+        if (!_sprinting)
+            _tacSprinting = false;
     }
 
-    private void CheckGround()
+  //  public void OnTacSprint(InputValue value)
+  //  {
+  //      if (!_bSprinting)
+  //          return;
+  
+  //      _bTacSprinting = value.isPressed;
+  //  }
+
+    private void OnAim()
     {
-        if (_characterController.isGrounded || _characterController.collisionFlags == CollisionFlags.Above) 
-            _yVelocity = -0.1f;
+        bool wasAiming = _isAiming;
+        _isAiming = _inputService.IsAim;
+        _weaponProvider.RecoilAnimation.isAiming = _isAiming;
 
-        _characterController.slopeLimit = _characterController.isGrounded ? _originalSlopeLimit : _jumpSlopeLimit;
-    }
-
-    private IEnumerator CrouchHandle()
-    {
-        DuringCrouchAnimation = true;
-
-        var timeElapsed = 0.0f;
-        var targetHeight = IsCrouching ? _standingHeight : _crouchHeight;
-        var currentHeight = _characterController.height;
-
-        Vector3 targetCenter = IsCrouching ? _standingCenter : _crouchingCenter;
-        Vector3 currentCenter = _characterController.center;
-
-
-        while (timeElapsed < _timeToCrouch)
+        if (wasAiming != _isAiming)
         {
-            _characterController.height = Mathf.Lerp(currentHeight, targetHeight, timeElapsed / _timeToCrouch);
-            _characterController.center = Vector3.Lerp(currentCenter, targetCenter, timeElapsed / _timeToCrouch);
-
-            timeElapsed += Time.deltaTime;
-            yield return null;
+            _playerSound.PlayAimSound(_isAiming);
+            _weaponIKHandler.PlayIkMotion(_playerSettings.aimingMotion);
         }
+    }
+    
+    private void UpdateAnimatorLayers()
+    {
+        AdsWeight = Mathf.Clamp01(AdsWeight + _playerSettings.aimSpeed * Time.deltaTime * (_isAiming ? 1f : -1f));
 
-        _characterController.height = targetHeight;
-        _characterController.center = targetCenter;
-        IsCrouching = !IsCrouching;
-        DuringCrouchAnimation = false;
+        _smoothGait = Mathf.Lerp(_smoothGait, GetDesiredGait(), KMath.ExpDecayAlpha(_playerSettings.gaitSmoothing, Time.deltaTime));
+
+        _weaponProvider.Animator.SetFloat(AnimationsConstrains.GAIT, _smoothGait);
+        _weaponProvider.Animator.SetLayerWeight(_tacSprintLayerIndex, Mathf.Clamp01(_smoothGait - 2f));
+
+        if ( _weaponProvider.WeaponHolder.GetActiveWeapon() == null) 
+            return;
+        
+        bool triggerAllowed = _weaponProvider.WeaponHolder.GetActiveWeapon().WeaponSettings.useSprintTriggerDiscipline;
+
+        _weaponProvider.Animator.SetLayerWeight(_triggerDisciplineLayerIndex, triggerAllowed ? _weaponProvider.Animator.GetFloat(AnimationsConstrains.TAC_SPRINT_WEIGHT) : 0f);
+        
+        _weaponProvider.Animator.SetLayerWeight(_rightHandLayerIndex, _weaponProvider.Animator.GetFloat(AnimationsConstrains.RIGHT_HAND_WEIGHT));
+    }
+    
+    private float GetDesiredGait()
+    {
+        if (_tacSprinting)
+            return 3f;
+
+        if (_sprinting)
+            return 2f;
+
+        return _inputService.MoveDirection.magnitude;
     }
 }

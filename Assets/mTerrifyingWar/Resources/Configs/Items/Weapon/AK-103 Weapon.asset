@@ -31,12 +31,12 @@ MonoBehaviour:
   <IsStackable>k__BackingField: 0
   <ItemCount>k__BackingField: 1
   <ItemSprite>k__BackingField: {fileID: 931008822, guid: 0918a2a2c2dc3494085c09f4ce7a4536, type: 3}
-  <ItemPrefab>k__BackingField: {fileID: 2955337503641166874, guid: 8aeb956568858d2459622a357142a59c, type: 3}
+  <ItemPrefab>k__BackingField: {fileID: 8922464530197077926, guid: e97308a46755e55488d2c32eefe2c365, type: 3}
   <EquippedSprite>k__BackingField: {fileID: -872579438, guid: 80dcc0ff2b079bf44b6cb5da6bacdc8c, type: 3}
-  <WeaponHandPrefab>k__BackingField: {fileID: 6687080357356344632, guid: e2f29418b1278db4fa0ddb2a0f5af7b0, type: 3}
+  <WeaponHandPrefab>k__BackingField: {fileID: 5087505281656563068, guid: 9ebf1fe96606c5849baa95d75f2d5ae4, type: 3}
   <Damage>k__BackingField: 20
   <FireRate>k__BackingField: 600
   <EAmmoType>k__BackingField: 3
   <MagazineSize>k__BackingField: 30
   <CurrentAmmo>k__BackingField: 30
-  <Durability>k__BackingField: 68
+  <Durability>k__BackingField: 100

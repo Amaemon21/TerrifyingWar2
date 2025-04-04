@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04f1f08aa84adad4090fce379a141612, type: 3}
   m_Name: AK-103 Recoil Preset
   m_EditorClassIdentifier: 
-  <RecoilX>k__BackingField: 4
-  <RecoilY>k__BackingField: 4
-  <RecoilZ>k__BackingField: 2
-  <Snappiness>k__BackingField: 10
-  <ReturnSpeed>k__BackingField: 15
+  <HorizontalRecoil>k__BackingField: {x: -0.4, y: 1.3}
+  <VerticalRecoil>k__BackingField: {x: -3, y: -4}
+  <HorizontalSmoothing>k__BackingField: 12
+  <VerticalSmoothing>k__BackingField: 15
+  <Damping>k__BackingField: 0

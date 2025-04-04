@@ -14,36 +14,42 @@ public class Enemy : MonoBehaviour
     
     [SerializeField] private HeadTransform _headTransform;
     
-    [field: SerializeField,  BoxGroup("Enemy Config"), HorizontalLine] public EnemyConfig EnemyConfig;
-    [field: SerializeField, BoxGroup("Patrol Settings"), HorizontalLine] public Transform[] PatrolPoints { get; private set; }
-    
-    private EnemyHealth _enemyHealth;
     private Vector3 _positionToLook;
     
+    public EnemyConfig EnemyConfig { get; private set; }
     public State CurrentState { get; private set; }
     public NavMeshAgent NavMeshAgent { get; private set; }
     public EnemyAnimator EnemyAnimator { get; private set; }
+    public EnemyHealth EnemyHealth { get; private set; }
     public Transform Target { get; private set;}
+    public PatrolPoints[] PatrolPoints { get; private set; }
 
     private void Awake()
     {
         NavMeshAgent = GetComponent<NavMeshAgent>();
         EnemyAnimator = GetComponent<EnemyAnimator>();
-        _enemyHealth = GetComponent<EnemyHealth>();
+        EnemyHealth = GetComponent<EnemyHealth>();
         
-        Target = _playerProvider.PlayerController.transform;
+        Target = _playerProvider.PlayerMover.transform;
+        
+        PatrolPoints = FindObjectsByType<PatrolPoints>(FindObjectsSortMode.None);
+    }
+
+    public void Setup(EnemyConfig config)
+    {
+        EnemyConfig = config;
         
         ChangeState(new IdleState(this));
     }
-
+    
     private void OnEnable()
     {
-        _enemyHealth.EnemyDeath += EnemyDeathChanged;
+        EnemyHealth.EnemyDeath += EnemyDeathChanged;
     }
 
     private void OnDisable()
     {
-        _enemyHealth.EnemyDeath -= EnemyDeathChanged;
+        EnemyHealth.EnemyDeath -= EnemyDeathChanged;
     }
 
     private void Update()
@@ -74,7 +80,7 @@ public class Enemy : MonoBehaviour
             {
                 if (Physics.Raycast(enemyPosition, directionToPlayer, out RaycastHit hit, EnemyConfig.DetectionRadius))
                 {
-                    if (hit.collider.TryGetComponent(out PlayerController controller))
+                    if (hit.collider.TryGetComponent(out PlayerMover controller))
                     {
                         return true;
                     }

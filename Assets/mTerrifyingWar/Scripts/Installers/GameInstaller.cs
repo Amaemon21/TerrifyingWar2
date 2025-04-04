@@ -5,19 +5,17 @@ public class GameInstaller : MonoInstaller
 {
     [SerializeField] private LoadingScreen _loadingScreen;
     
+    [SerializeField] private PlayerSettingsConfig _playerSettingsConfig;
+    
     public override void InstallBindings()
     {
-        BindGameStateMachine();
         BindLoadingScreen();
         BindServices();
         BindGameEntryPoint();
         
         Container.Bind<BackendManager>().AsSingle();
-    }
-    
-    private void BindGameStateMachine()
-    {
-        Container.Bind<GameStateMachine>().FromNew().AsSingle();
+        
+        Container.Bind<PlayerSettingsConfig>().FromInstance(_playerSettingsConfig).AsSingle();
     }
     
     private void BindLoadingScreen()

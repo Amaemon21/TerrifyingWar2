@@ -28,7 +28,7 @@ public class UIMapController : MonoBehaviour, IPointerDownHandler, IDragHandler
 
     private void Awake()
     {
-        playerTransform = _playerProvider.PlayerController.transform;
+        playerTransform = _playerProvider.PlayerMover.transform;
     }
 
     private void Update()

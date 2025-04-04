@@ -41,7 +41,7 @@ public class Inventory : MonoBehaviour
         _inventoryCellFactory = GetComponent<InventoryCellFactory>();
         _inventoryCellFactory.SpawnCells(_inventoryItemsCells);
         
-        DropPosition = _playerProvider.PlayerController.GetComponentInChildren<DropPosition>();
+        DropPosition = _playerProvider.PlayerMover.GetComponentInChildren<DropPosition>();
         
         DisplayItems();
     }

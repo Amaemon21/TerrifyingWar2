@@ -50,6 +50,13 @@ MonoBehaviour:
     - 0e0e472c4c1c146f18373eb8daf65a4d
     - b304badb8f935bb4ca746bf26a7ac0f4
     - 9cd2df24243472c41a8ae57584bcda8d
+    - f7aff71248e8a3640bb057d7a66010b1
+    - 66e708a7eda800a408d9f7965a54bba5
+    - 7a27b1371e9383149ab84395bb3430ce
+    - 35de2160791295d4e9c1694cf3c5e4eb
+    - 8fd33c598d88fa64a9a96d3c06e57ef8
+    - 15bc4682c5cae7a468f30de63bb528cf
+    - 55fb9f834cab3f34fb933083259d2e3f
     values:
     - colorIndex: 1
       iconNameOrGuid: ScriptableObject Icon
@@ -112,7 +119,7 @@ MonoBehaviour:
     - colorIndex: 2
       iconNameOrGuid: 
     - colorIndex: 10
-      iconNameOrGuid: 
+      iconNameOrGuid: AudioSource Icon
     - colorIndex: 1
       iconNameOrGuid: 
     - colorIndex: 2
@@ -122,4 +129,18 @@ MonoBehaviour:
     - colorIndex: 1
       iconNameOrGuid: 
     - colorIndex: 10
+      iconNameOrGuid: 
+    - colorIndex: 1
+      iconNameOrGuid: 
+    - colorIndex: 5
+      iconNameOrGuid: ComputeShader Icon
+    - colorIndex: 2
+      iconNameOrGuid: 
+    - colorIndex: 2
+      iconNameOrGuid: 
+    - colorIndex: 4
+      iconNameOrGuid: 
+    - colorIndex: 5
+      iconNameOrGuid: 
+    - colorIndex: 6
       iconNameOrGuid: 

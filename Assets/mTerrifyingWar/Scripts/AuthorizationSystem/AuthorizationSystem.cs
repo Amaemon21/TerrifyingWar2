@@ -8,7 +8,7 @@ using Zenject;
 public class AuthorizationSystem : MonoBehaviour
 {
     [Inject] private BackendManager _backendManager;
-    [Inject] private GameStateMachine _gameStateMachine;
+    [Inject] private GameEntryPoint _gameEntryPoint;
     
     [SerializeField, BoxGroup("Authorization"), HorizontalLine] private TMP_InputField _loginAutInputField;
     [SerializeField, BoxGroup("Authorization")] private TMP_InputField _passwordAutInputField;
@@ -64,7 +64,7 @@ public class AuthorizationSystem : MonoBehaviour
 
         if (authTask.Result)
         {
-            _gameStateMachine.Enter<LoadMainMenuState, IExitableState>(_gameStateMachine.GetActiveState());
+            _gameEntryPoint.LoadMainMenu();
         }
         else
         {

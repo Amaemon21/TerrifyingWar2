@@ -1,17 +1,8 @@
 ﻿using UnityEngine;
 
-public class PlayerProvider
+public class PlayerProvider : MonoBehaviour
 {
-    public PlayerController PlayerController { get; private set; }
-    public WeaponRecoilAndShake WeaponRecoilAndShake { get; private set; }
-    public Camera MainCamera { get; private set; }
-    public Camera WeaponCamera { get; private set; }
-
-    public void Setup(PlayerContainer playerContainer)
-    {
-        PlayerController = playerContainer.PlayerController;
-        WeaponRecoilAndShake = playerContainer.WeaponRecoilAndShake;
-        MainCamera = playerContainer.MainCamera;
-        WeaponCamera = playerContainer.WeaponCamera;
-    }
+    [field: SerializeField] public PlayerMover PlayerMover { get; private set; }
+    [field: SerializeField] public Camera MainCamera { get; private set; }
+    [field: SerializeField] public PlayerController PlayerController { get; private set; }
 }

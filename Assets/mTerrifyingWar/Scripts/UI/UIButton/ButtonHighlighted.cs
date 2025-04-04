@@ -1,23 +1,32 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
+using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public class ButtonHighlighted : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] private Image _highlightedImage;
+    private readonly float _duration = 0.2f;
+    
+    private readonly float _targetScale = 1.1f;
+    
+    private Vector3 _defaultLocaScale;
     
     private void OnEnable()
     {
-        _highlightedImage.enabled = false;
+        _defaultLocaScale = transform.localScale;
+    }
+
+    private void OnDisable()
+    {
+        transform.localScale = _defaultLocaScale;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        _highlightedImage.enabled = true;
+        transform.DOScale(_targetScale, _duration).SetLink(transform.gameObject);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        _highlightedImage.enabled = false;
+        transform.DOScale(_defaultLocaScale, _duration).SetLink(transform.gameObject);
     }
 }

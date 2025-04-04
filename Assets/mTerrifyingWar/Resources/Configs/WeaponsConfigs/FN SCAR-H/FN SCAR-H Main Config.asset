@@ -13,11 +13,15 @@ MonoBehaviour:
   m_Name: FN SCAR-H Main Config
   m_EditorClassIdentifier: 
   <WeaponType>k__BackingField: 1
+  <ShootingType>k__BackingField: 1
   <HitScanMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 3649
-  <ReloadTime>k__BackingField: 3.4
-  <ReloadFullTime>k__BackingField: 4
   <ApplySpread>k__BackingField: 1
   <SpreadVariance>k__BackingField: {x: 0.02, y: 0.02, z: 0.02}
   <DefaultPosition>k__BackingField: {x: 0, y: 0, z: 0}
+  <EmptyMagSound>k__BackingField: {fileID: 0}
+  <ReloadSound>k__BackingField: {fileID: 0}
+  <FullReloadSound>k__BackingField: {fileID: 0}
+  <EquipSound>k__BackingField: {fileID: 0}
+  <ShootSounds>k__BackingField: []

@@ -50,7 +50,7 @@ public class PatrolState : State
 
             _currentPatrolIndex = Random.Range(0, Enemy.PatrolPoints.Length);
             
-            Enemy.MoveTo(Enemy.PatrolPoints[_currentPatrolIndex].position);
+            Enemy.MoveTo(Enemy.PatrolPoints[_currentPatrolIndex].transform.position);
         }
     }
 }

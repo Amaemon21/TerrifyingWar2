@@ -3,13 +3,11 @@ using UnityEngine;
 public class BodyPart : MonoBehaviour
 {
     [SerializeField] private RagdollHandler _ragdollHandler;
-    [SerializeField] private EnemyHealth _enemyHealth;
     [SerializeField] private Enemy _enemy;
 
     private void OnValidate()
     {
         _ragdollHandler ??= GetComponentInParent<RagdollHandler>();
-        _enemyHealth ??= GetComponentInParent<EnemyHealth>();
         _enemy ??= GetComponentInParent<Enemy>();
     }
 
@@ -20,7 +18,7 @@ public class BodyPart : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        _enemyHealth.TakeDamage(damage);
+        _enemy.EnemyHealth.TakeDamage(damage);
 
         if (_enemy.CurrentState is ChaseState)
             return;

@@ -1684,7 +1684,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
-  _enemyHealth: {fileID: 4442285877120641935}
   _enemy: {fileID: 5028290825065688659}
 --- !u!114 &7028342539981165710
 MonoBehaviour:
@@ -1698,7 +1697,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164fb575958ada5498e25d9cb8515a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ImpactPrefab>k__BackingField: {fileID: 1036925697551712, guid: a845e59c374ae0240812749e46f13033, type: 3}
+  <ImpactPrefab>k__BackingField: {fileID: 1362418652685942, guid: b369efb4abe69e044890b664115fab9e, type: 3}
 --- !u!1 &2173575983086902933
 GameObject:
   m_ObjectHideFlags: 0
@@ -1767,7 +1766,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
-  _enemyHealth: {fileID: 4442285877120641935}
   _enemy: {fileID: 5028290825065688659}
 --- !u!114 &1856260380870731868
 MonoBehaviour:
@@ -1781,7 +1779,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164fb575958ada5498e25d9cb8515a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ImpactPrefab>k__BackingField: {fileID: 1036925697551712, guid: a845e59c374ae0240812749e46f13033, type: 3}
+  <ImpactPrefab>k__BackingField: {fileID: 1362418652685942, guid: b369efb4abe69e044890b664115fab9e, type: 3}
 --- !u!1 &2185508437388988052
 GameObject:
   m_ObjectHideFlags: 0
@@ -2819,7 +2817,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
-  _enemyHealth: {fileID: 4442285877120641935}
   _enemy: {fileID: 5028290825065688659}
 --- !u!114 &2255118094322064800
 MonoBehaviour:
@@ -2833,7 +2830,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164fb575958ada5498e25d9cb8515a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ImpactPrefab>k__BackingField: {fileID: 1036925697551712, guid: a845e59c374ae0240812749e46f13033, type: 3}
+  <ImpactPrefab>k__BackingField: {fileID: 1362418652685942, guid: b369efb4abe69e044890b664115fab9e, type: 3}
 --- !u!1 &2748953005447549509
 GameObject:
   m_ObjectHideFlags: 0
@@ -3120,7 +3117,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
-  _enemyHealth: {fileID: 4442285877120641935}
   _enemy: {fileID: 5028290825065688659}
 --- !u!114 &932116768692188272
 MonoBehaviour:
@@ -3134,7 +3130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164fb575958ada5498e25d9cb8515a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ImpactPrefab>k__BackingField: {fileID: 1036925697551712, guid: a845e59c374ae0240812749e46f13033, type: 3}
+  <ImpactPrefab>k__BackingField: {fileID: 1362418652685942, guid: b369efb4abe69e044890b664115fab9e, type: 3}
 --- !u!1 &3143227257482079029
 GameObject:
   m_ObjectHideFlags: 0
@@ -3972,7 +3968,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
-  _enemyHealth: {fileID: 4442285877120641935}
   _enemy: {fileID: 5028290825065688659}
 --- !u!114 &2467971925170543497
 MonoBehaviour:
@@ -3986,7 +3981,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164fb575958ada5498e25d9cb8515a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ImpactPrefab>k__BackingField: {fileID: 1036925697551712, guid: a845e59c374ae0240812749e46f13033, type: 3}
+  <ImpactPrefab>k__BackingField: {fileID: 1362418652685942, guid: b369efb4abe69e044890b664115fab9e, type: 3}
 --- !u!1 &3435016276490619209
 GameObject:
   m_ObjectHideFlags: 0
@@ -4009,7 +4004,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &656648362683463349
 Transform:
   m_ObjectHideFlags: 0
@@ -4186,12 +4181,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _headTransform: {fileID: 3422574467411447818}
-  _enemyConfig: {fileID: 11400000, guid: 0ac7d4ebdcd39594481f982f1c9e0b94, type: 2}
-  <PatrolPoints>k__BackingField:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!1 &3485057926888090901
 GameObject:
   m_ObjectHideFlags: 0
@@ -5481,7 +5470,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
-  _enemyHealth: {fileID: 4442285877120641935}
   _enemy: {fileID: 5028290825065688659}
 --- !u!114 &7795985160824783936
 MonoBehaviour:
@@ -5495,7 +5483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164fb575958ada5498e25d9cb8515a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ImpactPrefab>k__BackingField: {fileID: 1036925697551712, guid: a845e59c374ae0240812749e46f13033, type: 3}
+  <ImpactPrefab>k__BackingField: {fileID: 1362418652685942, guid: b369efb4abe69e044890b664115fab9e, type: 3}
 --- !u!1 &5041673632492629255
 GameObject:
   m_ObjectHideFlags: 0
@@ -5949,7 +5937,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
-  _enemyHealth: {fileID: 4442285877120641935}
   _enemy: {fileID: 5028290825065688659}
 --- !u!114 &8845451262489659479
 MonoBehaviour:
@@ -5963,7 +5950,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164fb575958ada5498e25d9cb8515a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ImpactPrefab>k__BackingField: {fileID: 1036925697551712, guid: a845e59c374ae0240812749e46f13033, type: 3}
+  <ImpactPrefab>k__BackingField: {fileID: 1362418652685942, guid: b369efb4abe69e044890b664115fab9e, type: 3}
 --- !u!1 &5312389932838837809
 GameObject:
   m_ObjectHideFlags: 0
@@ -7544,7 +7531,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
-  _enemyHealth: {fileID: 4442285877120641935}
   _enemy: {fileID: 5028290825065688659}
 --- !u!114 &6839131090144897902
 MonoBehaviour:
@@ -7558,7 +7544,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164fb575958ada5498e25d9cb8515a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ImpactPrefab>k__BackingField: {fileID: 1036925697551712, guid: a845e59c374ae0240812749e46f13033, type: 3}
+  <ImpactPrefab>k__BackingField: {fileID: 1362418652685942, guid: b369efb4abe69e044890b664115fab9e, type: 3}
 --- !u!1 &7090329782191614771
 GameObject:
   m_ObjectHideFlags: 0
@@ -8076,7 +8062,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
-  _enemyHealth: {fileID: 4442285877120641935}
   _enemy: {fileID: 5028290825065688659}
 --- !u!114 &1101783212478935015
 MonoBehaviour:
@@ -8090,7 +8075,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164fb575958ada5498e25d9cb8515a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ImpactPrefab>k__BackingField: {fileID: 1036925697551712, guid: a845e59c374ae0240812749e46f13033, type: 3}
+  <ImpactPrefab>k__BackingField: {fileID: 1362418652685942, guid: b369efb4abe69e044890b664115fab9e, type: 3}
 --- !u!1 &7536698460050205312
 GameObject:
   m_ObjectHideFlags: 0
@@ -8604,7 +8589,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
-  _enemyHealth: {fileID: 4442285877120641935}
   _enemy: {fileID: 5028290825065688659}
 --- !u!114 &2519379548787832703
 MonoBehaviour:
@@ -8618,7 +8602,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164fb575958ada5498e25d9cb8515a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ImpactPrefab>k__BackingField: {fileID: 1036925697551712, guid: a845e59c374ae0240812749e46f13033, type: 3}
+  <ImpactPrefab>k__BackingField: {fileID: 1362418652685942, guid: b369efb4abe69e044890b664115fab9e, type: 3}
 --- !u!1 &7881881944263169834
 GameObject:
   m_ObjectHideFlags: 0
@@ -8934,7 +8918,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
-  _enemyHealth: {fileID: 4442285877120641935}
   _enemy: {fileID: 5028290825065688659}
 --- !u!114 &6196618577378310169
 MonoBehaviour:
@@ -8948,7 +8931,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164fb575958ada5498e25d9cb8515a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ImpactPrefab>k__BackingField: {fileID: 1036925697551712, guid: a845e59c374ae0240812749e46f13033, type: 3}
+  <ImpactPrefab>k__BackingField: {fileID: 1362418652685942, guid: b369efb4abe69e044890b664115fab9e, type: 3}
 --- !u!1 &8199399730276703400
 GameObject:
   m_ObjectHideFlags: 0
@@ -9604,7 +9587,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
-  _enemyHealth: {fileID: 4442285877120641935}
   _enemy: {fileID: 5028290825065688659}
 --- !u!114 &3020738849507521352
 MonoBehaviour:
@@ -9618,7 +9600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164fb575958ada5498e25d9cb8515a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ImpactPrefab>k__BackingField: {fileID: 1036925697551712, guid: a845e59c374ae0240812749e46f13033, type: 3}
+  <ImpactPrefab>k__BackingField: {fileID: 1362418652685942, guid: b369efb4abe69e044890b664115fab9e, type: 3}
 --- !u!1 &8691707341769066602
 GameObject:
   m_ObjectHideFlags: 0
@@ -9903,7 +9885,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
-  _enemyHealth: {fileID: 4442285877120641935}
   _enemy: {fileID: 5028290825065688659}
 --- !u!114 &1133874173784301591
 MonoBehaviour:
@@ -9917,7 +9898,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164fb575958ada5498e25d9cb8515a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ImpactPrefab>k__BackingField: {fileID: 1036925697551712, guid: a845e59c374ae0240812749e46f13033, type: 3}
+  <ImpactPrefab>k__BackingField: {fileID: 1362418652685942, guid: b369efb4abe69e044890b664115fab9e, type: 3}
 --- !u!1 &8827371807713091674
 GameObject:
   m_ObjectHideFlags: 0
@@ -10234,7 +10215,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
-  _enemyHealth: {fileID: 4442285877120641935}
   _enemy: {fileID: 5028290825065688659}
 --- !u!114 &653123366981435985
 MonoBehaviour:
@@ -10248,7 +10228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164fb575958ada5498e25d9cb8515a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ImpactPrefab>k__BackingField: {fileID: 1036925697551712, guid: a845e59c374ae0240812749e46f13033, type: 3}
+  <ImpactPrefab>k__BackingField: {fileID: 1362418652685942, guid: b369efb4abe69e044890b664115fab9e, type: 3}
 --- !u!1 &8959062885628229341
 GameObject:
   m_ObjectHideFlags: 0
@@ -10565,7 +10545,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
-  _enemyHealth: {fileID: 4442285877120641935}
   _enemy: {fileID: 5028290825065688659}
 --- !u!114 &5650218314533674110
 MonoBehaviour:
@@ -10579,7 +10558,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164fb575958ada5498e25d9cb8515a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ImpactPrefab>k__BackingField: {fileID: 1036925697551712, guid: a845e59c374ae0240812749e46f13033, type: 3}
+  <ImpactPrefab>k__BackingField: {fileID: 1362418652685942, guid: b369efb4abe69e044890b664115fab9e, type: 3}
 --- !u!1 &9194941590565216473
 GameObject:
   m_ObjectHideFlags: 0

@@ -9807,7 +9807,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 410062}
-  - component: {fileID: -3563711133326833638}
+  - component: {fileID: -1814983361589941685}
   m_Layer: 0
   m_Name: MuzzleFlash6
   m_TagString: Untagged
@@ -9832,10 +9832,9 @@ Transform:
   - {fileID: 410058}
   - {fileID: 410060}
   - {fileID: 410064}
-  - {fileID: 1089899688677568582}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-3563711133326833638
+--- !u!114 &-1814983361589941685
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -19584,47 +19583,3 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!1 &5367825117766642401
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1089899688677568582}
-  - component: {fileID: 3489616375027031572}
-  m_Layer: 0
-  m_Name: PerPlatformSettings
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1089899688677568582
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5367825117766642401}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -73.55703, y: -8.422208, z: 11.790693}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 410062}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3489616375027031572
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5367825117766642401}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a988e09cf503a64e94c776ca307e5b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

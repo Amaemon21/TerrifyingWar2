@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6df6ce801fc9d146a579cee26478f0b, type: 3}
   m_Name: PlayerSettingsConfig
   m_EditorClassIdentifier: 
-  _maxHealth: 100
+  <MaxHealth>k__BackingField: 100
+  <SensitivityX>k__BackingField: 2
+  <SensitivityY>k__BackingField: 2

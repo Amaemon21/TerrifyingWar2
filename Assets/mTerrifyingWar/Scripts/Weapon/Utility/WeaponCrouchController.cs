@@ -3,7 +3,7 @@ using Zenject;
 
 public class WeaponCrouchController : MonoBehaviour
 {
-    [Inject] private PlayerProvider _playerProvider;
+    [Inject] private IInputService _inputService;
 
     [Space]
     [SerializeField] private float _tiltAmount = 15.0f;
@@ -20,7 +20,7 @@ public class WeaponCrouchController : MonoBehaviour
     {
         Quaternion rotation = new Quaternion(0, 0, 0, 0);
 
-        if (_playerProvider.PlayerController.IsCrouching)
+        if (_inputService.IsCrouching)
         {
             rotation = Quaternion.Lerp(_transform.localRotation, Quaternion.Euler(new Vector3(0, 0, _tiltAmount)), Time.deltaTime * _tiltSpeed);
         }

@@ -4860,7 +4860,6 @@ GameObject:
   - component: {fileID: 424014}
   - component: {fileID: 10824008}
   - component: {fileID: 11424008}
-  - component: {fileID: 7620138539499838880}
   m_Layer: 0
   m_Name: Point light
   m_TagString: Untagged
@@ -4995,29 +4994,6 @@ MonoBehaviour:
     m_RotationOrder: 4
   GraphTimeMultiplier: 0.15
   GraphIntensityMultiplier: 1
---- !u!114 &7620138539499838880
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 124014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Version: 3
-  m_UsePipelineSettings: 1
-  m_AdditionalLightsShadowResolutionTier: 2
-  m_LightLayerMask: 1
-  m_RenderingLayers: 1
-  m_CustomShadowLayers: 0
-  m_ShadowLayerMask: 1
-  m_ShadowRenderingLayers: 1
-  m_LightCookieSize: {x: 1, y: 1}
-  m_LightCookieOffset: {x: 0, y: 0}
-  m_SoftShadowQuality: 0
 --- !u!1 &124016
 GameObject:
   m_ObjectHideFlags: 0
@@ -9892,7 +9868,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 424018}
-  - component: {fileID: 6837199803727938068}
+  - component: {fileID: 8535594081983655555}
   m_Layer: 0
   m_Name: MuzzleFlash1
   m_TagString: Untagged
@@ -9917,10 +9893,9 @@ Transform:
   - {fileID: 424014}
   - {fileID: 424022}
   - {fileID: 424016}
-  - {fileID: 1888026556797649375}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6837199803727938068
+--- !u!114 &8535594081983655555
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -14790,47 +14765,3 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!1 &2258836205045950985
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1888026556797649375}
-  - component: {fileID: 3211537515508471203}
-  m_Layer: 0
-  m_Name: PerPlatformSettings
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1888026556797649375
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2258836205045950985}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -73.55703, y: -8.422208, z: 11.790693}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 424018}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3211537515508471203
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2258836205045950985}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a988e09cf503a64e94c776ca307e5b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

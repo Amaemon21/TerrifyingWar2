@@ -1,15 +1,9 @@
-public class DisplayProvider
-{
-    public Inventory Inventory { get; private set; }
-    public InventorySystem InventorySystem { get; private set; }
-    public AimPoint AimPoint { get; private set; }
-    public AmmoView AmmoView { get; private set; }
+using UnityEngine;
 
-    public void Setup(DisplayContainer displayContainer)
-    {
-        Inventory = displayContainer.Inventory;
-        InventorySystem = displayContainer.InventorySystem;
-        AimPoint = displayContainer.AimPoint;
-        AmmoView = displayContainer.AmmoView;
-    }
+public class DisplayProvider : MonoBehaviour
+{
+    [field: SerializeField] public Inventory Inventory { get; private set; }
+    [field: SerializeField] public InventorySystem InventorySystem { get; private set; }
+    [field: SerializeField] public AimPoint AimPoint { get; private set; }
+    [field: SerializeField] public AmmoView AmmoView { get; private set; }
 }

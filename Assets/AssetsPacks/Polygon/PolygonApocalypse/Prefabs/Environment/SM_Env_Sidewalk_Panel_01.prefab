@@ -12,12 +12,13 @@ GameObject:
   - component: {fileID: 33122181025919210}
   - component: {fileID: 23035391345644734}
   - component: {fileID: 65940527434672832}
+  - component: {fileID: 8166012073372554839}
   m_Layer: 0
   m_Name: SM_Env_Sidewalk_Panel_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &4954921533278912
 Transform:
@@ -53,7 +54,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -108,3 +109,16 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 5, y: 0.079353094, z: 5}
   m_Center: {x: -2.5, y: -0.039676547, z: -2.5}
+--- !u!114 &8166012073372554839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872512584933684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 164fb575958ada5498e25d9cb8515a23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ImpactPrefab>k__BackingField: {fileID: 108086, guid: 547c2e12da8d4214098216299e70a3ba, type: 3}

@@ -7,21 +7,19 @@ using Zenject;
 public class InventoryInteractor : MonoBehaviour
 {
     [Inject] private readonly IInputService _inputService;
-    [Inject] private readonly InteractUIModel interactUIModel;
+    [Inject] private readonly PlayerProvider _playerProvider;
+    [Inject] private readonly InteractUIModel _interactUIModel;
     
     [SerializeField, BoxGroup("Interact")] private LayerMask _hitScanMask;
     [SerializeField, BoxGroup("Interact")] private float _interactRange = 5f;
     [SerializeField, BoxGroup("Interact")] private InputActionReference _interactAction;
     
-    private Transform _cameraTransform;
     private Inventory _inventory;
     private InventoryItemObject _currentItem;
 
     private void Awake()
     {
         _inventory = GetComponent<Inventory>();
-        
-        _cameraTransform = Camera.main.transform;
     }
 
     private void Update()
@@ -31,7 +29,7 @@ public class InventoryInteractor : MonoBehaviour
     
     private void CheckForInteractable()
     {
-        Ray ray = new Ray(_cameraTransform.transform.position, _cameraTransform.transform.forward);
+        Ray ray = _playerProvider.MainCamera.ScreenPointToRay(new Vector3(Screen.width * 0.5f, Screen.height * 0.5f));
 
         if (Physics.Raycast(ray, out RaycastHit hit, _interactRange, _hitScanMask))
         {
@@ -79,9 +77,9 @@ public class InventoryInteractor : MonoBehaviour
         string text = $"Press [{coloredButton}] to pickup: {coloredName}";
         Sprite icon = _currentItem.InventoryItemConfig.ItemSprite;
         
-        interactUIModel.SetupText(text);
-        interactUIModel.SetupIcon(icon);
-        interactUIModel.Visible(true);
+        _interactUIModel.SetupText(text);
+        _interactUIModel.SetupIcon(icon);
+        _interactUIModel.Visible(true);
         
         //_currentItem.Outline.enabled = true;
     }
@@ -94,6 +92,6 @@ public class InventoryInteractor : MonoBehaviour
             _currentItem = null;
         }
         
-        interactUIModel.Visible(false);
+        _interactUIModel.Visible(false);
     }
 }

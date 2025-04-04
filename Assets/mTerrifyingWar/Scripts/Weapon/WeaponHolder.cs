@@ -1,143 +1,159 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using KINEMATION.KAnimationCore.Runtime.Core;
+using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
 public class WeaponHolder : MonoBehaviour
 {
     [Inject] private DisplayProvider _displayProvider;
-    [Inject] private IGameplayFactory _gameplayFactory;
     [Inject] private readonly DiContainer _container;
+    [Inject] private readonly FPSPlayerSettings _playerSettings;
+    [Inject] private readonly WeaponProvider _weaponProvider;
+    
+    [SerializeField] private RuntimeAnimatorController _defaultAnimator;
 
-    private int _currentWeaponIndex = 1;
+    private int _activeWeaponIndex = 0;
+    
+    private List<Weapon> _weapons = new();
     
     private Weapon _primaryWeapon;
     private Weapon _secondWeapon;
-    private Weapon _currentWeapon;
-    
+
+    private KTransform _root;
+    private KTransform _localCamera;
+
     private void OnEnable()
     {
-        _gameplayFactory.CreateHudChanged += Setup;
+        _displayProvider.Inventory.RequestPrimaryWeaponChanged += RequestPrimaryWeapon;
+        _displayProvider.Inventory.RequestSecondWeaponChanged += RequestSecondWeapon;
     }
-
+    
     private void OnDisable()
     {
         _displayProvider.Inventory.RequestPrimaryWeaponChanged -= RequestPrimaryWeapon;
         _displayProvider.Inventory.RequestSecondWeaponChanged -= RequestSecondWeapon;
     }
 
-    private void Setup()
-    {
-        _displayProvider.Inventory.RequestPrimaryWeaponChanged += RequestPrimaryWeapon;
-        _displayProvider.Inventory.RequestSecondWeaponChanged += RequestSecondWeapon;
-    }
-
     private void Update()
     {
-        HandleWeaponSwitchInput();
-    }
-
-    private void HandleWeaponSwitchInput()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.F))
         {
-            SwitchWeapon(1, _primaryWeapon);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            SwitchWeapon(2, _secondWeapon);
+            OnChangeWeapon();
         }
     }
 
     private void RequestPrimaryWeapon()
     {
-        UpdateWeapon(ref _primaryWeapon, _displayProvider.Inventory.PrimaryWeapon, 1);
+        UpdateWeapon(ref _primaryWeapon, _displayProvider.Inventory.PrimaryWeapon);
     }
 
     private void RequestSecondWeapon()
     {
-        UpdateWeapon(ref _secondWeapon, _displayProvider.Inventory.SecondWeapon, 2);
+        UpdateWeapon(ref _secondWeapon, _displayProvider.Inventory.SecondWeapon);
     }
-
-    private void UpdateWeapon(ref Weapon weaponSlot, WeaponInventoryItemConfig weaponConfig, int slotIndex)
+    
+    private void UpdateWeapon(ref Weapon weaponSlot, WeaponInventoryItemConfig weaponConfig)
     {
         if (weaponConfig != null)
         {
-            DestroyWeapon(weaponSlot);
-            weaponSlot = CreateWeapon(weaponConfig);
-
-            if (_currentWeaponIndex == slotIndex)
+            weaponSlot = SpawnWeapon(weaponConfig);
+        
+            if (_activeWeaponIndex == 0)
             {
-                SwitchWeapon(slotIndex, weaponSlot);
+                if (_primaryWeapon != null)
+                {
+                    _primaryWeapon.gameObject.SetActive(true);
+                    _primaryWeapon.OnEquipped();
+                }
             }
-            else
+            else if (_activeWeaponIndex == 1)
             {
-                weaponSlot.gameObject.SetActive(false);
+                if (_secondWeapon != null)
+                {
+                    _secondWeapon.gameObject.SetActive(true);
+                    _secondWeapon.OnEquipped();
+                }
             }
         }
         else
         {
-            DestroyWeapon(weaponSlot);
-            weaponSlot = null;
+            var slot = weaponSlot;
+            
+            StartCoroutine(AfterDelay(weaponSlot.OnUnEquipped(), () =>
+            {
+                Destroy(slot.gameObject);
+                _weaponProvider.Animator.runtimeAnimatorController = _defaultAnimator;
+            }));
         }
     }
-
-    private void SwitchWeapon(int weaponIndex, Weapon newWeapon)
+    
+    private void EquipWeapon_Incremental()
     {
-        if (_currentWeapon == newWeapon)
+        GetActiveWeapon().gameObject.SetActive(false);
+        _activeWeaponIndex = (_activeWeaponIndex + 1) % _weapons.Count;
+        GetActiveWeapon().OnEquipped();
+        StartCoroutine(AfterDelay(0.05f, () => GetActiveWeapon().gameObject.SetActive(true)));
+    }
+
+    public void EquipWeapon()
+    {
+        GetActiveWeapon().gameObject.SetActive(false);
+        GetActiveWeapon().OnEquipped(true);
+        StartCoroutine(AfterDelay(0.05f, () => GetActiveWeapon().gameObject.SetActive(true)));
+    }
+
+    private void OnChangeWeapon()
+    {
+        if (_weapons.Count <= 1)
             return;
 
-        if (_currentWeapon != null)
-        {
-            _currentWeapon.HideWeapon(() =>
-            {
-                _currentWeapon = newWeapon;
-                _currentWeaponIndex = weaponIndex;
-                UpdateWeaponVisibility();
-            });
-        }
-        else
-        {
-            _currentWeapon = newWeapon;
-            _currentWeaponIndex = weaponIndex;
-            UpdateWeaponVisibility();
-        }
+        float delay = GetActiveWeapon().OnUnEquipped();
+        StartCoroutine(AfterDelay(delay, EquipWeapon_Incremental));
     }
 
-    private void UpdateWeaponVisibility()
+    private IEnumerator AfterDelay(float delay, Action callback)
     {
-        if (_currentWeapon != null)
-        {
-            _currentWeapon.gameObject.SetActive(true);
-            _displayProvider.AmmoView.gameObject.SetActive(true);
-        }
-        else
-        {
-            _displayProvider.AmmoView.gameObject.SetActive(false);
-        }
+        yield return new WaitForSeconds(delay);
+        callback?.Invoke();
     }
-
-    private Weapon CreateWeapon(WeaponInventoryItemConfig weaponConfig)
+    
+    public Weapon GetActiveWeapon()
     {
-        if (weaponConfig == null)
+        if (_weapons.Count <= 0)
+        {
             return null;
-
-        var weapon = _container.InstantiatePrefabForComponent<Weapon>(weaponConfig.WeaponHandPrefab, transform);
-        weapon.SetupWeapon(weaponConfig);
-        weapon.gameObject.SetActive(false);
+        }
         
-        return weapon;
+        return _weapons[_activeWeaponIndex];
     }
 
-    private void DestroyWeapon(Weapon weapon)
+    private Weapon SpawnWeapon(WeaponInventoryItemConfig weapon)
     {
         if (weapon == null)
-            return;
+            return null;
         
-        if (_currentWeapon == weapon)
-        {
-            _currentWeapon = null;
-            UpdateWeaponVisibility();
-        }
+        _root = new KTransform(_weaponProvider.TransformsContainer.CameraPoint);
+        _localCamera = _root.GetRelativeTransform(new KTransform(_weaponProvider.TransformsContainer.CameraPoint), false);
+        
+        Weapon instance = _container.InstantiatePrefabForComponent<Weapon>(weapon.WeaponHandPrefab, _weaponProvider.TransformsContainer.WeaponBone);
+        instance.GameObject().SetActive(false);
+            
+        instance.Initialize(gameObject, weapon);
 
-        Destroy(weapon.gameObject);
+        KTransform weaponT = new KTransform(_weaponProvider.TransformsContainer.WeaponBone);
+        instance.rightHandPose = new KTransform(_weaponProvider.TransformsContainer.RightHand.tip).GetRelativeTransform(weaponT, false);
+
+        KTransform localWeapon = _root.GetRelativeTransform(weaponT, false);
+
+        localWeapon.rotation *= AnimationsConstrains.ANIMATED_OFFSET;
+
+        instance.adsPose.position = _localCamera.position - localWeapon.position;
+        instance.adsPose.rotation = Quaternion.Inverse(localWeapon.rotation);
+
+        _weapons.Add(instance);
+        return instance;
     }
 }

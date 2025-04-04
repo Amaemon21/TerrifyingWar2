@@ -8,43 +8,23 @@ public class ButtonPressed : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     private readonly float _endValue = 0.9f;
     private readonly float _duration = 0.2f;
 
-    private Transform _transform;
-    
-    private void Awake()
-    {
-        _transform = transform;
-    }
-
     private void OnEnable()
     {
-        _transform.DOKill();
-        
-        _transform.localScale = Vector3.one * _defaultValue;
-        _transform.DOScale(_defaultValue, _duration);
+        transform.localScale = Vector3.one * _defaultValue;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
-        _transform.DOKill();
+        transform.localScale = Vector3.one * _defaultValue;
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (_transform == null) 
-            return;
-        
-        _transform.DOKill();
-        
-        _transform.DOScale(_endValue, _duration);
+        transform.DOScale(_endValue, _duration).SetLink(transform.gameObject);
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (_transform == null) 
-            return;
-        
-        _transform.DOKill();
-        
-        _transform.DOScale(_defaultValue, _duration);
+        transform.DOScale(_defaultValue, _duration).SetLink(transform.gameObject);
     }
 }

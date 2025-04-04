@@ -29,7 +29,7 @@ public class AmmoView : MonoBehaviour
         }
         else if (currentAmmo <= 0)
         {
-            weapon.ResetCurrentAmmo();
+            weapon.WeaponInventoryItemConfig.ResetCurrentAmmo();
             CurrentAmmo = $"<color=#E78300>{currentAmmo}</color> / ";
         }
 
@@ -43,9 +43,10 @@ public class AmmoView : MonoBehaviour
             AvailableAmmo = $"<color=#E78300>{availableAmmo}</color>";
         }
 
-        //_ammoNameText.text = weapon.AmmoInventoryItemConfig.ItemName;
         _ammoText.text = CurrentAmmo + AvailableAmmo;
-        _weaponNameText.text = weapon.WeaponInventoryItemConfig.ItemName;
+        
+        //_ammoNameText.text = weapon.AmmoInventoryItemConfig.ItemName;
+        //_weaponNameText.text = weapon.WeaponInventoryItemConfig.ItemName;
     }
 
     public void PlayShootAnimation()

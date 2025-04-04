@@ -1,67 +1,54 @@
 using UnityEngine;
-using System.Collections;
+using DG.Tweening;
 
+[RequireComponent(typeof(Renderer))]
 public class FPSShaderColorGradient : MonoBehaviour
 {
-    public RFX4_ShaderProperties ShaderColorProperty = RFX4_ShaderProperties._TintColor;
-    public Gradient Color = new Gradient();
-    public float TimeMultiplier = 1;
-    public bool IsLoop;
-   
-    [HideInInspector]
-    public bool canUpdate;
-    //private Material mat;
-    private int propertyID;
-    private float startTime;
-    private Color startColor;
+    [SerializeField] private RFX4_ShaderProperties ShaderColorProperty = RFX4_ShaderProperties._TintColor;
+    [SerializeField] private Gradient Color = new();
+    [SerializeField] private float TimeMultiplier = 1f;
+    [SerializeField] private float ColorMultiplier = 1f;
+    [SerializeField] private bool IsLoop = false;
 
-    private bool isInitialized;
-    private string shaderProperty;
+    private int _propertyID;
+    private Color _startColor;
+    private Renderer _renderer;
+    private MaterialPropertyBlock _materialPropertyBlock;
+    private Tween _colorTween;
 
-    private MaterialPropertyBlock props;
-    private Renderer rend;
-
-    void Awake()
+    private void Awake()
     {
-        if (props == null) props = new MaterialPropertyBlock();
-        if (rend == null) rend = GetComponent<Renderer>();
+        _renderer = GetComponent<Renderer>();
+        _materialPropertyBlock = new MaterialPropertyBlock();
 
-        shaderProperty = ShaderColorProperty.ToString();
-        propertyID = Shader.PropertyToID(shaderProperty);
-        startColor = rend.sharedMaterial.GetColor(propertyID);
+        _propertyID = Shader.PropertyToID(ShaderColorProperty.ToString());
+        _startColor = _renderer.sharedMaterial.GetColor(_propertyID);
     }
-
 
     private void OnEnable()
     {
-        startTime = Time.time;
-        canUpdate = true;
-
-        rend.GetPropertyBlock(props);
-
-        startColor = rend.sharedMaterial.GetColor(propertyID);
-        props.SetColor(propertyID, startColor * Color.Evaluate(0));
-
-        rend.SetPropertyBlock(props);
+        AnimateGradient();
     }
 
-    private void Update()
+    private void OnDisable()
     {
-        rend.GetPropertyBlock(props);
+        _colorTween?.Kill();
+    }
 
-        var time = Time.time - startTime;
-        if (canUpdate)
-        {
-            var eval = Color.Evaluate(time / TimeMultiplier);
-            props.SetColor(propertyID, eval * startColor);
-        }
-        if (time >= TimeMultiplier)
-        {
-            if (IsLoop) startTime = Time.time;
-            else canUpdate = false;
-        }
+    private void AnimateGradient()
+    {
+        _colorTween?.Kill();
 
-        rend.SetPropertyBlock(props);
+        float duration = TimeMultiplier > 0 ? TimeMultiplier : 1f;
+        _colorTween = DOTween.To(() => 0f, t => ApplyColor(t), 1f, duration).SetLoops(IsLoop ? -1 : 0).SetEase(Ease.Linear);
+    }
+
+    private void ApplyColor(float time)
+    {
+        _renderer.GetPropertyBlock(_materialPropertyBlock);
+        Color evaluatedColor = Color.Evaluate(time) * _startColor * ColorMultiplier;
+        _materialPropertyBlock.SetColor(_propertyID, evaluatedColor);
+        _renderer.SetPropertyBlock(_materialPropertyBlock);
     }
 
     public enum RFX4_ShaderProperties

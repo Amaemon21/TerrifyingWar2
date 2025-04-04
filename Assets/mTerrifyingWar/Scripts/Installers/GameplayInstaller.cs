@@ -4,30 +4,30 @@ using Zenject;
 public class GameplayInstaller : MonoInstaller
 {
     [Space(10)]
-    [SerializeField] private PlayerSpawn _playerSpawn;
+    [SerializeField] private EnemyDatabaseConfig _enemyDatabaseConfig;
     
     [Space(10)]
-    [SerializeField] private PlayerSettingsConfig _playerSettingsConfig;
+    [SerializeField] private PlayerProvider _playerProvider;
+    [SerializeField] private WeaponProvider _weaponProvider;
+    [SerializeField] private DisplayProvider _displayProvider;
+    
+    [Space(10)]
+    [SerializeField] private FPSPlayerSettings _playerSettings;
     
     public override void InstallBindings()
     {
-        BindGameplayEntryPoint();
         BindServices();
         UIWindowServiceBindings();
         ConfigBindings();
+        
+        Container.Bind<FPSPlayerSettings>().FromInstance(_playerSettings).AsSingle();
     }
     
     private void BindServices()
     {
-        Container.BindInterfacesAndSelfTo<GameplayAssetProvider>().AsSingle();
-        Container.BindInterfacesAndSelfTo<GameplayFactory>().AsSingle();
-        Container.Bind<PlayerProvider>().AsSingle();
-        Container.Bind<DisplayProvider>().AsSingle();
-    }
-    
-    private void BindGameplayEntryPoint()
-    {
-        Container.Bind<PlayerSpawn>().FromInstance(_playerSpawn).AsSingle();
+        Container.Bind<PlayerProvider>().FromInstance(_playerProvider).AsSingle();
+        Container.Bind<DisplayProvider>().FromInstance(_displayProvider).AsSingle();
+        Container.Bind<WeaponProvider>().FromInstance(_weaponProvider).AsSingle();
     }
     
     private void UIWindowServiceBindings()
@@ -37,6 +37,6 @@ public class GameplayInstaller : MonoInstaller
     
     private void ConfigBindings()
     {
-        Container.Bind<PlayerSettingsConfig>().FromInstance(_playerSettingsConfig).AsSingle();
+        Container.Bind<EnemyDatabaseConfig>().FromInstance(_enemyDatabaseConfig).AsSingle();
     }
 }
