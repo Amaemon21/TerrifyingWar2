@@ -93,6 +93,7 @@ public class InventoryItemEquipableCell : MonoBehaviour, IPointerClickHandler, I
     public void SetItem(InventoryItemConfig config)
     {
         InventoryItemConfig = config;
+        DropItemChanged?.Invoke();
         RedrawCell();
     }
     

@@ -2,7 +2,9 @@ using System;
 
 public interface IStorageService
 {
-    public void Save(string key, object data, Action<bool> callback = null);
-
-    public void Load<T>(string key, Action<T> callback = null) where T : new();
+    public void Initialize();
+    public void Save(SaveData _saveData, Action<bool> callback = null);
+    public void Load(Action<SaveData> callback = null);
+    public void CreateNewData(Action callback = null);
+    public void SetupKey(string key, Action callback = null);
 }

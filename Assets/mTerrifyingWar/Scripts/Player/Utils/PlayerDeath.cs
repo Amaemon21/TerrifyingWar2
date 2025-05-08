@@ -11,7 +11,7 @@ public class PlayerDeath : View
 
     private void OnEnable()
     {
-        Disposable = _healthViewModel.PlaeyrDeadSubject.Subscribe(Die);
+        _healthViewModel.PlaeyrDeadSubject.Subscribe(Die).AddTo(CompositeDisposable);
     }
 
     private void Die(Unit unit)

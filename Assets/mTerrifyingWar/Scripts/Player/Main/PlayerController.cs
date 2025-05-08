@@ -1,12 +1,14 @@
-using KINEMATION.ProceduralRecoilAnimationSystem.Runtime;
 using UnityEngine;
 using Zenject;
 
 public class PlayerController : MonoBehaviour
 {
     [Inject] private readonly IInputService _inputService;
-    [Inject] private readonly WeaponProvider _weaponProvider;
-    [Inject] private readonly FPSPlayerSettings _playerSettings;
+    [Inject] private readonly IGameplayFactory _gameplayFactory;
+    [Inject] private readonly PlayerProvider _playerProvider;
+    [Inject] private readonly DisplayProvider _displayProvider;
+    
+    [field: SerializeField] public FPSPlayerSettings PlayerSettings {get; private set;}
 
     private PlayerSound _playerSound;
     private WeaponIKHandler _weaponIKHandler;
@@ -27,12 +29,25 @@ public class PlayerController : MonoBehaviour
     {
         _playerSound = GetComponent<PlayerSound>();
         _weaponIKHandler = GetComponent<WeaponIKHandler>();
-
-        _triggerDisciplineLayerIndex = _weaponProvider.Animator.GetLayerIndex("TriggerDiscipline");
-        _rightHandLayerIndex = _weaponProvider.Animator.GetLayerIndex("RightHand");
-        _tacSprintLayerIndex = _weaponProvider.Animator.GetLayerIndex("TacSprint");
     }
 
+    private void OnEnable()
+    {
+        _gameplayFactory.CreatePlayerChanged += Setup;
+    }
+
+    private void OnDisable()
+    {
+        _gameplayFactory.CreatePlayerChanged -= Setup;
+    }
+
+    private void Setup()
+    {
+        _triggerDisciplineLayerIndex = _playerProvider.WeaponContainer.HandAnimator.GetLayerIndex("TriggerDiscipline");
+        _rightHandLayerIndex = _playerProvider.WeaponContainer.HandAnimator.GetLayerIndex("RightHand");
+        _tacSprintLayerIndex = _playerProvider.WeaponContainer.HandAnimator.GetLayerIndex("TacSprint");
+    }
+    
     private void Update()
     {
         OnAim();
@@ -48,13 +63,13 @@ public class PlayerController : MonoBehaviour
     {
         if (_inputService.ChangeFireMode)
         {
-            FireMode prevFireMode = _weaponProvider.WeaponHolder.GetActiveWeapon().FireMode;
-            _weaponProvider.WeaponHolder.GetActiveWeapon().OnFireModeChange();
+            FireMode prevFireMode = _playerProvider.WeaponContainer.WeaponHolder.GetCurrentWeaponSlot().FireMode;
+            _playerProvider.WeaponContainer.WeaponHolder.GetCurrentWeaponSlot().OnFireModeChange();
 
-            if (prevFireMode != _weaponProvider.WeaponHolder.GetActiveWeapon().FireMode)
+            if (prevFireMode != _playerProvider.WeaponContainer.WeaponHolder.GetCurrentWeaponSlot().FireMode)
             {
                 _playerSound.PlayFireModeSwitchSound();
-                _weaponIKHandler.PlayIkMotion(_playerSettings.fireModeMotion);
+                _weaponIKHandler.PlayIkMotion(PlayerSettings.fireModeMotion);
             }
         }
     }
@@ -63,7 +78,7 @@ public class PlayerController : MonoBehaviour
     {
         if (_inputService.IsReload)
         {
-            _weaponProvider.WeaponHolder.GetActiveWeapon().OnReload();
+            _playerProvider.WeaponContainer.WeaponHolder.GetCurrentWeaponSlot().WeaponAmmo.OnReload();
         }
     }
     
@@ -94,32 +109,34 @@ public class PlayerController : MonoBehaviour
     {
         bool wasAiming = _isAiming;
         _isAiming = _inputService.IsAim;
-        _weaponProvider.RecoilAnimation.isAiming = _isAiming;
+        _playerProvider.WeaponContainer.RecoilAnimation.isAiming = _isAiming;
 
+        _displayProvider.AimPoint.gameObject.SetActive(!_isAiming);
+        
         if (wasAiming != _isAiming)
         {
             _playerSound.PlayAimSound(_isAiming);
-            _weaponIKHandler.PlayIkMotion(_playerSettings.aimingMotion);
+            _weaponIKHandler.PlayIkMotion(PlayerSettings.aimingMotion);
         }
     }
     
     private void UpdateAnimatorLayers()
     {
-        AdsWeight = Mathf.Clamp01(AdsWeight + _playerSettings.aimSpeed * Time.deltaTime * (_isAiming ? 1f : -1f));
+        AdsWeight = Mathf.Clamp01(AdsWeight + PlayerSettings.aimSpeed * Time.deltaTime * (_isAiming ? 1f : -1f));
 
-        _smoothGait = Mathf.Lerp(_smoothGait, GetDesiredGait(), KMath.ExpDecayAlpha(_playerSettings.gaitSmoothing, Time.deltaTime));
+        _smoothGait = Mathf.Lerp(_smoothGait, GetDesiredGait(), KMath.ExpDecayAlpha(PlayerSettings.gaitSmoothing, Time.deltaTime));
 
-        _weaponProvider.Animator.SetFloat(AnimationsConstrains.GAIT, _smoothGait);
-        _weaponProvider.Animator.SetLayerWeight(_tacSprintLayerIndex, Mathf.Clamp01(_smoothGait - 2f));
+        _playerProvider.WeaponContainer.HandAnimator.SetFloat(AnimationsConstrains.GAIT, _smoothGait);
+        _playerProvider.WeaponContainer.HandAnimator.SetLayerWeight(_tacSprintLayerIndex, Mathf.Clamp01(_smoothGait - 2f));
 
-        if ( _weaponProvider.WeaponHolder.GetActiveWeapon() == null) 
+        if ( _playerProvider.WeaponContainer.WeaponHolder.GetCurrentWeaponSlot() == null) 
             return;
         
-        bool triggerAllowed = _weaponProvider.WeaponHolder.GetActiveWeapon().WeaponSettings.useSprintTriggerDiscipline;
+        bool triggerAllowed = _playerProvider.WeaponContainer.WeaponHolder.GetCurrentWeaponSlot().WeaponSettings.useSprintTriggerDiscipline;
 
-        _weaponProvider.Animator.SetLayerWeight(_triggerDisciplineLayerIndex, triggerAllowed ? _weaponProvider.Animator.GetFloat(AnimationsConstrains.TAC_SPRINT_WEIGHT) : 0f);
+        _playerProvider.WeaponContainer.HandAnimator.SetLayerWeight(_triggerDisciplineLayerIndex, triggerAllowed ? _playerProvider.WeaponContainer.HandAnimator.GetFloat(AnimationsConstrains.TAC_SPRINT_WEIGHT) : 0f);
         
-        _weaponProvider.Animator.SetLayerWeight(_rightHandLayerIndex, _weaponProvider.Animator.GetFloat(AnimationsConstrains.RIGHT_HAND_WEIGHT));
+        _playerProvider.WeaponContainer.HandAnimator.SetLayerWeight(_rightHandLayerIndex, _playerProvider.WeaponContainer.HandAnimator.GetFloat(AnimationsConstrains.RIGHT_HAND_WEIGHT));
     }
     
     private float GetDesiredGait()

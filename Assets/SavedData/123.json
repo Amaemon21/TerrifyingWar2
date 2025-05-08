@@ -1,0 +1,24 @@
+{
+  "CreationDate": "2025-05-08 13:58:53",
+  "Scene": "Gameplay",
+  "PlayerEntity": {
+    "MaxHealth": 100.0,
+    "Health": 100.0
+  },
+  "InventoryEntity": {
+    "Items": [
+      {
+        "CurrentAmmo": 4,
+        "IsEquipped": true,
+        "ItemId": "AK-103_20d5dd9b-519d-4783-ae83-a0c6b8a58601",
+        "Count": 1,
+        "EntityType": 1
+      },
+      {
+        "ItemId": "Таблетки_7da488f2-abd0-47b2-8887-167ea790bcf9",
+        "Count": 2,
+        "EntityType": 0
+      }
+    ]
+  }
+}

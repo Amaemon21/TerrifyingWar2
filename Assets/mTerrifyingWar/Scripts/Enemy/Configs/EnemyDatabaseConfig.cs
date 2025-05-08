@@ -7,8 +7,8 @@ public class EnemyDatabaseConfig : ScriptableObject
 {
     [SerializeField, BoxGroup("EnemyDatabase"), HorizontalLine] private List<EnemyConfig> _enemyDatabase = new();
 
-    public EnemyConfig GetEnemyConfig(EnemyTypeId enemyTypeId)
+    public EnemyConfig GetEnemyConfig(EnemyType enemyType)
     {
-        return _enemyDatabase.Find(config => config.EnemyTypeId == enemyTypeId);
+        return _enemyDatabase.Find(config => config.EnemyType == enemyType);
     } 
 }

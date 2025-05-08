@@ -63,4 +63,7 @@ public abstract class InventoryItemConfig : ScriptableObject
         ItemPrefab = itemPrefab;
         ItemName = itemPrefab.name;
     }
+    
+    public virtual void Use(){}
+    public virtual void Use(PlayerHealth playerHealth){}
 }

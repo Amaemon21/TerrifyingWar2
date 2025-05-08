@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using Zenject;
 
@@ -7,24 +8,32 @@ public class EnemySpawner : MonoBehaviour
     [Inject] private readonly DiContainer _container;
     [Inject] private readonly EnemyDatabaseConfig _enemyDatabaseConfig;
     
-    [SerializeField] private EnemyTypeId _enemyTypeId;
+    [SerializeField] private EnemyType enemyType;
+    [SerializeField] private int _maxEnemies;
+    [SerializeField] private int _spwanDelay;
     
     private string _id;
+    private int _enemiesSpawned;
     private EnemyConfig _enemyConfig;
 
     private void Awake()
     {
         _id = GetComponent<UniqueId>().Id;
         
-        StartSpawner();
+        StartCoroutine(StartSpawner());
     }
 
-    private void StartSpawner()
+    private IEnumerator StartSpawner()
     {
-        _enemyConfig = _enemyDatabaseConfig.GetEnemyConfig(_enemyTypeId);
-        
-        Enemy enemy = _container.InstantiatePrefabForComponent<Enemy>(_enemyConfig.EnemyPrefab, transform.position, Quaternion.identity, null);
-        
-        enemy.Setup(_enemyConfig);
+        while (_enemiesSpawned < _maxEnemies)
+        {
+            _enemyConfig = _enemyDatabaseConfig.GetEnemyConfig(enemyType);
+            Enemy enemy = _container.InstantiatePrefabForComponent<Enemy>(_enemyConfig.EnemyPrefab, transform.position, Quaternion.identity, null);
+            enemy.Setup(_enemyConfig);
+
+            _enemiesSpawned++;
+            
+            yield return new WaitForSeconds(_spwanDelay);
+        }
     }
 }

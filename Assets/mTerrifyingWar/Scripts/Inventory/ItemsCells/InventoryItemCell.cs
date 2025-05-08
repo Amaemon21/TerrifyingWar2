@@ -69,7 +69,6 @@ public class InventoryItemCell : MonoBehaviour, IPointerClickHandler, IPointerEn
             {
                 _itemInfoView.gameObject.SetActive(false);
                 
-                _actionMenuObject.gameObject.SetActive(true);
                 _actionMenuObject.SetupActionMenu(InventoryItemConfig, this, eventData);
             }
         }
@@ -166,7 +165,10 @@ public class InventoryItemCell : MonoBehaviour, IPointerClickHandler, IPointerEn
     
     public void OnDrag(PointerEventData eventData)
     {
-        _dragableObject.transform.position = Input.mousePosition;
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(_displayProvider.Canvas.transform as RectTransform, eventData.position, _displayProvider.Canvas.worldCamera, out var localPoint))
+        {
+            _dragableObject.transform.localPosition = localPoint;
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)

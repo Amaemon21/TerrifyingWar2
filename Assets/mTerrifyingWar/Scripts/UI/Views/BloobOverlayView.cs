@@ -1,3 +1,4 @@
+using System.Collections;
 using DG.Tweening;
 using MVVM;
 using R3;
@@ -11,14 +12,30 @@ public class BloobOverlayView : View
     
     [SerializeField] private Image _bloobOverlay;
     [SerializeField] private float _fadeDuration = 0.5f;
+    [SerializeField] private float _visibleDuration = 0.3f;
 
+    private Coroutine _overlayRoutine;
+    
     private void OnEnable()
     {
-        Disposable = _healthViewModel.Health.Subscribe(UpdateBloobOverlay);
+        _healthViewModel.Health.Skip(2).Subscribe(UpdateBloobOverlay).AddTo(CompositeDisposable);
     }
 
     private void UpdateBloobOverlay(float currentHealth)
     {
-        _bloobOverlay.DOFade(1 - currentHealth, _fadeDuration);
+        if (_overlayRoutine != null)
+        {
+            StopCoroutine(_overlayRoutine);
+        }
+
+        _overlayRoutine = StartCoroutine(ShowBloobOverlay(1 - currentHealth));
+    }
+
+    private IEnumerator ShowBloobOverlay(float targetAlpha)
+    {
+        _bloobOverlay.DOFade(targetAlpha, _fadeDuration);
+        yield return new WaitForSeconds(_fadeDuration + _visibleDuration);
+        
+        _bloobOverlay.DOFade(0f, _fadeDuration);
     }
 }

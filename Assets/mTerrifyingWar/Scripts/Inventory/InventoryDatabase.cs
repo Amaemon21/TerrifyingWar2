@@ -12,20 +12,13 @@ public class InventoryDatabase : ScriptableObject
     public InventoryItemConfig FindItemByID(string id)
     {
         if (string.IsNullOrEmpty(id))
-        {
-            Debug.LogWarning("Invalid ID: ID cannot be null or empty.");
             return null;
-        }
 
         InventoryItemConfig item = InventoryItemConfigs.FirstOrDefault(config => config.ItemID == id);
 
         if (item != null)
-        {
-            Debug.Log($"Item found: {item.name}");
             return item;
-        }
         
-        Debug.LogWarning($"Item with ID '{id}' not found.");
         return null;
     }
 

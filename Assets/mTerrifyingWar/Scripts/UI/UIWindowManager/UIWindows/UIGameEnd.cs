@@ -1,10 +1,11 @@
+using System;
 using Zenject;
 
 public class UIGameEnd : UIWindow
 {
     [Inject] private readonly IInputService _inputService;
     [Inject] private CursorStateService _cursorStateService;
-    
+
     protected override void OnOpen()
     {
         _inputService.DisablePlayerMap();

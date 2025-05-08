@@ -594,9 +594,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _windows:
-  - Type: 4
+  - type: 6
     Window: {fileID: 1221762713}
-  - Type: 5
+  - type: 7
     Window: {fileID: 403166332}
 --- !u!1 &122579060
 GameObject:
@@ -1271,6 +1271,7 @@ GameObject:
   - component: {fileID: 289919379}
   - component: {fileID: 289919380}
   - component: {fileID: 289919381}
+  - component: {fileID: 289919382}
   m_Layer: 5
   m_Name: MessageContainer
   m_TagString: Untagged
@@ -1292,11 +1293,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1449580988}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -20, y: 0}
+  m_AnchoredPosition: {x: -100, y: -20}
   m_SizeDelta: {x: 390, y: 0}
-  m_Pivot: {x: 1, y: 0.5}
+  m_Pivot: {x: 1, y: 1}
 --- !u!114 &289919380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1312,12 +1313,12 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 20
+    m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 1
   m_Spacing: 15
   m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 0
+  m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
@@ -1335,8 +1336,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f227dad41cec2c48a8d83e6619847ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _messageViewPrefab: {fileID: 5926215786219798022, guid: 256f2f651b11cf6419f403123f920164, type: 3}
+  _messageViewPrefab: {fileID: 5926215786219798022, guid: c68cdd9a81a64ab4fb635369832bec27, type: 3}
   _content: {fileID: 289919379}
+--- !u!114 &289919382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 289919378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 2
 --- !u!1 &368281140
 GameObject:
   m_ObjectHideFlags: 0
@@ -2455,7 +2470,7 @@ MonoBehaviour:
   _loginAutInputField: {fileID: 869967174}
   _passwordAutInputField: {fileID: 1830120617}
   _loginRegInputField: {fileID: 1264115564}
-  _nameRegInputField: {fileID: 1745518810}
+  _emailAutInputField: {fileID: 1745518810}
   _passwordOneRegInputField: {fileID: 1542313431}
   _passwordTwoRegInputField: {fileID: 275104906}
   _authButton: {fileID: 1108546693}

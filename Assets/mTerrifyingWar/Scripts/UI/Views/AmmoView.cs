@@ -1,9 +1,12 @@
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using Zenject;
 
 public class AmmoView : MonoBehaviour
 {
+    [Inject] private readonly PlayerProvider _playerProvider;
+    
     [SerializeField] private TMP_Text _ammoText;
     [SerializeField] private TMP_Text _ammoNameText;
     [SerializeField] private TMP_Text _weaponNameText;
@@ -16,8 +19,21 @@ public class AmmoView : MonoBehaviour
     private void Awake()
     {
         _originalScale = _ammoText.transform.localScale;
+        
+        gameObject.SetActive(false);
     }
 
+    private void OnEnable()
+    {
+        _playerProvider.WeaponContainer.WeaponHolder.GetCurrentWeaponSlot().OnShootChanged += PlayShootAnimation;
+    }
+
+    private void OnDisable()
+    {
+        if (_playerProvider.WeaponContainer.WeaponHolder.GetCurrentWeaponSlot() != null) 
+            _playerProvider.WeaponContainer.WeaponHolder.GetCurrentWeaponSlot().OnShootChanged -= PlayShootAnimation;
+    }
+    
     public void DisplayAmmo(int currentAmmo, int availableAmmo, Weapon weapon)
     {
         string AvailableAmmo = null;
@@ -39,7 +55,7 @@ public class AmmoView : MonoBehaviour
         }
         else if (availableAmmo <= 0)
         {
-            weapon.ResetAvailableAmmo();
+            weapon.WeaponAmmo.ResetAvailableAmmo();
             AvailableAmmo = $"<color=#E78300>{availableAmmo}</color>";
         }
 
@@ -49,7 +65,7 @@ public class AmmoView : MonoBehaviour
         //_weaponNameText.text = weapon.WeaponInventoryItemConfig.ItemName;
     }
 
-    public void PlayShootAnimation()
+    private void PlayShootAnimation()
     {
         _ammoText.transform.DOScale(_originalScale * _scaleFactor, _duration).OnComplete(() =>
         { 

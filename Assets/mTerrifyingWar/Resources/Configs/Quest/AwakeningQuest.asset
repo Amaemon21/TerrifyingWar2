@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1590677bc70d9a14db1b84fbc2ed7b85, type: 3}
+  m_Name: AwakeningQuest
+  m_EditorClassIdentifier: 
+  <QuestId>k__BackingField: _Awakening
+  <Name>k__BackingField: "\u041F\u0440\u043E\u0431\u0443\u0436\u0434\u0435\u043D\u0438\u0435"
+  <Author>k__BackingField: Amaemon
+  <Description>k__BackingField: "\u041D\u0430\u0434\u043E \u0443\u0431\u0438\u0442\u044C
+    \u043F\u0430\u0440\u0443 \u0437\u043E\u043C\u0431\u0438"
+  <Sprite>k__BackingField: {fileID: 1484035318, guid: a7d364ef2622c2145824d7bb87e1527a, type: 3}
+  <Objectives>k__BackingField:
+  - {fileID: 11400000, guid: 0fcae836cb3f7be408664c973f127106, type: 2}
+  - {fileID: 11400000, guid: 8fb2b41a9a2ca484c98bb4ed27de3632, type: 2}

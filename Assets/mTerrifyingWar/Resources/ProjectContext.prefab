@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _loadingScreen: {fileID: 5644901704695696340, guid: 096e9e68f5db1e54ab25bfba0e9641d1, type: 3}
+  _coroutines: {fileID: 6943175078050256970, guid: 3204645c3a6164547a720b1c2d04cf72, type: 3}
   _playerSettingsConfig: {fileID: 11400000, guid: 5a84bc1d79620a241887b31cdafaafde, type: 2}
 --- !u!1 &8371657571903532763
 GameObject:

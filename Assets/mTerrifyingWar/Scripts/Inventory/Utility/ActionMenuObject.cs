@@ -6,7 +6,9 @@ using Zenject;
 public class ActionMenuObject : MonoBehaviour
 {
     [Inject] private readonly DisplayProvider _displayProvider;
+    [Inject] private readonly PlayerHealth _playerHealth;
 
+    [SerializeField] private Button _useButton;
     [SerializeField] private Button _dropButton;
     [SerializeField] private Button _dropAllButton;
     [SerializeField] private Button _defuseWeaponButton;
@@ -20,6 +22,8 @@ public class ActionMenuObject : MonoBehaviour
 
     private void Awake()
     {
+        gameObject.SetActive(false);
+        
         _rectTransform = GetComponent<RectTransform>();
 
         _inventoryDatabase = _displayProvider.Inventory.InventoryDatabase;
@@ -35,6 +39,15 @@ public class ActionMenuObject : MonoBehaviour
         _inventoryItemCell = cell;
         
         SetupPosition(eventData);
+        
+        gameObject.SetActive(true);
+    }
+    
+    public void UseItem()
+    {
+        _inventoryItemConfig.Use(_playerHealth);
+        _displayProvider.Inventory.RemoveItem(_inventoryItemConfig);
+        Hide();
     }
     
     public void DropItem()
@@ -86,6 +99,15 @@ public class ActionMenuObject : MonoBehaviour
     private void SetupConfig(InventoryItemConfig inventoryItemConfig)
     {
         _inventoryItemConfig = inventoryItemConfig;
+
+        if (inventoryItemConfig is MedicationsItemConfig medicationsItemConfig)
+        {
+            _useButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            _useButton.gameObject.SetActive(false);
+        }
         
         _dropButton.gameObject.SetActive(true);
         _closeButton.gameObject.SetActive(true);

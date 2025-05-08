@@ -3,10 +3,10 @@ using Zenject;
 
 public class LoadGameButton : MonoBehaviour
 {
-    [Inject] private GameEntryPoint _gameEntryPoint;
+    [Inject] private GameStateMachine _gameStateMachine;
     
     public void HandleLoadGameButton()
     {
-        _gameEntryPoint.LoadGameplay();
+        //_gameStateMachine.Enter<LoadGameplayState>();
     }
 }

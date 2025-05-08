@@ -1,8 +1,17 @@
 ﻿using UnityEngine;
 
-public class PlayerProvider : MonoBehaviour
+public class PlayerProvider
 {
-    [field: SerializeField] public PlayerMover PlayerMover { get; private set; }
-    [field: SerializeField] public Camera MainCamera { get; private set; }
-    [field: SerializeField] public PlayerController PlayerController { get; private set; }
+    public PlayerMover PlayerMover { get; private set; }
+    public Camera MainCamera { get; private set; }
+    public PlayerController PlayerController { get; private set; }
+    public WeaponContainer WeaponContainer { get; private set; }
+    
+    public void Setup(PlayerContainer playerContainer)
+    {
+        PlayerMover = playerContainer.PlayerMover;
+        MainCamera = playerContainer.MainCamera;
+        PlayerController = playerContainer.PlayerController;
+        WeaponContainer = playerContainer.WeaponContainer;
+    }
 }

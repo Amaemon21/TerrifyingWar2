@@ -38,6 +38,16 @@ public class UIWindowsOpener : MonoBehaviour
     {
         _uiWindowService.OpenWindow(WindowType.Map);
     }
+    
+    public void ToogleWindowTask()
+    {
+        _uiWindowService.OpenWindow(WindowType.Task);
+    }
+
+    public void ClosePauseMenu()
+    {
+        _uiWindowService.CloseWindow(WindowType.Pause);
+    }
 
     private void ToogleWindow(WindowType type)
     {

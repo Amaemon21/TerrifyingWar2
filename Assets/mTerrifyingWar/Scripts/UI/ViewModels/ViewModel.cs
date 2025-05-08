@@ -6,14 +6,12 @@ namespace MVVM
 {
     public abstract class ViewModel : IInitializable, IDisposable
     {
-        protected IDisposable Disposable;
         protected CompositeDisposable CompositeDisposable = new();
         
         public abstract void Initialize();
 
         public void Dispose()
         {
-            Disposable?.Dispose();
             CompositeDisposable?.Dispose();
         }
     }

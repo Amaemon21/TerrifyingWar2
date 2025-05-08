@@ -4,35 +4,42 @@ using Zenject;
 public class GameInstaller : MonoInstaller
 {
     [SerializeField] private LoadingScreen _loadingScreen;
-    
+    [SerializeField] private Coroutines _coroutines;
     [SerializeField] private PlayerSettingsConfig _playerSettingsConfig;
-    
+
     public override void InstallBindings()
     {
         BindLoadingScreen();
-        BindServices();
+        BindPlayerSettings();
+        BindGameplaySystems();
+        BindGameStateMachine();
         BindGameEntryPoint();
-        
-        Container.Bind<BackendManager>().AsSingle();
-        
+    }
+
+    private void BindLoadingScreen()
+    {
+        Container.Bind<SceneLoader>().AsSingle();
+        Container.Bind<LoadingScreen>().FromComponentInNewPrefab(_loadingScreen).AsSingle();
+        Container.Bind<Coroutines>().FromComponentInNewPrefab(_coroutines).AsSingle();
+    }
+
+    private void BindPlayerSettings()
+    {
         Container.Bind<PlayerSettingsConfig>().FromInstance(_playerSettingsConfig).AsSingle();
     }
     
-    private void BindLoadingScreen()
+    private void BindGameplaySystems()
     {
-        Container.Bind<SceneLoader>().FromNew().AsSingle();
+        Container.Bind<JsonProjectSettings>().AsSingle();
+        Container.BindInterfacesAndSelfTo<StorageService>().AsSingle();
         
-        Container.Bind<LoadingScreen>().FromComponentInNewPrefab(_loadingScreen).AsSingle();
+        Container.Bind<BackendManager>().AsSingle();
+        Container.Bind<CursorStateService>().AsSingle();
     }
 
-    private void BindServices()
+    private void BindGameStateMachine()
     {
-        Container.Bind<IStorageService>().To<StorageService>().FromNew().AsSingle();
-        Container.Bind<IKeysProvider>().To<SaveDataKeysProvider>().FromNew().AsSingle();
-        
-        Container.Bind<IInputService>().To<InputService>().FromNew().AsSingle();
-        
-        Container.Bind<CursorStateService>().FromNew().AsSingle();
+        Container.Bind<GameStateMachine>().AsSingle();
     }
 
     private void BindGameEntryPoint()

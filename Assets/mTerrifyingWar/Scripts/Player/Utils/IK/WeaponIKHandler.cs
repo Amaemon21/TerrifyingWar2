@@ -4,10 +4,12 @@ using Zenject;
 
 public class WeaponIKHandler : MonoBehaviour
 {
-    [Inject] private readonly WeaponProvider _weaponProvider;
     [Inject] private readonly PlayerProvider _playerProvider;
-    [Inject] private readonly FPSPlayerSettings _playerSettings;
+    
+    [SerializeField] private FPSPlayerSettings _playerSettings;
 
+    private WeaponContainer _weaponContainer;
+    
     private KTwoBoneIkData _rightHandIk;
     private KTwoBoneIkData _leftHandIk;
 
@@ -15,6 +17,11 @@ public class WeaponIKHandler : MonoBehaviour
     private IKMotion _activeMotion;
     private KTransform _ikMotion = KTransform.Identity;
     private KTransform _cachedIkMotion = KTransform.Identity;
+
+    private void Awake()
+    {
+        _weaponContainer = GetComponent<WeaponContainer>();
+    }
 
     public void PlayIkMotion(IKMotion newMotion)
     {
@@ -25,12 +32,12 @@ public class WeaponIKHandler : MonoBehaviour
 
     private void LateUpdate()
     {
-        if ( _weaponProvider.WeaponHolder.GetActiveWeapon() == null) 
+        if ( _weaponContainer.WeaponHolder.GetCurrentWeaponSlot() == null) 
             return;
         
-        KAnimationMath.RotateInSpace(transform.root, _weaponProvider.TransformsContainer.RightHand.tip,
-            _weaponProvider.WeaponHolder.GetActiveWeapon().WeaponSettings.rightHandSprintOffset,
-            _weaponProvider.Animator.GetFloat(AnimationsConstrains.TAC_SPRINT_WEIGHT));
+        KAnimationMath.RotateInSpace(transform.root, _weaponContainer.TransformsContainer.RightHand.tip,
+            _weaponContainer.WeaponHolder.GetCurrentWeaponSlot().WeaponSettings.rightHandSprintOffset,
+            _weaponContainer.HandAnimator.GetFloat(AnimationsConstrains.TAC_SPRINT_WEIGHT));
 
         KTransform weaponTransform = GetWeaponPose();
 
@@ -38,10 +45,10 @@ public class WeaponIKHandler : MonoBehaviour
             KAnimationMath.RotateInSpace(weaponTransform, weaponTransform, AnimationsConstrains.ANIMATED_OFFSET, 1f);
 
         KTransform rightHandTarget =
-            weaponTransform.GetRelativeTransform(new KTransform(_weaponProvider.TransformsContainer.RightHand.tip), false);
+            weaponTransform.GetRelativeTransform(new KTransform(_weaponContainer.TransformsContainer.RightHand.tip), false);
         
         KTransform leftHandTarget =
-            weaponTransform.GetRelativeTransform(new KTransform(_weaponProvider.TransformsContainer.LeftHand.tip), false);
+            weaponTransform.GetRelativeTransform(new KTransform(_weaponContainer.TransformsContainer.LeftHand.tip), false);
 
         ProcessOffsets(ref weaponTransform);
         ProcessAds(ref weaponTransform);
@@ -49,20 +56,20 @@ public class WeaponIKHandler : MonoBehaviour
         ProcessIkMotion(ref weaponTransform);
         ProcessRecoil(ref weaponTransform);
 
-        _weaponProvider.TransformsContainer.WeaponBone.position = weaponTransform.position;
-        _weaponProvider.TransformsContainer.WeaponBone.rotation = weaponTransform.rotation;
+        _weaponContainer.TransformsContainer.WeaponBone.position = weaponTransform.position;
+        _weaponContainer.TransformsContainer.WeaponBone.rotation = weaponTransform.rotation;
 
         rightHandTarget = weaponTransform.GetWorldTransform(rightHandTarget, false);
         leftHandTarget = weaponTransform.GetWorldTransform(leftHandTarget, false);
 
-        SetupIkData(ref _rightHandIk, rightHandTarget, _weaponProvider.TransformsContainer.RightHand, _playerSettings.ikWeight);
-        SetupIkData(ref _leftHandIk, leftHandTarget, _weaponProvider.TransformsContainer.LeftHand, _playerSettings.ikWeight);
+        SetupIkData(ref _rightHandIk, rightHandTarget, _weaponContainer.TransformsContainer.RightHand, _playerSettings.ikWeight);
+        SetupIkData(ref _leftHandIk, leftHandTarget, _weaponContainer.TransformsContainer.LeftHand, _playerSettings.ikWeight);
 
         KTwoBoneIK.Solve(ref _rightHandIk);
         KTwoBoneIK.Solve(ref _leftHandIk);
 
-        ApplyIkData(_rightHandIk, _weaponProvider.TransformsContainer.RightHand);
-        ApplyIkData(_leftHandIk, _weaponProvider.TransformsContainer.LeftHand);
+        ApplyIkData(_rightHandIk, _weaponContainer.TransformsContainer.RightHand);
+        ApplyIkData(_leftHandIk, _weaponContainer.TransformsContainer.LeftHand);
     }
 
     private void SetupIkData(ref KTwoBoneIkData ikData, in KTransform target, in IKTransforms transforms, float weight = 1f)
@@ -89,24 +96,24 @@ public class WeaponIKHandler : MonoBehaviour
     {
         var root = transform.root;
         KTransform rootT = new KTransform(root);
-        var weaponOffset = _weaponProvider.WeaponHolder.GetActiveWeapon().WeaponSettings.ikOffset;
+        var weaponOffset = _weaponContainer.WeaponHolder.GetCurrentWeaponSlot().WeaponSettings.ikOffset;
 
-        float mask = 1f - _weaponProvider.Animator.GetFloat(AnimationsConstrains.TAC_SPRINT_WEIGHT);
+        float mask = 1f - _weaponContainer.HandAnimator.GetFloat(AnimationsConstrains.TAC_SPRINT_WEIGHT);
         weaponT.position = KAnimationMath.MoveInSpace(rootT, weaponT, weaponOffset, mask);
 
-        var settings = _weaponProvider.WeaponHolder.GetActiveWeapon().WeaponSettings;
-        KAnimationMath.MoveInSpace(root, _weaponProvider.TransformsContainer.RightHand.root, settings.rightClavicleOffset, mask);
-        KAnimationMath.MoveInSpace(root, _weaponProvider.TransformsContainer.LeftHand.root, settings.leftClavicleOffset, mask);
+        var settings = _weaponContainer.WeaponHolder.GetCurrentWeaponSlot().WeaponSettings;
+        KAnimationMath.MoveInSpace(root, _weaponContainer.TransformsContainer.RightHand.root, settings.rightClavicleOffset, mask);
+        KAnimationMath.MoveInSpace(root, _weaponContainer.TransformsContainer.LeftHand.root, settings.leftClavicleOffset, mask);
     }
 
     private void ProcessAdditives(ref KTransform weaponT)
     {
-        KTransform rootT = new KTransform(_weaponProvider.TransformsContainer.SkeletonRoot);
+        KTransform rootT = new KTransform(_weaponContainer.TransformsContainer.SkeletonRoot);
         
         KTransform additive =
-            rootT.GetRelativeTransform(new KTransform(_weaponProvider.TransformsContainer.WeaponBoneAdditive), false);
+            rootT.GetRelativeTransform(new KTransform(_weaponContainer.TransformsContainer.WeaponBoneAdditive), false);
 
-        float weight = Mathf.Lerp(1f, 0.3f, _playerProvider.PlayerController.AdsWeight) * (1f - _weaponProvider.Animator.GetFloat(AnimationsConstrains.GRENADE_WEIGHT));
+        float weight = Mathf.Lerp(1f, 0.3f, _playerProvider.PlayerController.AdsWeight) * (1f - _weaponContainer.HandAnimator.GetFloat(AnimationsConstrains.GRENADE_WEIGHT));
 
         weaponT.position = KAnimationMath.MoveInSpace(rootT, weaponT, additive.position, weight);
         weaponT.rotation = KAnimationMath.RotateInSpace(rootT, weaponT, additive.rotation, weight);
@@ -116,8 +123,8 @@ public class WeaponIKHandler : MonoBehaviour
     {
         KTransform recoil = new KTransform
         {
-            rotation = _weaponProvider.RecoilAnimation.OutRot,
-            position = _weaponProvider.RecoilAnimation.OutLoc,
+            rotation = _weaponContainer.RecoilAnimation.OutRot,
+            position = _weaponContainer.RecoilAnimation.OutLoc,
         };
 
         KTransform root = new KTransform(transform);
@@ -127,32 +134,32 @@ public class WeaponIKHandler : MonoBehaviour
 
     private void ProcessAds(ref KTransform weaponT)
     {
-        var weaponOffset = _weaponProvider.WeaponHolder.GetActiveWeapon().WeaponSettings.ikOffset;
+        var weaponOffset = _weaponContainer.WeaponHolder.GetCurrentWeaponSlot().WeaponSettings.ikOffset;
         var adsPose = weaponT;
 
         KTransform aimPoint = KTransform.Identity;
 
         aimPoint.position =
-            -_weaponProvider.TransformsContainer.WeaponBone.InverseTransformPoint(_weaponProvider.WeaponHolder.GetActiveWeapon()
+            -_weaponContainer.TransformsContainer.WeaponBone.InverseTransformPoint(_weaponContainer.WeaponHolder.GetCurrentWeaponSlot()
                 .AimPoint.position);
         
-        aimPoint.position -= _weaponProvider.WeaponHolder.GetActiveWeapon().WeaponSettings.aimPointOffset;
+        aimPoint.position -= _weaponContainer.WeaponHolder.GetCurrentWeaponSlot().WeaponSettings.aimPointOffset;
         
-        aimPoint.rotation = Quaternion.Inverse(_weaponProvider.TransformsContainer.WeaponBone.rotation) *
-                            _weaponProvider.WeaponHolder.GetActiveWeapon().AimPoint.rotation;
+        aimPoint.rotation = Quaternion.Inverse(_weaponContainer.TransformsContainer.WeaponBone.rotation) *
+                            _weaponContainer.WeaponHolder.GetCurrentWeaponSlot().AimPoint.rotation;
 
-        var root = new KTransform(_weaponProvider.TransformsContainer.CameraPoint);
+        var root = new KTransform(_weaponContainer.TransformsContainer.CameraPoint);
         adsPose.position = KAnimationMath.MoveInSpace(root, adsPose,
-            _weaponProvider.WeaponHolder.GetActiveWeapon().adsPose.position - weaponOffset, 1f);
+            _weaponContainer.WeaponHolder.GetCurrentWeaponSlot().adsPose.position - weaponOffset, 1f);
         
         adsPose.rotation = KAnimationMath.RotateInSpace(root, adsPose,
-            _weaponProvider.WeaponHolder.GetActiveWeapon().adsPose.rotation, 1f);
+            _weaponContainer.WeaponHolder.GetCurrentWeaponSlot().adsPose.rotation, 1f);
 
-        float adsBlendWeight = _weaponProvider.WeaponHolder.GetActiveWeapon().WeaponSettings.adsBlend;
-        adsPose.position = Vector3.Lerp(_weaponProvider.TransformsContainer.CameraPoint.position, adsPose.position, adsBlendWeight);
+        float adsBlendWeight = _weaponContainer.WeaponHolder.GetCurrentWeaponSlot().WeaponSettings.adsBlend;
+        adsPose.position = Vector3.Lerp(_weaponContainer.TransformsContainer.CameraPoint.position, adsPose.position, adsBlendWeight);
         
         adsPose.rotation =
-            Quaternion.Slerp(_weaponProvider.TransformsContainer.CameraPoint.rotation, adsPose.rotation, adsBlendWeight);
+            Quaternion.Slerp(_weaponContainer.TransformsContainer.CameraPoint.rotation, adsPose.rotation, adsBlendWeight);
 
         adsPose.position = KAnimationMath.MoveInSpace(root, adsPose, aimPoint.rotation * aimPoint.position, 1f);
         adsPose.rotation = KAnimationMath.RotateInSpace(root, adsPose, aimPoint.rotation, 1f);
@@ -166,12 +173,12 @@ public class WeaponIKHandler : MonoBehaviour
     private KTransform GetWeaponPose()
     {
         KTransform defaultWorldPose =
-            new KTransform(_weaponProvider.TransformsContainer.RightHand.tip).GetWorldTransform(
-                _weaponProvider.WeaponHolder.GetActiveWeapon().rightHandPose, false);
+            new KTransform(_weaponContainer.TransformsContainer.RightHand.tip).GetWorldTransform(
+                _weaponContainer.WeaponHolder.GetCurrentWeaponSlot().rightHandPose, false);
         
-        float weight = _weaponProvider.Animator.GetFloat(AnimationsConstrains.RIGHT_HAND_WEIGHT);
+        float weight = _weaponContainer.HandAnimator.GetFloat(AnimationsConstrains.RIGHT_HAND_WEIGHT);
 
-        return KTransform.Lerp(new KTransform(_weaponProvider.TransformsContainer.WeaponBone), defaultWorldPose, weight);
+        return KTransform.Lerp(new KTransform(_weaponContainer.TransformsContainer.WeaponBone), defaultWorldPose, weight);
     }
 
     private void ProcessIkMotion(ref KTransform weaponT)
@@ -199,7 +206,7 @@ public class WeaponIKHandler : MonoBehaviour
             _ikMotion = KTransform.Lerp(_cachedIkMotion, _ikMotion, _ikMotionPlayBack / _activeMotion.blendTime);
         }
 
-        var root = new KTransform(_weaponProvider.TransformsContainer.CameraPoint);
+        var root = new KTransform(_weaponContainer.TransformsContainer.CameraPoint);
         weaponT.position = KAnimationMath.MoveInSpace(root, weaponT, _ikMotion.position, 1f);
         weaponT.rotation = KAnimationMath.RotateInSpace(root, weaponT, _ikMotion.rotation, 1f);
     }

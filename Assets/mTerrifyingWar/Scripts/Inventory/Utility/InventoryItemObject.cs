@@ -26,5 +26,15 @@ public class InventoryItemObject : MonoBehaviour
     private void InitializeItem()
     {
         InventoryItemConfig = Instantiate(_inventoryItemConfig);
+
+        if (InventoryItemConfig is WeaponInventoryItemConfig weaponInventoryItemConfig)
+        {
+            if (weaponInventoryItemConfig.ScopeInventoryItemConfig != null)
+            {
+                var scope = Instantiate(weaponInventoryItemConfig.ScopeInventoryItemConfig.Scope, transform);
+                scope.transform.localPosition = weaponInventoryItemConfig.ScopeInventoryItemConfig.Position;
+                scope.transform.localRotation = Quaternion.identity; 
+            }
+        }
     }
 }

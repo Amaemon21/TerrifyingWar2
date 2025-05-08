@@ -1,4 +1,3 @@
-using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.AI;
 using Zenject;
@@ -9,10 +8,12 @@ using Zenject;
 [RequireComponent(typeof(EnemyDeath))]
 public class Enemy : MonoBehaviour
 {
+    [Inject] private readonly IGameplayFactory _gameplayFactory;
     [Inject] private readonly PlayerProvider _playerProvider;
     [Inject] private readonly PlayerHealth _playerHealth;
     
     [SerializeField] private HeadTransform _headTransform;
+    [SerializeField] private SphereCollider _patrolCollider;
     
     private Vector3 _positionToLook;
     
@@ -22,17 +23,30 @@ public class Enemy : MonoBehaviour
     public EnemyAnimator EnemyAnimator { get; private set; }
     public EnemyHealth EnemyHealth { get; private set; }
     public Transform Target { get; private set;}
-    public PatrolPoints[] PatrolPoints { get; private set; }
+    public SphereCollider PatrolCollider => _patrolCollider;
 
     private void Awake()
     {
         NavMeshAgent = GetComponent<NavMeshAgent>();
         EnemyAnimator = GetComponent<EnemyAnimator>();
         EnemyHealth = GetComponent<EnemyHealth>();
-        
+    }
+    
+    private void OnEnable()
+    {
+        EnemyHealth.EnemyDeath += EnemyDeathChanged;
+        _gameplayFactory.CreatePlayerChanged += SetupTarget;
+    }
+
+    private void OnDisable()
+    {
+        EnemyHealth.EnemyDeath -= EnemyDeathChanged;
+        _gameplayFactory.CreatePlayerChanged -= SetupTarget;
+    }
+
+    private void SetupTarget()
+    {
         Target = _playerProvider.PlayerMover.transform;
-        
-        PatrolPoints = FindObjectsByType<PatrolPoints>(FindObjectsSortMode.None);
     }
 
     public void Setup(EnemyConfig config)
@@ -40,16 +54,6 @@ public class Enemy : MonoBehaviour
         EnemyConfig = config;
         
         ChangeState(new IdleState(this));
-    }
-    
-    private void OnEnable()
-    {
-        EnemyHealth.EnemyDeath += EnemyDeathChanged;
-    }
-
-    private void OnDisable()
-    {
-        EnemyHealth.EnemyDeath -= EnemyDeathChanged;
     }
 
     private void Update()
@@ -66,6 +70,9 @@ public class Enemy : MonoBehaviour
 
     public bool DetectPlayer()
     {
+        if (Target == null)
+            return false;
+        
         Vector3 enemyPosition = _headTransform.transform.position;
         Vector3 forwardDirection = _headTransform.transform.forward;
         Vector3 directionToPlayer = (Target.transform.position - enemyPosition).normalized;
@@ -93,6 +100,9 @@ public class Enemy : MonoBehaviour
 
     public bool IsInAttackRange()
     {
+        if (Target == null)
+            return false;
+        
         float distanceToPlayer = Vector3.Distance(transform.position, Target.transform.position);
         return distanceToPlayer <= EnemyConfig.AttackRange;
     }

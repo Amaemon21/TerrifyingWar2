@@ -5,38 +5,41 @@ using Zenject;
 public class WeaponRaycastHit : MonoBehaviour
 {
     [Inject] private readonly PlayerProvider _playerProvider;
-    [Inject] private readonly WeaponProvider _weaponProvider;
     
     [SerializeField, BoxGroup("Main")] private LayerMask _hitScanMask;
-    [SerializeField, BoxGroup("Main")] private int _damage;
     
     [SerializeField, BoxGroup("Spread"), HorizontalLine] private bool _applySpread = true;
     [SerializeField, BoxGroup("Spread")] private Vector3 _spreadVariance = new(1.0f, 1.0f, 1.0f);
 
-    private Weapon weapon;
+    [SerializeField, BoxGroup("Damage Parameters")] private int _damageHead;
+    [SerializeField, BoxGroup("Damage Parameters")] private int _damageBody;
+    
+    private Weapon _weapon;
+    private SoundNotifier _soundNotifier;
     private WeaponEffects _weaponEffects;
 
     private void Awake()
     {
-        weapon = GetComponent<Weapon>();
+        _weapon = GetComponent<Weapon>();
+        _soundNotifier = GetComponent<SoundNotifier>();
         _weaponEffects = GetComponent<WeaponEffects>();
     }
 
     private void OnEnable()
     {
-        weapon.OnShootChanged += HandleRaycast;
+        _weapon.OnShootChanged += HandleRaycast;
     }
 
     private void OnDisable()
     {
-        weapon.OnShootChanged -= HandleRaycast;
+        _weapon.OnShootChanged -= HandleRaycast;
     }
 
     private void HandleRaycast()
     {
         Vector3 direction;
             
-        if (_weaponProvider.RecoilAnimation.isAiming)
+        if (_playerProvider.WeaponContainer.RecoilAnimation.isAiming)
         {
             direction = transform.forward;
         }
@@ -63,7 +66,12 @@ public class WeaponRaycastHit : MonoBehaviour
         _weaponEffects.CreateTrail(hit.point);
         
         Collider hitCollider = hit.collider;
-    
+
+        if (hitCollider != null)
+        {
+            _soundNotifier.NotifyEnemies(hit.point, 10f);
+        }
+        
         if (hitCollider.TryGetComponent(out Impact impact))
         {
             GameObject spawnedObject = Instantiate(impact.ImpactPrefab, hit.point, Quaternion.LookRotation(hit.normal * 0.1f), hitCollider.transform);
@@ -72,12 +80,26 @@ public class WeaponRaycastHit : MonoBehaviour
                 impactSound.PlaySound();
             
             Destroy(spawnedObject, 10f);
-        
-            if (hitCollider.TryGetComponent(out BodyPart bodyPart))
-            {
-                bodyPart.Hit(ray.direction * 150, hit.point);
-                bodyPart.TakeDamage(_damage);
-            }
         }
+        
+        if (hitCollider.TryGetComponent(out BodyPart bodyPart))
+        {
+            bodyPart.Hit(ray.direction * 150, hit.point);
+            bodyPart.TakeDamage(CalculateDamage(bodyPart.BodyPartType));
+        }
+    }
+
+    private int CalculateDamage(BodyPartType bodyPartType)
+    {
+        switch (bodyPartType)
+        {
+            case BodyPartType.Head:
+                return _damageHead;
+            
+            case BodyPartType.Body:
+                return _damageBody;
+        }
+        
+        return 0;
     }
 }

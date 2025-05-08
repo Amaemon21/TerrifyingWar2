@@ -14,6 +14,8 @@ public class WeaponInventoryItemConfig : InventoryItemConfig
     [field: SerializeField, BoxGroup("Weapon item config")] public int CurrentAmmo { get; private set;}
     
     [field: SerializeField, BoxGroup("Weapon item config"), Range(0, 100)] public int Durability { get; private set;}
+    
+    [field: SerializeField, Expandable, BoxGroup("Attachment"), HorizontalLine] public ScopeInventoryItemConfig ScopeInventoryItemConfig { get; private set;}
 
     public void AddCurrentAmmo(int value)
     {

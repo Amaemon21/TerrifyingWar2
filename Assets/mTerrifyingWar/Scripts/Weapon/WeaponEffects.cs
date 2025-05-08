@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using KINEMATION.FPSAnimationPack.Scripts.Weapon;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -19,16 +17,6 @@ public class WeaponEffects : MonoBehaviour
     private void Awake()
     {
         weapon = GetComponent<Weapon>();
-    }
-
-    private void OnEnable()
-    {
-        
-    }
-
-    private void OnDisable()
-    {
-        
     }
     
     public void CreateTrail(Vector3 hitPoint)

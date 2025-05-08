@@ -1,83 +1,23 @@
-﻿using System;
-using Zenject;
+﻿using Zenject;
 
 public class GameEntryPoint : IInitializable
 {
-    private SceneLoader _sceneLoader;
-    private LoadingScreen _loadingScreen;
-    private CursorStateService _cursorStateService;
+    private readonly GameStateMachine _gameStateMachine;
+    private readonly JsonProjectSettings _jsonProjectSettings;
+    private readonly IStorageService _storageService;
     
-    public GameEntryPoint(SceneLoader sceneLoader, LoadingScreen loadingScreen, CursorStateService cursorStateService)
+    public GameEntryPoint(GameStateMachine gameStateMachine, JsonProjectSettings jsonProjectSettings, IStorageService storageService)
     {
-        _sceneLoader = sceneLoader;
-        _loadingScreen = loadingScreen;
-        _cursorStateService = cursorStateService;
+        _gameStateMachine = gameStateMachine;
+        _jsonProjectSettings = jsonProjectSettings;
+        _storageService = storageService;
     }
 
     public void Initialize()
     {
-#if UNITY_EDITOR
-        string sceneName = _sceneLoader.GetSceneName();
-
-        if (sceneName == Scenes.Gameplay)
-        {
-            return;
-        }
-
-        if (sceneName == Scenes.MainMenu)
-        {
-            LoadBoot(LoadMainMenu);
-            return;
-        }
+        _jsonProjectSettings.Initialize();
+        _storageService.Initialize();
         
-        if (sceneName == Scenes.Authorization)
-        {
-            LoadBoot(LoadAuthorization);
-            return;
-        }
-
-        if (sceneName != Scenes.Boot)
-        {
-            return;
-        }
-#endif
-        LoadBoot(LoadAuthorization);
-    }
-    
-    private void LoadBoot(Action callback)
-    {
-        _cursorStateService.DisableCursor();
-        _loadingScreen.Show();
-        _sceneLoader.Load(Scenes.Boot, callback);
-    }
-    
-    private void LoadAuthorization()
-    {
-        _loadingScreen.Show();
-        _sceneLoader.Load(Scenes.Authorization, OnMainMenuLoaded);
-    }
-    
-    public void LoadMainMenu()
-    {
-        _loadingScreen.Show();
-        _sceneLoader.Load(Scenes.MainMenu, OnMainMenuLoaded);
-    }
-    
-    public void LoadGameplay()
-    {
-        _loadingScreen.Show();
-        _sceneLoader.Load(Scenes.Gameplay, OnGameplayLoaded);
-    }
-
-    private void OnGameplayLoaded()
-    {
-        _cursorStateService.DisableCursor();
-        _loadingScreen.Hide();
-    }
-    
-    private void OnMainMenuLoaded()
-    {
-        _cursorStateService.EnableCursor();
-        _loadingScreen.Hide();
+        _gameStateMachine.Enter<BootstrapState>();
     }
 }

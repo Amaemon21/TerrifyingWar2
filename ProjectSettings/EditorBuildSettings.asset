@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/mTerrifyingWar/Scenes/Gameplay.unity
     guid: 450f95050f3aded4a9b4171677e0e648
+  - enabled: 1
+    path: Assets/mTerrifyingWar/Scenes/Bunker.unity
+    guid: 8f5fa74e77aa6d241afb703c6d07c197
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: ae838b1c970aab641bb8e4643590df24, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: ce68c4c37abec5347801e4204a280574, type: 2}

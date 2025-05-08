@@ -1552,7 +1552,7 @@ GameObject:
   - component: {fileID: 5580644501848528781}
   - component: {fileID: 7537146280264406922}
   - component: {fileID: 7028342539981165710}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: LowerLeg_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1584,8 +1584,8 @@ Rigidbody:
   m_GameObject: {fileID: 2032795961827216311}
   serializedVersion: 4
   m_Mass: 6
-  m_Drag: 0.3
-  m_AngularDrag: 0.3
+  m_Drag: 0
+  m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1685,6 +1685,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
   _enemy: {fileID: 5028290825065688659}
+  <BodyPartType>k__BackingField: 1
 --- !u!114 &7028342539981165710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1710,7 +1711,7 @@ GameObject:
   - component: {fileID: 5954918830780411991}
   - component: {fileID: 486602242907803049}
   - component: {fileID: 1856260380870731868}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Ankle_R_ColliderRotator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1767,6 +1768,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
   _enemy: {fileID: 5028290825065688659}
+  <BodyPartType>k__BackingField: 1
 --- !u!114 &1856260380870731868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2685,7 +2687,7 @@ GameObject:
   - component: {fileID: 2252755050895078938}
   - component: {fileID: 1762889612237900652}
   - component: {fileID: 2255118094322064800}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2719,8 +2721,8 @@ Rigidbody:
   m_GameObject: {fileID: 2734244923522112703}
   serializedVersion: 4
   m_Mass: 4
-  m_Drag: 0.3
-  m_AngularDrag: 0.3
+  m_Drag: 0
+  m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -2818,6 +2820,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
   _enemy: {fileID: 5028290825065688659}
+  <BodyPartType>k__BackingField: 0
 --- !u!114 &2255118094322064800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2985,7 +2988,7 @@ GameObject:
   - component: {fileID: 8953962034597197777}
   - component: {fileID: 3206110811645794420}
   - component: {fileID: 932116768692188272}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Shoulder_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3017,8 +3020,8 @@ Rigidbody:
   m_GameObject: {fileID: 2990877947595982207}
   serializedVersion: 4
   m_Mass: 3.1999998
-  m_Drag: 0.3
-  m_AngularDrag: 0.3
+  m_Drag: 0
+  m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -3118,6 +3121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
   _enemy: {fileID: 5028290825065688659}
+  <BodyPartType>k__BackingField: 1
 --- !u!114 &932116768692188272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3758,8 +3762,8 @@ Rigidbody:
   m_GameObject: {fileID: 3341231258580205910}
   serializedVersion: 4
   m_Mass: 2
-  m_Drag: 0.3
-  m_AngularDrag: 0.3
+  m_Drag: 0
+  m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -3836,7 +3840,7 @@ GameObject:
   - component: {fileID: 2130825068802358182}
   - component: {fileID: 7670728245449399931}
   - component: {fileID: 2467971925170543497}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: LowerLeg_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3868,8 +3872,8 @@ Rigidbody:
   m_GameObject: {fileID: 3370094273542720381}
   serializedVersion: 4
   m_Mass: 6
-  m_Drag: 0.3
-  m_AngularDrag: 0.3
+  m_Drag: 0
+  m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -3969,6 +3973,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
   _enemy: {fileID: 5028290825065688659}
+  <BodyPartType>k__BackingField: 1
 --- !u!114 &2467971925170543497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4070,6 +4075,7 @@ Transform:
   - {fileID: 2266526798290417689}
   - {fileID: 9102199276977376170}
   - {fileID: 4821529046865224960}
+  - {fileID: 2282125089892214677}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!95 &200193426547558668
@@ -4166,6 +4172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb436fe5d9d8bfe408e86b83bc4b6536, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _questObjectiveConfig: {fileID: 11400000, guid: 8fb2b41a9a2ca484c98bb4ed27de3632, type: 2}
   _enemyHealth: {fileID: 4442285877120641935}
   _ragdollHandler: {fileID: 5301074433637414667}
 --- !u!114 &5028290825065688659
@@ -4181,6 +4188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _headTransform: {fileID: 3422574467411447818}
+  _patrolCollider: {fileID: 8735114198086408206}
 --- !u!1 &3485057926888090901
 GameObject:
   m_ObjectHideFlags: 0
@@ -5414,7 +5422,7 @@ GameObject:
   - component: {fileID: 5053140975332419074}
   - component: {fileID: 2242613948768841985}
   - component: {fileID: 7795985160824783936}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Hips_ColliderRotator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5471,6 +5479,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
   _enemy: {fileID: 5028290825065688659}
+  <BodyPartType>k__BackingField: 1
 --- !u!114 &7795985160824783936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5528,8 +5537,8 @@ Rigidbody:
   m_GameObject: {fileID: 5041673632492629255}
   serializedVersion: 4
   m_Mass: 2
-  m_Drag: 0.3
-  m_AngularDrag: 0.3
+  m_Drag: 0
+  m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -5775,8 +5784,8 @@ Rigidbody:
   m_GameObject: {fileID: 5146049933528476436}
   serializedVersion: 4
   m_Mass: 16
-  m_Drag: 0.3
-  m_AngularDrag: 0.3
+  m_Drag: 0
+  m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -5807,7 +5816,7 @@ GameObject:
   - component: {fileID: 2165980058834151190}
   - component: {fileID: 1662553264194035680}
   - component: {fileID: 8845451262489659479}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Spine_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5839,8 +5848,8 @@ Rigidbody:
   m_GameObject: {fileID: 5165012127454424491}
   serializedVersion: 4
   m_Mass: 16
-  m_Drag: 0.3
-  m_AngularDrag: 0.3
+  m_Drag: 0
+  m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -5938,6 +5947,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
   _enemy: {fileID: 5028290825065688659}
+  <BodyPartType>k__BackingField: 1
 --- !u!114 &8845451262489659479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7399,7 +7409,7 @@ GameObject:
   - component: {fileID: 5361825669644387482}
   - component: {fileID: 2920805396094524348}
   - component: {fileID: 6839131090144897902}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: UpperLeg_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7431,8 +7441,8 @@ Rigidbody:
   m_GameObject: {fileID: 6568903090894290867}
   serializedVersion: 4
   m_Mass: 8
-  m_Drag: 0.3
-  m_AngularDrag: 0.3
+  m_Drag: 0
+  m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -7532,6 +7542,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
   _enemy: {fileID: 5028290825065688659}
+  <BodyPartType>k__BackingField: 1
 --- !u!114 &6839131090144897902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7545,6 +7556,59 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ImpactPrefab>k__BackingField: {fileID: 1362418652685942, guid: b369efb4abe69e044890b664115fab9e, type: 3}
+--- !u!1 &6715640405843692687
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2282125089892214677}
+  - component: {fileID: 8735114198086408206}
+  m_Layer: 11
+  m_Name: Sphere
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2282125089892214677
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6715640405843692687}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 656648362683463349}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &8735114198086408206
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6715640405843692687}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 3
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &7090329782191614771
 GameObject:
   m_ObjectHideFlags: 0
@@ -7930,7 +7994,7 @@ GameObject:
   - component: {fileID: 2132247271964235286}
   - component: {fileID: 3209511108291747049}
   - component: {fileID: 1101783212478935015}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Elbow_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7962,8 +8026,8 @@ Rigidbody:
   m_GameObject: {fileID: 7535180120221704059}
   serializedVersion: 4
   m_Mass: 2
-  m_Drag: 0.3
-  m_AngularDrag: 0.3
+  m_Drag: 0
+  m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -8063,6 +8127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
   _enemy: {fileID: 5028290825065688659}
+  <BodyPartType>k__BackingField: 1
 --- !u!114 &1101783212478935015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8533,7 +8598,7 @@ GameObject:
   - component: {fileID: 7161091326207721343}
   - component: {fileID: 8492583191646441480}
   - component: {fileID: 2519379548787832703}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Ankle_L_ColliderRotator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8590,6 +8655,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
   _enemy: {fileID: 5028290825065688659}
+  <BodyPartType>k__BackingField: 1
 --- !u!114 &2519379548787832703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8786,7 +8852,7 @@ GameObject:
   - component: {fileID: 409149303235442434}
   - component: {fileID: 1448534329251770931}
   - component: {fileID: 6196618577378310169}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: UpperLeg_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8818,8 +8884,8 @@ Rigidbody:
   m_GameObject: {fileID: 8113426240594296793}
   serializedVersion: 4
   m_Mass: 8
-  m_Drag: 0.3
-  m_AngularDrag: 0.3
+  m_Drag: 0
+  m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -8919,6 +8985,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
   _enemy: {fileID: 5028290825065688659}
+  <BodyPartType>k__BackingField: 1
 --- !u!114 &6196618577378310169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9455,7 +9522,7 @@ GameObject:
   - component: {fileID: 3478809154334760720}
   - component: {fileID: 1892514770437203776}
   - component: {fileID: 3020738849507521352}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Hand_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9489,8 +9556,8 @@ Rigidbody:
   m_GameObject: {fileID: 8679649135406597141}
   serializedVersion: 4
   m_Mass: 0.79999995
-  m_Drag: 0.3
-  m_AngularDrag: 0.3
+  m_Drag: 0
+  m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -9588,6 +9655,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
   _enemy: {fileID: 5028290825065688659}
+  <BodyPartType>k__BackingField: 1
 --- !u!114 &3020738849507521352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9753,7 +9821,7 @@ GameObject:
   - component: {fileID: 9157253348671342056}
   - component: {fileID: 9085496020409098461}
   - component: {fileID: 1133874173784301591}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: Shoulder_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9785,8 +9853,8 @@ Rigidbody:
   m_GameObject: {fileID: 8784452039817225502}
   serializedVersion: 4
   m_Mass: 3.1999998
-  m_Drag: 0.3
-  m_AngularDrag: 0.3
+  m_Drag: 0
+  m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -9886,6 +9954,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
   _enemy: {fileID: 5028290825065688659}
+  <BodyPartType>k__BackingField: 1
 --- !u!114 &1133874173784301591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10083,7 +10152,7 @@ GameObject:
   - component: {fileID: 4138373510672757404}
   - component: {fileID: 8528830003210791075}
   - component: {fileID: 653123366981435985}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: Elbow_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10115,8 +10184,8 @@ Rigidbody:
   m_GameObject: {fileID: 8893950927412350407}
   serializedVersion: 4
   m_Mass: 2
-  m_Drag: 0.3
-  m_AngularDrag: 0.3
+  m_Drag: 0
+  m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -10216,6 +10285,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
   _enemy: {fileID: 5028290825065688659}
+  <BodyPartType>k__BackingField: 1
 --- !u!114 &653123366981435985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10413,7 +10483,7 @@ GameObject:
   - component: {fileID: 7616350248451113950}
   - component: {fileID: 534386894890772696}
   - component: {fileID: 5650218314533674110}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: Hand_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10447,8 +10517,8 @@ Rigidbody:
   m_GameObject: {fileID: 9100591130991010736}
   serializedVersion: 4
   m_Mass: 0.79999995
-  m_Drag: 0.3
-  m_AngularDrag: 0.3
+  m_Drag: 0
+  m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -10546,6 +10616,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ragdollHandler: {fileID: 5301074433637414667}
   _enemy: {fileID: 5028290825065688659}
+  <BodyPartType>k__BackingField: 1
 --- !u!114 &5650218314533674110
 MonoBehaviour:
   m_ObjectHideFlags: 0

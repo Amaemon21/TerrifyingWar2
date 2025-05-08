@@ -6,8 +6,9 @@ using Zenject;
 public class GrenadeHandler : MonoBehaviour
 {
     [Inject] private readonly IInputService _inputService;
-    [Inject] private readonly WeaponProvider _weaponProvider;
-    [Inject] private readonly FPSPlayerSettings _playerSettings;
+    
+    [SerializeField] private WeaponContainer _weaponContainer;
+    [SerializeField] private FPSPlayerSettings _playerSettings;
     
     private void Update()
     {
@@ -18,15 +19,15 @@ public class GrenadeHandler : MonoBehaviour
     {
         if (_inputService.ThrowGrenade)
         {
-            _weaponProvider.Animator.SetTrigger(AnimationsConstrains.THROW_GRENADE);
-            StartCoroutine(AfterDelay(_weaponProvider.WeaponHolder.GetActiveWeapon().UnEquipDelay, ThrowGrenade));
+            _weaponContainer.HandAnimator.SetTrigger(AnimationsConstrains.THROW_GRENADE);
+            StartCoroutine(AfterDelay(_weaponContainer.WeaponHolder.GetCurrentWeaponSlot().WeaponAnimator.UnEquipDelay, ThrowGrenade));
         }
     }
 
     private void ThrowGrenade()
     {
-        _weaponProvider.WeaponHolder.GetActiveWeapon().gameObject.SetActive(false);
-        StartCoroutine(AfterDelay(_playerSettings.grenadeDelay, _weaponProvider.WeaponHolder.EquipWeapon));
+        _weaponContainer.WeaponHolder.GetCurrentWeaponSlot().gameObject.SetActive(false);
+        //StartCoroutine(AfterDelay(_playerSettings.grenadeDelay, _weaponProvider.WeaponHolder.EquipWeapon));
     }
     
     private IEnumerator AfterDelay(float delay, Action callback)

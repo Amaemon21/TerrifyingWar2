@@ -19,7 +19,7 @@ public class ItemInfoViewModel : ViewModel
     
     public override void Initialize()
     {
-        Disposable = _itemInfo.Config.Subscribe(UpdateView);
+        _itemInfo.Config.Subscribe(UpdateView).AddTo(CompositeDisposable);
     }
     
     private void UpdateView(InventoryItemConfig inventoryItemConfig)

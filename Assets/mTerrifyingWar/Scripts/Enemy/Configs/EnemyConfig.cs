@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyConfig : ScriptableObject
 {
     [field: SerializeField, BoxGroup("Model"), HorizontalLine] public Enemy EnemyPrefab { get; private set; }
-    [field: SerializeField, BoxGroup("EnemyTypeId"), HorizontalLine] public EnemyTypeId EnemyTypeId { get; private set; }
+    [field: SerializeField, BoxGroup("EnemyType"), HorizontalLine] public EnemyType EnemyType { get; private set; }
     
     [field: SerializeField, BoxGroup("Patrol Settings"), HorizontalLine] public float PatrolSpeed { get; private set; } = 1f;
     [field: SerializeField, BoxGroup("Patrol Settings")] public float PatrolDuration { get; private set; } = 5f;

@@ -1,18 +1,22 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 
 public class PatrolState : State
 {
     private float _elapsedTime;
-    private int _currentPatrolIndex;
-    
+    private SphereCollider _collider;
+
     public PatrolState(Enemy enemy) : base(enemy) { }
 
     public override void Enter()
     {
+        _collider = Enemy.PatrolCollider;
+
         Enemy.NavMeshAgent.speed = Enemy.EnemyConfig.PatrolSpeed;
         Enemy.EnemyAnimator.Move(true);
-        Patrol();
         _elapsedTime = 0f;
+
+        Patrol();
     }
 
     public override void Update()
@@ -29,7 +33,10 @@ public class PatrolState : State
         }
         else
         {
-            Patrol();
+            if (Enemy.NavMeshAgent.remainingDistance <= Enemy.NavMeshAgent.stoppingDistance && !Enemy.NavMeshAgent.pathPending)
+            {
+                Patrol();
+            }
         }
     }
 
@@ -38,19 +45,16 @@ public class PatrolState : State
         Enemy.EnemyAnimator.Move(false);
         Enemy.StopMovement();
     }
-    
+
     private void Patrol()
     {
-        if (Enemy.PatrolPoints.Length == 0) 
-            return;
+        Vector3 randomDirection = Random.insideUnitSphere * _collider.radius;
+        randomDirection += _collider.transform.position;
 
-        if (Enemy.NavMeshAgent.remainingDistance <= Enemy.NavMeshAgent.stoppingDistance && !Enemy.NavMeshAgent.pathPending)
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(randomDirection, out hit, _collider.radius, NavMesh.AllAreas))
         {
-            _currentPatrolIndex = (_currentPatrolIndex + 1) % Enemy.PatrolPoints.Length;
-
-            _currentPatrolIndex = Random.Range(0, Enemy.PatrolPoints.Length);
-            
-            Enemy.MoveTo(Enemy.PatrolPoints[_currentPatrolIndex].transform.position);
+            Enemy.MoveTo(hit.position);
         }
     }
 }

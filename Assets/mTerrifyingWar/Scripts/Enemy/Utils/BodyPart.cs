@@ -5,6 +5,10 @@ public class BodyPart : MonoBehaviour
     [SerializeField] private RagdollHandler _ragdollHandler;
     [SerializeField] private Enemy _enemy;
 
+    [field: SerializeField] public BodyPartType BodyPartType {get; private set;}
+
+    public Enemy Enemy => _enemy;
+    
     private void OnValidate()
     {
         _ragdollHandler ??= GetComponentInParent<RagdollHandler>();
@@ -28,4 +32,10 @@ public class BodyPart : MonoBehaviour
 
         _enemy.ChangeState(new ChaseState(_enemy));
     }
+}
+
+public enum BodyPartType
+{
+    Head,
+    Body
 }

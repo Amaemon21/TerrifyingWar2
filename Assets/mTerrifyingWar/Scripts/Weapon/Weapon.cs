@@ -1,5 +1,6 @@
 using System;
 using KINEMATION.KAnimationCore.Runtime.Core;
+using Newtonsoft.Json;
 using UnityEngine;
 using Zenject;
 
@@ -8,152 +9,85 @@ public class Weapon : MonoBehaviour
     [HideInInspector] public KTransform rightHandPose;
     [HideInInspector] public KTransform adsPose;
     
-    [Inject] protected readonly WeaponProvider _weaponProvider;
     [Inject] private readonly DisplayProvider _displayProvider;
     [Inject] private readonly IInputService _inputService;
+    [Inject] private readonly IStorageService _storagesService;
 
     [field: SerializeField] public WeaponSettings WeaponSettings { get; private set; }
     [field: SerializeField] public Transform AimPoint { get; private set; }
     [field: SerializeField] public Transform BarrelPoint { get; private set; }
+    [field: SerializeField] public WeaponAnimator WeaponAnimator { get; private set; }
+    [field: SerializeField] public WeaponAmmo WeaponAmmo { get; private set; }
     
-    [SerializeField] private RecoilPreset _recoilPreset;
-    
-    [SerializeField] protected Animator _weaponAnimator;
-    
-    protected float TacReloadDelay;
-    protected bool IsReloading;
-    
-    private float _emptyReloadDelay;
     private bool _canFire = true;
     private bool _isFiring;
     private float _lastShootTime = 0.0f;
+    
+    private SaveData _saveData;
+    private WeaponItemEntity weaponItemEntity;
 
     public FireMode FireMode { get; private set; } = FireMode.Semi;
-    public float UnEquipDelay { get; private set; }
-    
-    public AmmoInventoryItemConfig AmmoInventoryItemConfig { get; private set; }
+    public WeaponContainer WeaponContainer { get; private set; }
     public WeaponInventoryItemConfig WeaponInventoryItemConfig { get; private set; }
     
     public event Action OnShootChanged;
-
-    public virtual void Initialize(GameObject owner, WeaponInventoryItemConfig weaponInventoryItemConfig)
-    {
-        WeaponInventoryItemConfig = weaponInventoryItemConfig;
-        
-        AnimationClip idlePose = null;
-
-        foreach (var clip in WeaponSettings.characterController.animationClips)
-        {
-            if (clip.name.Contains("Reload"))
-            {
-                if (clip.name.Contains("Tac"))
-                    TacReloadDelay = clip.length;
-
-                if (clip.name.Contains("Empty"))
-                    _emptyReloadDelay = clip.length;
-
-                continue;
-            }
-
-            if (clip.name.ToLower().Contains("unequip"))
-            {
-                UnEquipDelay = clip.length;
-                continue;
-            }
-
-            if (idlePose != null)
-                continue;
-
-            if (clip.name.Contains("Idle") || clip.name.Contains("Pose"))
-                idlePose = clip;
-        }
-
-        if (idlePose != null)
-        {
-            idlePose.SampleAnimation(owner, 0f);
-        }
-    }
-    
-    public void OnEquipped_Immediate()
-    {
-        _weaponProvider.Animator.runtimeAnimatorController = WeaponSettings.characterController;
-        _weaponAnimator.Play(AnimationsConstrains.IDLE, -1, 0f);
-        _weaponProvider.RecoilAnimation.Init(WeaponSettings.recoilAnimData, WeaponSettings.fireRate, FireMode);
-    }
-
-    public void OnEquipped(bool fastEquip = false)
-    {
-        _weaponProvider.Animator.runtimeAnimatorController = WeaponSettings.characterController;
-        _weaponProvider.RecoilAnimation.Init(WeaponSettings.recoilAnimData, WeaponSettings.fireRate, FireMode);
-
-        // Reset the default pose to idle.
-        _weaponProvider.Animator.Play(AnimationsConstrains.IDLE, -1, 0f);
-
-        // Play the equip animation.
-        if (WeaponSettings.hasEquipOverride)
-        {
-            _weaponProvider.Animator.Play("IKMovement", -1, 0f);
-            _weaponProvider.Animator.Play(fastEquip ? AnimationsConstrains.EQUIP : AnimationsConstrains.EQUIP_OVERRIDE, -1, 0f);
-            return;
-        }
-
-        // Play the curve-based equipping animation.
-        _weaponProvider.Animator.Play(AnimationsConstrains.EQUIP, -1, 0f);
-    }
-
-    public float OnUnEquipped()
-    {
-        _weaponProvider.Animator.SetTrigger(AnimationsConstrains.UNEQUIP);
-        return UnEquipDelay + 0.05f;
-    }
-    
-    public void OnFireModeChange()
-    {
-        FireMode = FireMode == FireMode.Auto ? FireMode.Semi : WeaponSettings.fullAuto ? FireMode.Auto : FireMode.Semi;
-        _weaponProvider.RecoilAnimation.fireMode = FireMode;
-    }
 
     private void OnEnable()
     {
         _inputService.OnShootStart += HandleFirePressed;
         _inputService.OnShootEnd += HandleFireReleased;
         
-        _displayProvider.Inventory.ItemAddedInventoryChanged += RequestAmmo;
-        _displayProvider.Inventory.ItemRemoveInventoryChanged += RemoveAmmo;
-        
-        RequestAmmo();
+        _displayProvider.AmmoView.gameObject.SetActive(true);
     }
 
     private void OnDisable()
     {
         _inputService.OnShootStart -= HandleFirePressed;
         _inputService.OnShootEnd -= HandleFireReleased;
-        
-        _displayProvider.Inventory.ItemAddedInventoryChanged -= RequestAmmo;
-        _displayProvider.Inventory.ItemRemoveInventoryChanged -= RemoveAmmo;
+
+        if (_displayProvider.AmmoView != null)
+            _displayProvider.AmmoView.gameObject.SetActive(false);
     }
     
-    public virtual void OnReload()
+    public void Initialize(WeaponInventoryItemConfig weaponInventoryItemConfig, WeaponContainer weaponContainer)
     {
-        if (AmmoInventoryItemConfig != null && AmmoInventoryItemConfig.ItemCount > 0 && WeaponInventoryItemConfig.CurrentAmmo < WeaponInventoryItemConfig.MagazineSize)
+        WeaponInventoryItemConfig = weaponInventoryItemConfig;
+        WeaponContainer = weaponContainer;
+        
+        _storagesService.Load(LoadData);
+        
+        if (WeaponInventoryItemConfig.ScopeInventoryItemConfig != null)
         {
-            if (WeaponInventoryItemConfig.CurrentAmmo == WeaponInventoryItemConfig.MagazineSize)
-                return;
-
-            var reloadHash = WeaponInventoryItemConfig.CurrentAmmo == 0 ? AnimationsConstrains.RELOAD_EMPTY : AnimationsConstrains.RELOAD_TAC;
-            _weaponAnimator.Play(reloadHash, -1, 0f);
-
-            _weaponProvider.Animator.Play(reloadHash, -1, 0f);
-            Invoke(nameof(AddAmmo), WeaponInventoryItemConfig.CurrentAmmo == 0 ? _emptyReloadDelay : TacReloadDelay);
-            IsReloading = true;
+            Scope scope = Instantiate(weaponInventoryItemConfig.ScopeInventoryItemConfig.Scope, transform);
+            scope.transform.localPosition = weaponInventoryItemConfig.ScopeInventoryItemConfig.Position;
+            scope.transform.localRotation = Quaternion.identity; 
+            AimPoint = scope.AimPoint;
         }
+
+        WeaponAmmo.Setup();
     }
 
+    public void ChangeCanFire(bool canFire)
+    {
+        _canFire = canFire;
+    }
+    
+    public void OnFireModeChange()
+    {
+        FireMode = FireMode == FireMode.Auto ? FireMode.Semi : WeaponSettings.fullAuto ? FireMode.Auto : FireMode.Semi;
+        WeaponContainer.RecoilAnimation.fireMode = FireMode;
+    }
+    
     private void Update()
     {
         if (_isFiring && FireMode == FireMode.Auto && CanShoot())
         {
             Shoot();
+
+            if (WeaponInventoryItemConfig.CurrentAmmo <= 0)
+            {
+                StopFiring();
+            }
         }
     }
 
@@ -177,8 +111,8 @@ public class Weapon : MonoBehaviour
             _isFiring = false;
         }
 
-        _weaponProvider.RecoilAnimation.Stop();
-        _weaponProvider.RecoilPattern.OnFireEnd();
+        WeaponContainer.RecoilAnimation.Stop();
+        WeaponContainer.RecoilPattern.OnFireEnd();
     }
 
     private void Shoot()
@@ -186,19 +120,15 @@ public class Weapon : MonoBehaviour
         if (!CanShoot())
             return;
 
-        _weaponProvider.RecoilPattern.OnFireStart();
-        _weaponProvider.RecoilAnimation.Play();
-        PlayShootingEffects();
+        WeaponContainer.RecoilPattern.OnFireStart();
+        WeaponContainer.RecoilAnimation.Play();
 
         OnShootChanged?.Invoke();
+        
         WeaponInventoryItemConfig.RemoveCurrentAmmo();
-        HandleDisplayAmmo();
+        IncrementAmmoSaver();
+        WeaponAmmo.HandleDisplayAmmo();
         _lastShootTime = Time.time;
-
-        if (WeaponInventoryItemConfig.CurrentAmmo <= 0)
-        {
-            StopFiring();
-        }
     }
 
     private void StopFiring()
@@ -207,88 +137,28 @@ public class Weapon : MonoBehaviour
         _canFire = false;
         HandleFireReleased();
     }
-
+    
     private bool CanShoot()
     {
-        return _canFire && !IsReloading && WeaponInventoryItemConfig.CurrentAmmo > 0 && Time.time >= _lastShootTime + (60f / WeaponSettings.fireRate);
+        return _canFire && !WeaponAmmo.IsReloading && WeaponInventoryItemConfig.CurrentAmmo > 0 && Time.time >= _lastShootTime + (60f / WeaponSettings.fireRate);
     }
 
-    private void PlayShootingEffects()
+    private void IncrementAmmoSaver()
     {
-        if (WeaponSettings.useFireClip)
-        {
-            _weaponProvider.Animator.Play(AnimationsConstrains.FIRE, -1, 0f);
-        }
-
-        _displayProvider.AmmoView.PlayShootAnimation();
+        weaponItemEntity.CurrentAmmo--;
         
-        _weaponAnimator.Play(WeaponSettings.hasFireOut && WeaponInventoryItemConfig.CurrentAmmo == 1 ? AnimationsConstrains.FIREOUT : AnimationsConstrains.FIRE, -1, 0f);
+        _storagesService.Save(_saveData);
     }
 
-    public void ResetAvailableAmmo()
+    private void LoadData(SaveData saveData)
     {
-        if (AmmoInventoryItemConfig != null)
-        {
-            AmmoInventoryItemConfig.ResetCount();
-            _displayProvider.Inventory.RemoveItem(AmmoInventoryItemConfig);
-        }
-    }
+        _saveData = saveData;
 
-    private void RequestAmmo()
-    {
-        if (WeaponInventoryItemConfig != null)
-        {
-            AmmoInventoryItemConfig = _displayProvider.InventorySystem.RequestAmmo(WeaponInventoryItemConfig.EAmmoType);
-        }
+        ItemEntity item = _saveData.InventoryEntity.FindItemByID(WeaponInventoryItemConfig.ItemID);
 
-        HandleDisplayAmmo();
-    }
-
-    private void RemoveAmmo(InventoryItemConfig config)
-    {
-        if (config is AmmoInventoryItemConfig ammoInventoryItem)
+        if (item is WeaponItemEntity weaponInventoryItemData)
         {
-            if (ammoInventoryItem.EAmmoType == WeaponInventoryItemConfig.EAmmoType)
-            {
-                AmmoInventoryItemConfig = null;
-                HandleDisplayAmmo();
-            }
-        }
-    }
-    
-    protected void AddAmmo()
-    {
-        int amountNeeded = WeaponInventoryItemConfig.MagazineSize - WeaponInventoryItemConfig.CurrentAmmo;
-
-        if (amountNeeded >= AmmoInventoryItemConfig.ItemCount)
-        {
-            WeaponInventoryItemConfig.AddCurrentAmmo(AmmoInventoryItemConfig.ItemCount);
-            AmmoInventoryItemConfig.RemoveCount(amountNeeded);
-        }
-        else
-        {
-            WeaponInventoryItemConfig.SetCurrentAmmo();
-            AmmoInventoryItemConfig.RemoveCount(amountNeeded);
-        }
-        
-        HandleDisplayAmmo();
-        
-        _canFire = true;
-        IsReloading = false;
-    }
-    
-    private void HandleDisplayAmmo()
-    {
-        if (WeaponInventoryItemConfig != null)
-        {
-            if (AmmoInventoryItemConfig != null)
-            {
-                _displayProvider.AmmoView.DisplayAmmo(WeaponInventoryItemConfig.CurrentAmmo, AmmoInventoryItemConfig.ItemCount, this);
-            }
-            else
-            {
-                _displayProvider.AmmoView.DisplayAmmo(WeaponInventoryItemConfig.CurrentAmmo, 0, this);
-            }
+            weaponItemEntity = weaponInventoryItemData;
         }
     }
 }

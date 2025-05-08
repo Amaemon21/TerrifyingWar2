@@ -8,16 +8,29 @@ public class UIWindowsInitializer : MonoBehaviour
     
     [SerializeField] private UIWindowEntry[] _windows;
 
-    private void Awake()
+    private void OnEnable()
     {
         SubscribeWindows();
     }
-    
+
+    private void OnDisable()
+    {
+        UnsubscribeWindows();
+    }
+
     private void SubscribeWindows()
     {
-        foreach (UIWindowEntry entry in _windows)
+        foreach (var entry in _windows)
         {
-            _windowService.SubscribeWindow(entry.Type, entry.Window);
+            _windowService.SubscribeWindow(entry.type, entry.Window);
+        }
+    }
+    
+    private void UnsubscribeWindows()
+    {
+        foreach (var entry in _windows)
+        {
+            _windowService.UnsubscribeWindow(entry.type);
         }
     }
 }
@@ -25,6 +38,6 @@ public class UIWindowsInitializer : MonoBehaviour
 [Serializable]
 public class UIWindowEntry
 {
-    public WindowType Type;
+    public WindowType type;
     public UIWindow Window;
 }

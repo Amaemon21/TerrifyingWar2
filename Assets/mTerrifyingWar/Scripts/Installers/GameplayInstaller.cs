@@ -5,38 +5,37 @@ public class GameplayInstaller : MonoInstaller
 {
     [Space(10)]
     [SerializeField] private EnemyDatabaseConfig _enemyDatabaseConfig;
-    
-    [Space(10)]
-    [SerializeField] private PlayerProvider _playerProvider;
-    [SerializeField] private WeaponProvider _weaponProvider;
-    [SerializeField] private DisplayProvider _displayProvider;
-    
-    [Space(10)]
-    [SerializeField] private FPSPlayerSettings _playerSettings;
-    
+
     public override void InstallBindings()
     {
+        BindConfig();
+        BindUI();
         BindServices();
-        UIWindowServiceBindings();
-        ConfigBindings();
-        
-        Container.Bind<FPSPlayerSettings>().FromInstance(_playerSettings).AsSingle();
+        BindGameplaySystems();
     }
-    
-    private void BindServices()
+
+    private void BindConfig()
     {
-        Container.Bind<PlayerProvider>().FromInstance(_playerProvider).AsSingle();
-        Container.Bind<DisplayProvider>().FromInstance(_displayProvider).AsSingle();
-        Container.Bind<WeaponProvider>().FromInstance(_weaponProvider).AsSingle();
+        Container.Bind<EnemyDatabaseConfig>().FromInstance(_enemyDatabaseConfig).AsSingle();
     }
-    
-    private void UIWindowServiceBindings()
+
+    private void BindUI()
     {
         Container.Bind<UIWindowService>().AsSingle();
     }
-    
-    private void ConfigBindings()
+
+    private void BindServices()
     {
-        Container.Bind<EnemyDatabaseConfig>().FromInstance(_enemyDatabaseConfig).AsSingle();
+        Container.Bind<PlayerProvider>().AsSingle();
+        Container.Bind<DisplayProvider>().AsSingle();
+        Container.Bind<IAssetsProvider>().To<AssetsProvider>().AsSingle();
+        Container.Bind<IGameplayFactory>().To<GameplayFactory>().FromNew().AsSingle();
+        Container.Bind<IInputService>().To<InputService>().FromNew().AsSingle();
+    }
+    
+    private void BindGameplaySystems()
+    {
+        Container.Bind<QuestTracker>().AsSingle().NonLazy();
+        Container.Bind<QuestEvents>().AsSingle().NonLazy();
     }
 }

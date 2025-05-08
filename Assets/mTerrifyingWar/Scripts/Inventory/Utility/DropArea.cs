@@ -1,33 +1,34 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
 
 public class DropArea : MonoBehaviour
 {
-    [SerializeField] private float _hideValue;
-    [SerializeField] private float _showValue;
-    
+    [SerializeField] private float _hideY;
+    [SerializeField] private float _showY;
     [SerializeField] private float _duration;
 
     private RectTransform _rectTransform;
-    
+
     private void Awake()
     {
-        _rectTransform = (RectTransform)transform;
+        _rectTransform = GetComponent<RectTransform>();
     }
 
     private void OnEnable()
     {
-        Hide();
+        Hide(true);
     }
 
     public void Show()
     {
-        _rectTransform.DOMoveY(_showValue, _duration);
+        _rectTransform.DOAnchorPosY(_showY, _duration);
     }
 
-    public void Hide()
+    public void Hide(bool immediate = false)
     {
-        _rectTransform.DOMoveY(_hideValue, _duration);
+        if (immediate)
+            _rectTransform.anchoredPosition = new Vector2(_rectTransform.anchoredPosition.x, _hideY);
+        else
+            _rectTransform.DOAnchorPosY(_hideY, _duration);
     }
 }

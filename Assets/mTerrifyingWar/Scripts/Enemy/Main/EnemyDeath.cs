@@ -1,7 +1,12 @@
 using UnityEngine;
+using Zenject;
 
 public class EnemyDeath : MonoBehaviour
 {
+    [Inject] private readonly QuestEvents _questEvents;
+    
+    [SerializeField] private QuestObjectiveConfig _questObjectiveConfig;
+    
     [SerializeField] private EnemyHealth _enemyHealth;
     [SerializeField] private RagdollHandler _ragdollHandler;
     
@@ -28,7 +33,7 @@ public class EnemyDeath : MonoBehaviour
         if (_isDeath == false)
         {
             _ragdollHandler.Enable();
-
+            _questEvents.Report(_questObjectiveConfig.Id);
             _isDeath = true;
         }
     }
