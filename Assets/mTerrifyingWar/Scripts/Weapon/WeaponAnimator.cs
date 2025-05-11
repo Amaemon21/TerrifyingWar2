@@ -6,8 +6,8 @@ public class WeaponAnimator : MonoBehaviour
     [Inject] private readonly PlayerProvider _playerProvider;
     
     [SerializeField] private Animator _weaponAnimator;
+    [SerializeField] private Weapon _weapon;
     
-    private Weapon _weapon;
     private WeaponSettings _weaponSettings;
     
     public float TacReloadDelay { get; private set; }
@@ -16,7 +16,6 @@ public class WeaponAnimator : MonoBehaviour
 
     private void Awake()
     {
-        _weapon = GetComponent<Weapon>();
         _weaponSettings = _weapon.WeaponSettings;
     }
 

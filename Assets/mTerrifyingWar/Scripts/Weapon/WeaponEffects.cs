@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class WeaponEffects : MonoBehaviour
 {
+    [SerializeField, BoxGroup("Main"), HorizontalLine] private Weapon _weapon;
+    
     [SerializeField, BoxGroup("Bullet Trail"), HorizontalLine] private AnimationCurve _widthCurve;
     [SerializeField, BoxGroup("Bullet Trail")] private float _duration = 0.1f;
     [SerializeField, BoxGroup("Bullet Trail")] private float _minVertexDistance = 0.1f;
@@ -11,13 +13,6 @@ public class WeaponEffects : MonoBehaviour
     [SerializeField, BoxGroup("Bullet Trail")] private Material _material;
     [SerializeField, BoxGroup("Bullet Trail")] private TrailRenderer _bulletTrail;
     [SerializeField, BoxGroup("Bullet Trail")] private float _bulletSpeed = 100;
-
-    private Weapon weapon;
-
-    private void Awake()
-    {
-        weapon = GetComponent<Weapon>();
-    }
     
     public void CreateTrail(Vector3 hitPoint)
     {
@@ -26,7 +21,7 @@ public class WeaponEffects : MonoBehaviour
 
     private IEnumerator SpawnTrail(Vector3 hitPoint)
     {
-        TrailRenderer trail = WeaponUtilities.CreateTrail(_bulletTrail, weapon.BarrelPoint, _widthCurve, _duration, _minVertexDistance, _trailColor, _material);
+        TrailRenderer trail = WeaponUtilities.CreateTrail(_bulletTrail, _weapon.BarrelPoint, _widthCurve, _duration, _minVertexDistance, _trailColor, _material);
 
         yield return null;
 

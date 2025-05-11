@@ -7,7 +7,8 @@ public class PlayerHealth : IHealth
     private readonly ReactiveProperty<float> _health;
     public Observable<float> Health => _health;
     
-    private SaveData _saveData;
+    private GameState _gameState;
+    private PlayerEntity _playerEntity;
     
     public float MaxHealth { get; private set; }
     
@@ -24,23 +25,31 @@ public class PlayerHealth : IHealth
     {
         _health.Value = Mathf.Clamp(_health.Value - damage, 0, MaxHealth);
         
-        _saveData.PlayerEntity.Health = _health.Value;
-        _storageService.Save(_saveData);
+        _playerEntity.Health = _health.Value;
+        _storageService.Save(_gameState);
     }
 
     public void Heal(float healAmount)
     {
         _health.Value = Mathf.Clamp(_health.Value + healAmount, 0, MaxHealth);
         
-        _saveData.PlayerEntity.Health = _health.Value;
-        _storageService.Save(_saveData);
+        _playerEntity.Health = _health.Value;
+        _storageService.Save(_gameState);
     }
 
-    private void LoadSaveData(SaveData saveData)
+    private void LoadSaveData(GameState gameState)
     {
-        _saveData = saveData;
+        _gameState = gameState;
 
-        MaxHealth = saveData.PlayerEntity.MaxHealth;
-        _health.Value = saveData.PlayerEntity.Health;
+        foreach (var entity in _gameState.Entities)
+        {
+            if (entity is PlayerEntity playerEntity)
+            {
+                _playerEntity = playerEntity;
+            }
+        }
+        
+        MaxHealth = _playerEntity.MaxHealth;
+        _health.Value = _playerEntity.Health;
     }
 }

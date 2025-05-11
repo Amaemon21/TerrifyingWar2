@@ -11,8 +11,7 @@ public class InventorySaver : MonoBehaviour
     [SerializeField] private InventoryDatabase _inventoryDatabase;
     [SerializeField] private Inventory _inventory;
     
-    private SaveData _saveData;
-    private InventoryEntity inventoryEntity;
+    private GameState _gameState;
     
     private void Awake()
     {
@@ -29,7 +28,18 @@ public class InventorySaver : MonoBehaviour
     {
         if (inventoryItemConfig.IsStackable)
         {
-            ItemEntity foundItem = _saveData.InventoryEntity.FindItemByID(inventoryItemConfig.ItemID);
+            ItemEntity foundItem = null;
+            
+            foreach (var item in _gameState.Entities)
+            {
+                if (item is ItemEntity itemEntity)
+                {
+                    if (itemEntity.ItemId == inventoryItemConfig.ItemID)
+                    { 
+                        foundItem = itemEntity;
+                    }
+                }
+            }
             
             if (foundItem != null)
             {
@@ -39,26 +49,33 @@ public class InventorySaver : MonoBehaviour
             {
                 ItemEntity itemEntity = new ItemEntity
                 {
+                    EntityId = _gameState.GetNewId(),
                     ItemId = inventoryItemConfig.ItemID,
                     Count = inventoryItemConfig.ItemCount,
                 };
                 
-                inventoryEntity.Items.Add(itemEntity);
+                _gameState.Entities.Add(itemEntity);
             }
         }
         else
         {
             if (inventoryItemConfig is WeaponInventoryItemConfig weaponInventoryItemConfig)
             {
+                int id = _gameState.GetNewId();
+                
+                weaponInventoryItemConfig.SetId(id);
+                
                 var weaponItemEntity = new WeaponItemEntity()
                 {
+                    EntityId = id,
                     ItemId = inventoryItemConfig.ItemID,
                     Count = inventoryItemConfig.ItemCount,
-                    CurrentAmmo = weaponInventoryItemConfig.CurrentAmmo,
                     IsEquipped = true,
                 };
                 
-                inventoryEntity.Items.Add(weaponItemEntity);
+                weaponItemEntity.CurrentAmmo = weaponInventoryItemConfig.CurrentAmmo;
+                
+                _gameState.Entities.Add(weaponItemEntity);
             }
             else
             {
@@ -68,74 +85,83 @@ public class InventorySaver : MonoBehaviour
                     Count = inventoryItemConfig.ItemCount,
                 };
                 
-                inventoryEntity.Items.Add(itemEntity);
+                _gameState.Entities.Add(itemEntity);
             }
         }
         
-        _storageService.Save(_saveData);
+        _storageService.Save(_gameState);
     }
     
     public void RemoveItem(InventoryItemConfig inventoryItemConfig, int amount = 1)
     {
-        var itemsToRemove = new List<ItemEntity>();
+        var itemsToRemove = new List<Entity>();
 
-        foreach (var item in inventoryEntity.Items)
+        foreach (var item in _gameState.Entities)
         {
-            if (item.ItemId == inventoryItemConfig.ItemID)
+            if (item is ItemEntity itemEntity)
             {
-                if (inventoryItemConfig.IsStackable)
+                if (itemEntity.ItemId == inventoryItemConfig.ItemID)
                 {
-                    item.Count -= amount;
+                    if (inventoryItemConfig.IsStackable)
+                    {
+                        itemEntity.Count -= amount;
 
-                    if (item.Count <= 0)
+                        if (itemEntity.Count <= 0)
+                        {
+                            itemsToRemove.Add(item);
+                        }
+                    }
+                    else
                     {
                         itemsToRemove.Add(item);
                     }
-                }
-                else
-                {
-                    itemsToRemove.Add(item);
                 }
             }
         }
         
         foreach (var item in itemsToRemove)
         {
-            inventoryEntity.Items.Remove(item);
+            _gameState.Entities.Remove(item);
         }
-
-        _storageService.Save(_saveData);
+        
+        _storageService.Save(_gameState);
     }
     
-    private void LoadData(SaveData saveData)
+    private void LoadData(GameState gameState)
     {
-        _saveData = saveData;
-        inventoryEntity = _saveData.InventoryEntity;
+        _gameState = gameState;
 
         LoadInventory();
     }
     
     private void LoadInventory()
     {
-        if (inventoryEntity.Items != null && inventoryEntity.Items.Any())
+        if (_gameState.Entities.Any())
         {
-            foreach (var itemData in inventoryEntity.Items)
+            foreach (var itemData in _gameState.Entities)
             {
-                InventoryItemConfig item = _inventoryDatabase.FindItemByID(itemData.ItemId);
+                if (itemData is ItemEntity itemEntity)
+                {
+                    InventoryItemConfig item = _inventoryDatabase.FindItemByID(itemEntity.ItemId);
+                    InventoryItemConfig copyItem = Instantiate(item);
                 
-                if (item is WeaponInventoryItemConfig weaponInventoryItemConfig)
-                {
-                    if (itemData is WeaponItemEntity weaponInventoryItemData)
+                    if (itemData is WeaponItemEntity weaponItemEntity)
                     {
-                        weaponInventoryItemConfig.SetCurrentAmmo(weaponInventoryItemData.CurrentAmmo);
-                        _inventory.AddItem(item, true);
+                        if (copyItem is WeaponInventoryItemConfig weaponInventoryItemConfig)
+                        {
+                            weaponInventoryItemConfig.SetId(weaponItemEntity.EntityId);
+                        
+                            weaponInventoryItemConfig.SetCurrentAmmo(weaponItemEntity.CurrentAmmo);
+                 
+                            _inventory.AddItem(weaponInventoryItemConfig, true);
+                        }
                     }
-                }
-                else
-                {
-                    item.ResetCount();
-                    item.AddCount(itemData.Count);
-                    _inventory.AddItem(item, true);
+                    else
+                    {
+                        copyItem.ResetCount();
+                        copyItem.AddCount(itemEntity.Count);
+                        _inventory.AddItem(copyItem, true);
+                    }
                 }
             }
         }

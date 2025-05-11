@@ -8,7 +8,7 @@ public class ExperienceModel
     private readonly ReactiveProperty<int> _level = new();
     
     private int _experienceToNextLevel;
-    private SaveData _saveData;
+    private GameState gameState;
     
     public Observable<int> Experience => _experience;
     public Observable<int> Level => _level;
@@ -45,9 +45,9 @@ public class ExperienceModel
         return _level.Value * 100 + 100;
     }
 
-    private void LoadSaveData(SaveData _saveData)
+    private void LoadSaveData(GameState gameState)
     {
-        this._saveData = _saveData;
+        this.gameState = gameState;
         
         //_level.Value = _saveData.PlayerData.Level;
         //_experience.Value = _saveData.PlayerData.Experience;

@@ -4,6 +4,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "WeaponItem", menuName = "Inventory/WeaponItem")]
 public class WeaponInventoryItemConfig : InventoryItemConfig
 {
+    public int SaveId {get; private set;}
+    
     [field: SerializeField, BoxGroup("Weapon item config"), HorizontalLine, ShowAssetPreview] public Sprite EquippedSprite { get; private set;}
     [field: SerializeField, BoxGroup("Weapon item config")] public Weapon WeaponHandPrefab { get; private set;}
     [field: SerializeField, BoxGroup("Weapon item config")] public int Damage { get; private set;}
@@ -17,6 +19,11 @@ public class WeaponInventoryItemConfig : InventoryItemConfig
     
     [field: SerializeField, Expandable, BoxGroup("Attachment"), HorizontalLine] public ScopeInventoryItemConfig ScopeInventoryItemConfig { get; private set;}
 
+    public void SetId(int id)
+    {
+        SaveId = id;
+    }
+    
     public void AddCurrentAmmo(int value)
     {
         if (value >= 0)

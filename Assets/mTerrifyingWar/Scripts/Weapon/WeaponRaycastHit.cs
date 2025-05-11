@@ -6,6 +6,9 @@ public class WeaponRaycastHit : MonoBehaviour
 {
     [Inject] private readonly PlayerProvider _playerProvider;
     
+    [SerializeField, BoxGroup("Main"), HorizontalLine] private Weapon _weapon;
+    [SerializeField, BoxGroup("Main")] private SoundNotifier _soundNotifier;
+    [SerializeField, BoxGroup("Main")] private WeaponEffects _weaponEffects;
     [SerializeField, BoxGroup("Main")] private LayerMask _hitScanMask;
     
     [SerializeField, BoxGroup("Spread"), HorizontalLine] private bool _applySpread = true;
@@ -13,17 +16,6 @@ public class WeaponRaycastHit : MonoBehaviour
 
     [SerializeField, BoxGroup("Damage Parameters")] private int _damageHead;
     [SerializeField, BoxGroup("Damage Parameters")] private int _damageBody;
-    
-    private Weapon _weapon;
-    private SoundNotifier _soundNotifier;
-    private WeaponEffects _weaponEffects;
-
-    private void Awake()
-    {
-        _weapon = GetComponent<Weapon>();
-        _soundNotifier = GetComponent<SoundNotifier>();
-        _weaponEffects = GetComponent<WeaponEffects>();
-    }
 
     private void OnEnable()
     {

@@ -19,19 +19,6 @@ public class AmmoView : MonoBehaviour
     private void Awake()
     {
         _originalScale = _ammoText.transform.localScale;
-        
-        gameObject.SetActive(false);
-    }
-
-    private void OnEnable()
-    {
-        _playerProvider.WeaponContainer.WeaponHolder.GetCurrentWeaponSlot().OnShootChanged += PlayShootAnimation;
-    }
-
-    private void OnDisable()
-    {
-        if (_playerProvider.WeaponContainer.WeaponHolder.GetCurrentWeaponSlot() != null) 
-            _playerProvider.WeaponContainer.WeaponHolder.GetCurrentWeaponSlot().OnShootChanged -= PlayShootAnimation;
     }
     
     public void DisplayAmmo(int currentAmmo, int availableAmmo, Weapon weapon)
@@ -65,7 +52,7 @@ public class AmmoView : MonoBehaviour
         //_weaponNameText.text = weapon.WeaponInventoryItemConfig.ItemName;
     }
 
-    private void PlayShootAnimation()
+    public void PlayShootAnimation()
     {
         _ammoText.transform.DOScale(_originalScale * _scaleFactor, _duration).OnComplete(() =>
         { 

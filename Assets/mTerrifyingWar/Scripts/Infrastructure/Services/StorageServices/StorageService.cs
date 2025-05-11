@@ -27,48 +27,37 @@ public class StorageService : IStorageService
     
     public void CreateNewData(Action callback = null)
     {
-        SaveData saveData = new SaveData
+        GameState gameState = new GameState
         {
             CreationDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
         };
         
-        Save(saveData, success => callback?.Invoke());
+        Save(gameState, success => callback?.Invoke());
     }
 
-    public void Save(SaveData _saveData, Action<bool> callback = null)
+    public void Save(GameState gameState, Action<bool> callback = null)
     {
         if (string.IsNullOrEmpty(_key))
             return;
         
-        SaveAsync(_saveData).ContinueWith(success => callback?.Invoke(success));
-    }
-    
-    public void Load(Action<SaveData> callback = null)
-    {
-        if (string.IsNullOrEmpty(_key))
-            return;
-
-        LoadAsync().ContinueWith(data => callback?.Invoke(data));
-    }
-
-    private async UniTask<bool> SaveAsync(SaveData _saveData)
-    {
         try
         {
             string path = BuildPath(_key);
-            string json = JsonConvert.SerializeObject(_saveData, Formatting.Indented);
-            await File.WriteAllTextAsync(path, json);
-            return true;
+            string json = JsonConvert.SerializeObject(gameState, Formatting.Indented);
+            File.WriteAllText(path, json);
+            callback?.Invoke(true);
         }
         catch (Exception ex)
         {
             Debug.LogError($"Failed to save GameState: {ex.Message}");
-            return false;
         }
     }
     
-    private async UniTask<SaveData> LoadAsync()
+    public void Load(Action<GameState> callback = null)
     {
+        if (string.IsNullOrEmpty(_key))
+            return;
+
         try
         {
             string path = BuildPath(_key);
@@ -76,17 +65,15 @@ public class StorageService : IStorageService
             if (!File.Exists(path))
             {
                 Debug.LogWarning($"No saved GameState found at {path}");
-                return null;
             }
             
-            string json = await File.ReadAllTextAsync(path);
-            SaveData data = JsonConvert.DeserializeObject<SaveData>(json);
-            return data;
+            string json = File.ReadAllText(path);
+            GameState data = JsonConvert.DeserializeObject<GameState>(json);
+            callback?.Invoke(data);
         }
         catch (Exception ex)
         {
             Debug.LogError($"Failed to load GameState: {ex.Message}");
-            return null;
         }
     }
 

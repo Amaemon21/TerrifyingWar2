@@ -1,6 +1,5 @@
 using System;
 using KINEMATION.KAnimationCore.Runtime.Core;
-using Newtonsoft.Json;
 using UnityEngine;
 using Zenject;
 
@@ -18,16 +17,16 @@ public class Weapon : MonoBehaviour
     [field: SerializeField] public Transform BarrelPoint { get; private set; }
     [field: SerializeField] public WeaponAnimator WeaponAnimator { get; private set; }
     [field: SerializeField] public WeaponAmmo WeaponAmmo { get; private set; }
+
+    [SerializeField] private WeaponSaver _weaponSaver;
     
     private bool _canFire = true;
     private bool _isFiring;
     private float _lastShootTime = 0.0f;
     
-    private SaveData _saveData;
-    private WeaponItemEntity weaponItemEntity;
+    private WeaponContainer _weaponContainer;
 
     public FireMode FireMode { get; private set; } = FireMode.Semi;
-    public WeaponContainer WeaponContainer { get; private set; }
     public WeaponInventoryItemConfig WeaponInventoryItemConfig { get; private set; }
     
     public event Action OnShootChanged;
@@ -36,25 +35,20 @@ public class Weapon : MonoBehaviour
     {
         _inputService.OnShootStart += HandleFirePressed;
         _inputService.OnShootEnd += HandleFireReleased;
-        
-        _displayProvider.AmmoView.gameObject.SetActive(true);
     }
 
     private void OnDisable()
     {
         _inputService.OnShootStart -= HandleFirePressed;
         _inputService.OnShootEnd -= HandleFireReleased;
-
-        if (_displayProvider.AmmoView != null)
-            _displayProvider.AmmoView.gameObject.SetActive(false);
     }
     
     public void Initialize(WeaponInventoryItemConfig weaponInventoryItemConfig, WeaponContainer weaponContainer)
     {
         WeaponInventoryItemConfig = weaponInventoryItemConfig;
-        WeaponContainer = weaponContainer;
-        
-        _storagesService.Load(LoadData);
+        _weaponContainer = weaponContainer;
+
+        _weaponSaver.Initialize();
         
         if (WeaponInventoryItemConfig.ScopeInventoryItemConfig != null)
         {
@@ -63,8 +57,6 @@ public class Weapon : MonoBehaviour
             scope.transform.localRotation = Quaternion.identity; 
             AimPoint = scope.AimPoint;
         }
-
-        WeaponAmmo.Setup();
     }
 
     public void ChangeCanFire(bool canFire)
@@ -75,7 +67,7 @@ public class Weapon : MonoBehaviour
     public void OnFireModeChange()
     {
         FireMode = FireMode == FireMode.Auto ? FireMode.Semi : WeaponSettings.fullAuto ? FireMode.Auto : FireMode.Semi;
-        WeaponContainer.RecoilAnimation.fireMode = FireMode;
+        _weaponContainer.RecoilAnimation.fireMode = FireMode;
     }
     
     private void Update()
@@ -111,8 +103,8 @@ public class Weapon : MonoBehaviour
             _isFiring = false;
         }
 
-        WeaponContainer.RecoilAnimation.Stop();
-        WeaponContainer.RecoilPattern.OnFireEnd();
+        _weaponContainer.RecoilAnimation.Stop();
+        _weaponContainer.RecoilPattern.OnFireEnd();
     }
 
     private void Shoot()
@@ -120,13 +112,14 @@ public class Weapon : MonoBehaviour
         if (!CanShoot())
             return;
 
-        WeaponContainer.RecoilPattern.OnFireStart();
-        WeaponContainer.RecoilAnimation.Play();
+        _weaponContainer.RecoilPattern.OnFireStart();
+        _weaponContainer.RecoilAnimation.Play();
 
         OnShootChanged?.Invoke();
         
         WeaponInventoryItemConfig.RemoveCurrentAmmo();
-        IncrementAmmoSaver();
+        
+        _displayProvider.AmmoView.PlayShootAnimation();
         WeaponAmmo.HandleDisplayAmmo();
         _lastShootTime = Time.time;
     }
@@ -143,22 +136,5 @@ public class Weapon : MonoBehaviour
         return _canFire && !WeaponAmmo.IsReloading && WeaponInventoryItemConfig.CurrentAmmo > 0 && Time.time >= _lastShootTime + (60f / WeaponSettings.fireRate);
     }
 
-    private void IncrementAmmoSaver()
-    {
-        weaponItemEntity.CurrentAmmo--;
-        
-        _storagesService.Save(_saveData);
-    }
 
-    private void LoadData(SaveData saveData)
-    {
-        _saveData = saveData;
-
-        ItemEntity item = _saveData.InventoryEntity.FindItemByID(WeaponInventoryItemConfig.ItemID);
-
-        if (item is WeaponItemEntity weaponInventoryItemData)
-        {
-            weaponItemEntity = weaponInventoryItemData;
-        }
-    }
 }

@@ -5,25 +5,22 @@ public class WeaponAmmo : MonoBehaviour
 {
     [Inject] private readonly DisplayProvider _displayProvider;
 
-    private Weapon _weapon;
-    private WeaponContainer _weaponContainer;
-    private WeaponAnimator _weaponAnimator;
+    [SerializeField] private Weapon _weapon;
+    [SerializeField] private WeaponAnimator _weaponAnimator;
+    [SerializeField] private WeaponSaver _weaponSaver;
+    
     private AmmoInventoryItemConfig _ammoInventoryItemConfig;
     
     public bool IsReloading {get; private set;}
-    
-    public void Setup()
+
+    public void OnEnable()
     {
-        _weapon = GetComponent<Weapon>();
-        _weaponContainer = _weapon.WeaponContainer;
-        _weaponAnimator = _weapon.WeaponAnimator;
-        
         _displayProvider.Inventory.InventorySystem.OnAmmoAddChanged += RequestAmmo;
         _displayProvider.Inventory.InventorySystem.OnAmmoRemoveChanged += RemoveAmmo;
         
         RequestAmmo();
     }
-
+    
     private void OnDisable()
     {
         _displayProvider.Inventory.InventorySystem.OnAmmoAddChanged -= RequestAmmo;
@@ -69,6 +66,7 @@ public class WeaponAmmo : MonoBehaviour
             _displayProvider.Inventory.InventorySaver.RemoveItem(_ammoInventoryItemConfig, amountNeeded);
         }
 
+        _weaponSaver.WeaponItemEntity.CurrentAmmo = _weapon.WeaponInventoryItemConfig.CurrentAmmo;
         HandleDisplayAmmo();
         
         _weapon.ChangeCanFire(true);
@@ -86,6 +84,9 @@ public class WeaponAmmo : MonoBehaviour
 
     private void RequestAmmo()
     {
+        if (_weapon.WeaponInventoryItemConfig == null)
+            return;
+        
         _ammoInventoryItemConfig = _displayProvider.Inventory.InventorySystem.RequestAmmo(_weapon.WeaponInventoryItemConfig.EAmmoType);
         HandleDisplayAmmo();
     }
@@ -101,10 +102,19 @@ public class WeaponAmmo : MonoBehaviour
     
     public void HandleDisplayAmmo()
     {
+        if (_weapon == null)
+            return;
+        
         if (_weapon.WeaponInventoryItemConfig == null)
             return;
 
-        int ammoCount = _ammoInventoryItemConfig?.ItemCount ?? 0;
+        int ammoCount = 0;
+        
+        if (_ammoInventoryItemConfig != null)
+        {
+            ammoCount = _ammoInventoryItemConfig.ItemCount;
+        }
+        
         _displayProvider.AmmoView.DisplayAmmo(_weapon.WeaponInventoryItemConfig.CurrentAmmo, ammoCount, _weapon);
     }
 }

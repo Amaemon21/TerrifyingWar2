@@ -1,4 +1,6 @@
-﻿using Zenject;
+﻿using System.IO;
+using UnityEngine;
+using Zenject;
 
 public class GameEntryPoint : IInitializable
 {
@@ -17,7 +19,22 @@ public class GameEntryPoint : IInitializable
     {
         _jsonProjectSettings.Initialize();
         _storageService.Initialize();
+
+#if UNITY_EDITOR
+        SelectFistSaveFile();
+#endif
         
         _gameStateMachine.Enter<BootstrapState>();
+    }
+
+    private void SelectFistSaveFile()
+    {
+        string savesDirectoryPath = Application.dataPath + "/SavedData/";
+        
+        string[] files = Directory.GetFiles(savesDirectoryPath, "*.json");
+        
+        string fileName = Path.GetFileNameWithoutExtension(files[0]);
+
+        _storageService.SetupKey(fileName);
     }
 }

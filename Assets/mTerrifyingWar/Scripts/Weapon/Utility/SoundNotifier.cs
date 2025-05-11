@@ -2,15 +2,10 @@ using UnityEngine;
 
 public class SoundNotifier : MonoBehaviour
 {
+    [SerializeField] private Weapon _weapon;
+    
     [SerializeField] private LayerMask _layerMask;
     [SerializeField] private float _radiusCast;
-
-    private Weapon _weapon;
-
-    private void Awake()
-    {
-        _weapon = GetComponent<Weapon>();
-    }
 
     private void OnEnable()
     {

@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using KINEMATION.KAnimationCore.Runtime.Core;
 using UnityEngine;
 using Zenject;
@@ -13,19 +12,17 @@ public class WeaponHolder : MonoBehaviour
     
     [SerializeField] private RuntimeAnimatorController _defaultAnimator;
 
-    private readonly List<Weapon> _weapons = new();
-
+    private WeaponContainer _weaponContainer;
+    
     private Weapon _primaryWeapon;
     private Weapon _secondaryWeapon;
 
     private int _currentWeaponIndex = 0;
     
-    private WeaponContainer _weaponContainer;
-    
     private KTransform _root;
     private KTransform _localCamera;
     
-    private SaveData _saveData;
+    private GameState gameState;
 
     private void Awake()
     {
@@ -90,6 +87,7 @@ public class WeaponHolder : MonoBehaviour
 
         if (GetCurrentWeaponSlot() == weaponSlot)
         {
+            _displayProvider.AmmoView.gameObject.SetActive(true);
             weaponSlot.gameObject.SetActive(true);
             weaponSlot.WeaponAnimator.OnEquipped();
         }
@@ -99,10 +97,14 @@ public class WeaponHolder : MonoBehaviour
     {
         if (weapon == null) 
             return;
-
-        _weapons.Remove(weapon);
+        
         Destroy(weapon.gameObject);
-        ResetAnimatorController();
+
+        if (weapon == GetCurrentWeaponSlot())
+        {            
+            ResetAnimatorController();
+            _displayProvider.AmmoView.gameObject.SetActive(false);
+        }
     }
 
     private void ChangeWeapon(int weaponIndex)
@@ -110,12 +112,12 @@ public class WeaponHolder : MonoBehaviour
         if (_currentWeaponIndex == weaponIndex)
             return;
 
-        var currentWeapon = GetCurrentWeaponSlot();
+        Weapon currentWeapon = GetCurrentWeaponSlot();
 
         if (currentWeapon != null)
         {
             float unequipDelay = currentWeapon.WeaponAnimator.OnUnEquipped();
-
+            
             StartCoroutine(ExecuteAfterDelay(unequipDelay, () =>
             {
                 EquipWeapon(weaponIndex);
@@ -134,15 +136,18 @@ public class WeaponHolder : MonoBehaviour
 
         _currentWeaponIndex = weaponIndex;
 
-        var weaponToEquip = GetCurrentWeaponSlot();
+        Weapon weaponToEquip = GetCurrentWeaponSlot();
 
         if (weaponToEquip != null)
         {
+            _displayProvider.AmmoView.gameObject.SetActive(true);
             weaponToEquip.gameObject.SetActive(true);
             weaponToEquip.WeaponAnimator.OnEquipped();
+            weaponToEquip.WeaponAmmo.HandleDisplayAmmo();
         }
         else
         {
+            _displayProvider.AmmoView.gameObject.SetActive(false);
             ResetAnimatorController();
         }
     }
@@ -203,8 +208,7 @@ public class WeaponHolder : MonoBehaviour
 
         instance.adsPose.position = _localCamera.position - localWeapon.position;
         instance.adsPose.rotation = Quaternion.Inverse(localWeapon.rotation);
-
-        _weapons.Add(instance);
+        
         return instance;
     }
     

@@ -30,8 +30,6 @@ public class Inventory : MonoBehaviour
 
     private WeaponInventoryItemConfig _primaryWeapon;
     private WeaponInventoryItemConfig _secondaryWeapon;
-
-    public List<InventoryItemCell> InventoryItemCell => _inventoryItemsCells;
     
     public WeaponInventoryItemConfig PrimaryWeapon => _primaryWeapon;
     public WeaponInventoryItemConfig SecondaryWeapon => _secondaryWeapon;
@@ -59,13 +57,10 @@ public class Inventory : MonoBehaviour
     {
         _primaryWeaponCell.DropItemChanged -= UpdatePrimaryWeapon;
         _secondWeaponCell.DropItemChanged -= UpdateSecondWeapon;
-    }
-
-    private void OnApplicationQuit()
-    {
+        
         _ = _backendManager.RemoveAllItemAsync();
     }
-
+    
     public void DisplayItems()
     {
         foreach (var cell in _inventoryItemsCells)
@@ -108,38 +103,47 @@ public class Inventory : MonoBehaviour
             }
         }
 
-        AddUnstackableItem(pickupedConfig);
+        AddUnstackableItem(pickupedConfig, isLoaded);
     }
     
     private void AddUnstackableItem(InventoryItemConfig pickupedConfig, bool isLoaded = false)
     {
-        if (pickupedConfig is WeaponInventoryItemConfig weaponInventoryItemConfig)
+        if (pickupedConfig is WeaponInventoryItemConfig weaponConfig)
+        {
+            if (TryAddWeaponToCell(_primaryWeaponCell, weaponConfig, isLoaded) ||
+                TryAddWeaponToCell(_secondWeaponCell, weaponConfig, isLoaded))
+            {
+                return;
+            }
+        }
+
+        AddToFirstEmptyCell(pickupedConfig, isLoaded);
+    }
+
+    private bool TryAddWeaponToCell(InventoryItemEquipableCell cell, InventoryItemConfig config, bool isLoaded)
+    {
+        if (cell.InventoryItemConfig == null)
         {
             if (!isLoaded)
-                InventorySaver.AddItem(weaponInventoryItemConfig);
-            
-            _primaryWeaponCell.SetItem(pickupedConfig);
-            
-            return;
-        }
-        
-        for (var i = 0; i < _inventoryItemsCells.Count; i++)
-        {
-            var item = _inventoryItemsCells[i];
-            
-            InventoryItemConfig config = item.InventoryItemConfig;
+                InventorySaver.AddItem(config);
 
-            if (config == null)
+            cell.SetItem(config);
+            return true;
+        }
+        return false;
+    }
+
+    private void AddToFirstEmptyCell(InventoryItemConfig config, bool isLoaded)
+    {
+        foreach (var cell in _inventoryItemsCells)
+        {
+            if (cell.InventoryItemConfig == null)
             {
                 if (!isLoaded)
-                    InventorySaver.AddItem(pickupedConfig);
-                
-                item.SetItem(pickupedConfig);
-                
-                InventorySystem.HandleAddItem(pickupedConfig);
-                
-                //_backendManager.AddItemAsync(pickupedConfig.ItemID, pickupedConfig.ItemCount);
-                
+                    InventorySaver.AddItem(config);
+            
+                cell.SetItem(config);
+                InventorySystem.HandleAddItem(config);
                 break;
             }
         }

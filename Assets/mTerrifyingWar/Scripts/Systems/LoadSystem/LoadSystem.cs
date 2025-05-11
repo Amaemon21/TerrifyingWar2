@@ -90,9 +90,9 @@ public class LoadSystem : MonoBehaviour
             
             SaveCell saveCell = _container.InstantiatePrefabForComponent<SaveCell>(_saveCellPrefab, _saveListParent);
             
-            SaveData _saveData = JsonConvert.DeserializeObject<SaveData>(saveDataJson);
+            GameState gameState = JsonConvert.DeserializeObject<GameState>(saveDataJson);
             
-            saveCell.Setup(this, saveName, _saveData.CreationDate);
+            saveCell.Setup(this, saveName, gameState.CreationDate);
         }
     }
 }

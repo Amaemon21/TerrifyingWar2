@@ -6,7 +6,7 @@ public class MoneyModel
     private readonly ReactiveProperty<int> _money = new();
     public Observable<int> Money => _money;
     
-    private SaveData _saveData;
+    private GameState gameState;
     
     public MoneyModel(IStorageService storageService)
     {
@@ -37,9 +37,9 @@ public class MoneyModel
         //_storageService.Save(_saveData);
     }
 
-    private void LoadSaveData(SaveData _saveData)
+    private void LoadSaveData(GameState gameState)
     {
-        this._saveData = _saveData;
+        this.gameState = gameState;
         
         //MaxHealth = _saveData.PlayerData.MaxHealth;
         //_health.Value = saveData.PlayerData.Health;
