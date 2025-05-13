@@ -6,6 +6,6 @@ public class BunkerExitInteractDoor : InteractObject
     
     protected override void OnInteract()
     {
-        _gameStateMachine.Enter<LoadGameplayState, string>(Scenes.Gameplay);
+        _gameStateMachine.Enter<LoadLevelState, string>(Scenes.Gameplay);
     }
 }

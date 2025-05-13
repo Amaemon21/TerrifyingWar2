@@ -4,7 +4,7 @@ using Zenject;
 
 [RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(CharacterController))]
-public class PlayerMover : MonoBehaviour
+public class PlayerMover : MonoBehaviour, ISavedProgress
 {
     [Inject] private readonly IInputService _inputService;
     
@@ -143,5 +143,41 @@ public class PlayerMover : MonoBehaviour
         _characterController.height = targetHeight;
         _characterController.center = targetCenter;
         _duringCrouchAnimation = false;
+    }
+
+    public void LoadProgress(GameState gameState)
+    {
+        return;
+        
+        foreach (var entity in gameState.Entities)
+        {
+            if (entity is PlayerEntity playerEntity)
+            {
+                Vector3Data savedPosition = playerEntity.Position;
+
+                if (savedPosition != null)
+                {
+                    Warp(savedPosition);
+                }
+            }
+        }
+    }
+
+    public void UpdateProgress(GameState gameState)
+    {
+        foreach (var entity in gameState.Entities)
+        {
+            if (entity is PlayerEntity playerEntity)
+            {
+                playerEntity.Position = _transform.position.AsVectorData();
+            }
+        }
+    }
+    
+    private void Warp(Vector3Data vector3Data)
+    {
+        _characterController.enabled = false;
+        _transform.position = vector3Data.AsUnityVector().AddY(_characterController.height);
+        _characterController.enabled = true;
     }
 }

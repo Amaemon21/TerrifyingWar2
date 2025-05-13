@@ -16,6 +16,6 @@
 
     public void Exit()
     {
-        _stateMachine.RemoveState<GameplayState>();
+        _stateMachine.RemoveState<LevelState>();
     }
 }

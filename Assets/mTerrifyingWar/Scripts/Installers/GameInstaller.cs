@@ -30,7 +30,10 @@ public class GameInstaller : MonoInstaller
     
     private void BindGameplaySystems()
     {
+        Container.BindInterfacesAndSelfTo<GameFactory>().AsSingle();
+        
         Container.Bind<JsonProjectSettings>().AsSingle();
+        Container.BindInterfacesAndSelfTo<PersistentProgressService>().AsSingle();
         Container.BindInterfacesAndSelfTo<StorageService>().AsSingle();
         
         Container.Bind<BackendManager>().AsSingle();

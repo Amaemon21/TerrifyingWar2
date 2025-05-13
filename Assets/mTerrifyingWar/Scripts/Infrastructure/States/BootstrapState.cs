@@ -59,7 +59,7 @@ public class BootstrapState : IState
         {
             _sceneLoader.Load(Scenes.Gameplay, () =>
             {
-                _stateMachine.Enter<LoadGameplayState, string>(Scenes.Bunker);
+                _stateMachine.Enter<LoadLevelState, string>(Scenes.Bunker);
             });
         });
     }
@@ -70,7 +70,7 @@ public class BootstrapState : IState
         {
             _sceneLoader.Load(Scenes.Gameplay, () =>
             {
-                _stateMachine.Enter<LoadGameplayState, string>(Scenes.Gameplay);
+                _stateMachine.Enter<LoadLevelState, string>(Scenes.Gameplay);
             });
         });
     }

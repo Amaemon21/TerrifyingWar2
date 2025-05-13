@@ -15,7 +15,7 @@ public class InventorySaver : MonoBehaviour
     
     private void Awake()
     {
-        _storageService.Load(LoadData);
+        //_storageService.Load(LoadData);
     }
 
     private void Start()
@@ -26,6 +26,8 @@ public class InventorySaver : MonoBehaviour
 
     public void AddItem(InventoryItemConfig inventoryItemConfig)
     {
+        return;
+        
         if (inventoryItemConfig.IsStackable)
         {
             ItemEntity foundItem = null;
@@ -89,11 +91,13 @@ public class InventorySaver : MonoBehaviour
             }
         }
         
-        _storageService.Save(_gameState);
+        //_storageService.Save(_gameState);
     }
     
     public void RemoveItem(InventoryItemConfig inventoryItemConfig, int amount = 1)
     {
+        return;
+        
         var itemsToRemove = new List<Entity>();
 
         foreach (var item in _gameState.Entities)
@@ -124,7 +128,7 @@ public class InventorySaver : MonoBehaviour
             _gameState.Entities.Remove(item);
         }
         
-        _storageService.Save(_gameState);
+        //_storageService.Save(_gameState);
     }
     
     private void LoadData(GameState gameState)

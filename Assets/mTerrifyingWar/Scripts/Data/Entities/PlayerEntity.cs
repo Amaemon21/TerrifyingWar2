@@ -5,6 +5,8 @@ public class PlayerEntity : Entity
 {
     public float MaxHealth {get; set;}
     public float Health {get; set;}
+    
+    public Vector3Data Position {get; set;}
 
     public PlayerEntity()
     {

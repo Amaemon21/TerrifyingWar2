@@ -18,7 +18,7 @@ public class PlayerHealth : IHealth
         
         _storageService = storageService;
         
-        _storageService.Load(LoadSaveData);
+        //_storageService.Load(LoadSaveData);
     }
     
     public void TakeDamage(float damage)
@@ -26,7 +26,7 @@ public class PlayerHealth : IHealth
         _health.Value = Mathf.Clamp(_health.Value - damage, 0, MaxHealth);
         
         _playerEntity.Health = _health.Value;
-        _storageService.Save(_gameState);
+        //_storageService.Save(_gameState);
     }
 
     public void Heal(float healAmount)
@@ -34,7 +34,7 @@ public class PlayerHealth : IHealth
         _health.Value = Mathf.Clamp(_health.Value + healAmount, 0, MaxHealth);
         
         _playerEntity.Health = _health.Value;
-        _storageService.Save(_gameState);
+        //_storageService.Save(_gameState);
     }
 
     private void LoadSaveData(GameState gameState)

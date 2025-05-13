@@ -24,7 +24,7 @@ public class WeaponSaver : MonoBehaviour
 
     public void Initialize()
     {
-        _storageService.Load(LoadData);
+        //_storageService.Load(LoadData);
     }
     
     private void LoadData(GameState gameState)
@@ -59,6 +59,6 @@ public class WeaponSaver : MonoBehaviour
     private IEnumerator SaveData()
     {
         yield return null;
-        _storageService.Save(_gameState);
+        //_storageService.Save(_gameState);
     }
 }

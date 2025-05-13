@@ -10,10 +10,10 @@ public class GameplayEntryPoint : MonoBehaviour
     
     public void Run()
     {
-        GameplayState gameplayState = _container.Instantiate<GameplayState>();
+        LevelState levelState = _container.Instantiate<LevelState>();
 
-        _gameStateMachine.AddState(gameplayState);
-        _gameStateMachine.Enter<GameplayState>();
+        _gameStateMachine.AddState(levelState);
+        _gameStateMachine.Enter<LevelState>();
         
         _inputService.EnablePlayerMap();
         

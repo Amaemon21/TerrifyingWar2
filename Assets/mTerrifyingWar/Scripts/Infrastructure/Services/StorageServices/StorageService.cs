@@ -1,13 +1,21 @@
 using System;
 using System.IO;
-using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine;
 
 public class StorageService : IStorageService
 {
+    private readonly IGameFactory _gameFactory;
+    private readonly IPersistentProgressService _persistentProgressService;
+    
     private string _saveDirectory;
     private string _key;
+
+    public StorageService(IGameFactory gameFactory, IPersistentProgressService persistentProgressService)
+    {
+        _gameFactory = gameFactory;
+        _persistentProgressService = persistentProgressService;
+    }
     
     public void Initialize()
     {
@@ -31,12 +39,25 @@ public class StorageService : IStorageService
         {
             CreationDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
         };
+
+        _persistentProgressService.GameState = gameState;
         
-        Save(gameState, success => callback?.Invoke());
+        Save();
+        
+        callback?.Invoke();
     }
 
-    public void Save(GameState gameState, Action<bool> callback = null)
+    public void Save()
     {
+        if (_gameFactory.ProgressWriters == null)
+            return;
+        
+        foreach (var progressWriter in _gameFactory.ProgressWriters)
+            progressWriter.UpdateProgress(_persistentProgressService.GameState);
+
+        PlayerPrefs.SetString(_key, _persistentProgressService.GameState.ToJson());
+        
+        /*
         if (string.IsNullOrEmpty(_key))
             return;
         
@@ -51,10 +72,15 @@ public class StorageService : IStorageService
         {
             Debug.LogError($"Failed to save GameState: {ex.Message}");
         }
+        */
     }
     
-    public void Load(Action<GameState> callback = null)
-    {
+    public void Load(Action<GameState> callback)
+    { 
+        var gameState = PlayerPrefs.GetString(_key)?.ToDeserialized<GameState>();
+        callback?.Invoke(gameState);
+        
+        /*
         if (string.IsNullOrEmpty(_key))
             return;
 
@@ -75,6 +101,7 @@ public class StorageService : IStorageService
         {
             Debug.LogError($"Failed to load GameState: {ex.Message}");
         }
+        */
     }
 
     private string BuildPath(string key)

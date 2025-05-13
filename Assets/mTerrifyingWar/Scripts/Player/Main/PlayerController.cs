@@ -111,7 +111,10 @@ public class PlayerController : MonoBehaviour
         _isAiming = _inputService.IsAim;
         _playerProvider.WeaponContainer.RecoilAnimation.isAiming = _isAiming;
 
-        _displayProvider.AimPoint.gameObject.SetActive(!_isAiming);
+        if (_displayProvider.AimPoint != null)
+        {
+            _displayProvider.AimPoint.gameObject.SetActive(!_isAiming);
+        }
         
         if (wasAiming != _isAiming)
         {
