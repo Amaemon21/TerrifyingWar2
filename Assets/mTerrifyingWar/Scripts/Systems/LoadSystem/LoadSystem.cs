@@ -38,25 +38,7 @@ public class LoadSystem : MonoBehaviour
         }
         
         string saveName = _nameSaveInputField.text;
-        
-        _storageService.SetupKey(saveName);
-        
-        
-        LoadGame(saveName);
-        /*
-        _storageService.CreateNewData(() =>
-        {
-            LoadGame(saveName);
-        });
-        */
-    }
-    
-    public void LoadGame(string key)
-    {
-        _storageService.SetupKey(key, () =>
-        {
-            _gameStateMachine.Enter<LoadLevelState, string>(Scenes.Gameplay);
-        });
+
     }
     
     private void RefreshSaveList()

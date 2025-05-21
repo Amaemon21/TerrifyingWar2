@@ -22,6 +22,6 @@ MonoBehaviour:
     \u0447\u0430\u0441\u0442\u044C \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u044F"
   <IsStackable>k__BackingField: 1
   <ItemCount>k__BackingField: 1
-  <ItemSprite>k__BackingField: {fileID: -1169028528, guid: 0918a2a2c2dc3494085c09f4ce7a4536, type: 3}
+  <ItemSprite>k__BackingField: {fileID: 585236717, guid: 0918a2a2c2dc3494085c09f4ce7a4536, type: 3}
   <ItemPrefab>k__BackingField: {fileID: 4842792878926158616, guid: 07973e2f008580343949b7f8c06cf72c, type: 3}
   <HealAmount>k__BackingField: 25

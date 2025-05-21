@@ -36,11 +36,11 @@ public class InventoryItemCell : MonoBehaviour, IPointerClickHandler, IPointerEn
     
     private void Awake()
     {
-        _dragableObject = _displayProvider.Inventory.DragableObject;
-        _dropArea = _displayProvider.Inventory.DropArea;
-        _itemInfoView = _displayProvider.Inventory.ItemInfoView;
-        _actionMenuObject = _displayProvider.Inventory.ActionMenuObject;
-        _dropMenu = _displayProvider.Inventory.DropMenu;
+        _dragableObject = _displayProvider.Inventory.InventoryComponent.DragableObject;
+        _dropArea = _displayProvider.Inventory.InventoryComponent.DropArea;
+        _itemInfoView = _displayProvider.Inventory.InventoryComponent.ItemInfoView;
+        _actionMenuObject = _displayProvider.Inventory.InventoryComponent.ActionMenuObject;
+        _dropMenu = _displayProvider.Inventory.InventoryComponent.DropMenu;
     }
 
     private void OnEnable()

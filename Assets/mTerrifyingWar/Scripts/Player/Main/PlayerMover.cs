@@ -1,12 +1,16 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Zenject;
 
 [RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(CharacterController))]
-public class PlayerMover : MonoBehaviour, ISavedProgress
+public class PlayerMover : MonoBehaviour, IProgressUpdater
 {
     [Inject] private readonly IInputService _inputService;
+    
+    [SerializeField] private CharacterController _characterController;
+    [SerializeField] private Animator _animator;
     
     [Space]
     [SerializeField] private float _speed = 4f;
@@ -25,9 +29,6 @@ public class PlayerMover : MonoBehaviour, ISavedProgress
     [SerializeField] private Vector3 _crouchingCenter = new(0.0f, 0.5f, 0.0f);
     [SerializeField] private Vector3 _standingCenter = new(0.0f, 0.0f, 0.0f);
     
-    private Transform _transform;
-    private Animator _animator;
-    private CharacterController _characterController = null;
     private float _jumpMultiplier = 0.0f;
     private float _yVelocity = 0.0f;
     private float _originalSlopeLimit = 0.0f;
@@ -37,11 +38,6 @@ public class PlayerMover : MonoBehaviour, ISavedProgress
     
     private void Awake()
     {
-        _transform = transform;
-        
-        _characterController = GetComponent<CharacterController>();
-        _animator = GetComponentInChildren<Animator>();
-        
         _originalSlopeLimit = _characterController.slopeLimit;
         _jumpMultiplier = Mathf.Sqrt(_jumpHeight * -2f * _gravity);
         _defaultSpeed = _speed;
@@ -58,7 +54,7 @@ public class PlayerMover : MonoBehaviour, ISavedProgress
     {
         Vector2 moveDirection = new Vector2(_inputService.MoveDirection.x, _inputService.MoveDirection.y);
 
-        Vector3 move = (_transform.right * moveDirection.x + _transform.forward * moveDirection.y).normalized;
+        Vector3 move = (transform.right * moveDirection.x + transform.forward * moveDirection.y).normalized;
         move = _speed * Time.deltaTime * move;
         
         if (_inputService.IsRun && !_inputService.IsCrouching)
@@ -147,37 +143,38 @@ public class PlayerMover : MonoBehaviour, ISavedProgress
 
     public void LoadProgress(GameState gameState)
     {
-        return;
-        
-        foreach (var entity in gameState.Entities)
-        {
-            if (entity is PlayerEntity playerEntity)
-            {
-                Vector3Data savedPosition = playerEntity.Position;
+        Vector3Data savedPosition = gameState.PlayerEntity.PositionOnLevel.Position;
 
-                if (savedPosition != null)
-                {
-                    Warp(savedPosition);
-                }
+        if (CurrentLevel() == gameState.PlayerEntity.PositionOnLevel.Level)
+        {
+            if (savedPosition != null)
+            {
+                Warp(savedPosition);
             }
         }
     }
 
     public void UpdateProgress(GameState gameState)
     {
-        foreach (var entity in gameState.Entities)
-        {
-            if (entity is PlayerEntity playerEntity)
-            {
-                playerEntity.Position = _transform.position.AsVectorData();
-            }
-        }
+        gameState.PlayerEntity.PositionOnLevel.Position = transform.position.AsVectorData();
     }
     
-    private void Warp(Vector3Data vector3Data)
+    public void Warp(Vector3 position)
     {
         _characterController.enabled = false;
-        _transform.position = vector3Data.AsUnityVector().AddY(_characterController.height);
+        transform.position = position.AddY(_characterController.height);
         _characterController.enabled = true;
+    }
+    
+    private void Warp(Vector3Data position)
+    {
+        _characterController.enabled = false;
+        transform.position = position.AsUnityVector().AddY(_characterController.height);
+        _characterController.enabled = true;
+    }
+    
+    private string CurrentLevel()
+    {
+        return SceneManager.GetActiveScene().name;
     }
 }

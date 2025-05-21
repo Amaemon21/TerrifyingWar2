@@ -6,7 +6,7 @@
 
 public enum EntityType
 {
-    PlayerEntity,
     ItemEntity,
-    WeaponItemEntity
+    WeaponItemEntity,
+    QuestEntity
 }

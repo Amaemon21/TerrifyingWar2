@@ -1,65 +1,38 @@
-using System;
 using System.Collections.Generic;
-using NaughtyAttributes;
 using UnityEngine;
 using Zenject;
 
+[RequireComponent(typeof(InventoryComponent))]
+[RequireComponent(typeof(InventoryCellFactory))]
 public class Inventory : MonoBehaviour
 {
     [Inject] private readonly PlayerProvider _playerProvider;
     [Inject] private readonly DisplayProvider _displayProvider;
     [Inject] private readonly BackendManager _backendManager;
     
-    [field: SerializeField, BoxGroup("Database"), HorizontalLine] public InventoryDatabase InventoryDatabase { get; private set;}
+    private readonly List<InventoryItemCell> _inventoryItemsCells = new();    
     
-    [field: SerializeField, BoxGroup("Utils"), HorizontalLine] public InventorySystem InventorySystem { get; private set;}
-    [field: SerializeField, BoxGroup("Utils")] public InventorySaver InventorySaver { get; private set;}
-    [field: SerializeField, BoxGroup("Utils")] public InventoryDragableObject DragableObject { get; private set;}
-    [field: SerializeField, BoxGroup("Utils")] public DropArea DropArea { get; private set;}
-    [field: SerializeField, BoxGroup("Utils")] public ItemInfoView ItemInfoView { get; private set;}
-    [field: SerializeField, BoxGroup("Utils")] public ActionMenuObject ActionMenuObject { get; private set;}
-    [field: SerializeField, BoxGroup("Utils")] public DropMenu DropMenu { get; private set;}
-    public DropPosition DropPosition { get; private set;}
-    
-    [SerializeField, BoxGroup("Weapons Cells"), HorizontalLine] private InventoryItemEquipableCell _primaryWeaponCell;
-    [SerializeField, BoxGroup("Weapons Cells")] private InventoryItemEquipableCell _secondWeaponCell;
-
-    private List<InventoryItemCell> _inventoryItemsCells = new();
-
+    private InventoryComponent _inventoryComponent;
     private InventoryCellFactory _inventoryCellFactory;
-
-    private WeaponInventoryItemConfig _primaryWeapon;
-    private WeaponInventoryItemConfig _secondaryWeapon;
     
-    public WeaponInventoryItemConfig PrimaryWeapon => _primaryWeapon;
-    public WeaponInventoryItemConfig SecondaryWeapon => _secondaryWeapon;
-
-    public event Action RequestPrimaryWeaponChanged;
-    public event Action RequestSecondWeaponChanged;
+    public InventoryComponent InventoryComponent => _inventoryComponent;
 
     private void Awake()
     {
+        _inventoryComponent = GetComponent<InventoryComponent>();
+        
         _inventoryCellFactory = GetComponent<InventoryCellFactory>();
         _inventoryCellFactory.SpawnCells(_inventoryItemsCells);
         
-        DropPosition = _playerProvider.PlayerMover.GetComponentInChildren<DropPosition>();
+        //_inventoryComponent.SetupDropPosition(_playerProvider.PlayerMover.GetComponentInChildren<DropPosition>());
         
         DisplayItems();
     }
-
-    private void OnEnable()
-    {
-        _primaryWeaponCell.DropItemChanged += UpdatePrimaryWeapon;
-        _secondWeaponCell.DropItemChanged += UpdateSecondWeapon;
-    }
-
+    
     private void OnDisable()
     {
-        _primaryWeaponCell.DropItemChanged -= UpdatePrimaryWeapon;
-        _secondWeaponCell.DropItemChanged -= UpdateSecondWeapon;
-        
         _ = _backendManager.RemoveAllItemAsync();
-    }
+    }    
     
     public void DisplayItems()
     {
@@ -68,8 +41,7 @@ public class Inventory : MonoBehaviour
             cell.RedrawCell();
         }
         
-        _primaryWeaponCell.RedrawCell();
-        _secondWeaponCell.RedrawCell();
+        _inventoryComponent.InventoryWeaponEquipable.DisplayItems();
     }
     
     public void AddItem(InventoryItemConfig config, bool isLoaded = false)
@@ -80,6 +52,28 @@ public class Inventory : MonoBehaviour
             AddUnstackableItem(config, isLoaded);
         
         DisplayItems();
+    }
+
+    public void AddEquipableItem(InventoryItemConfig config, SlotType slotType, bool isEquipped = false)
+    {
+        if (isEquipped)
+        {
+            if (config is WeaponInventoryItemConfig weaponInventoryItemConfig)
+            {
+                if (slotType == SlotType.Primary)
+                {
+                    _inventoryComponent.InventoryWeaponEquipable.PrimaryWeaponCell.SetItem(config);
+                }
+                else if (slotType == SlotType.Secondary)
+                {
+                    _inventoryComponent.InventoryWeaponEquipable.SecondaryWeaponCell.SetItem(config);
+                }
+            }
+        }
+        else
+        {
+            AddItem(config, true);
+        }
     }
 
     private void AddStackableItem(InventoryItemConfig pickupedConfig, bool isLoaded = false)
@@ -93,11 +87,11 @@ public class Inventory : MonoBehaviour
                 if (config.ItemID == pickupedConfig.ItemID)
                 {
                     if (!isLoaded)
-                        InventorySaver.AddItem(config);
+                        _inventoryComponent.InventorySaver.AddItem(config);
                     
                     config.AddCount(pickupedConfig.ItemCount);
                     
-                    InventorySystem.HandleAddItem(config);
+                    _inventoryComponent.InventorySystem.HandleAddItem(config);
                     return;
                 }
             }
@@ -110,8 +104,8 @@ public class Inventory : MonoBehaviour
     {
         if (pickupedConfig is WeaponInventoryItemConfig weaponConfig)
         {
-            if (TryAddWeaponToCell(_primaryWeaponCell, weaponConfig, isLoaded) ||
-                TryAddWeaponToCell(_secondWeaponCell, weaponConfig, isLoaded))
+            if (TryAddWeaponToCell(_inventoryComponent.InventoryWeaponEquipable.PrimaryWeaponCell, weaponConfig, isLoaded) || 
+                TryAddWeaponToCell(_inventoryComponent.InventoryWeaponEquipable.SecondaryWeaponCell, weaponConfig, isLoaded))
             {
                 return;
             }
@@ -120,16 +114,17 @@ public class Inventory : MonoBehaviour
         AddToFirstEmptyCell(pickupedConfig, isLoaded);
     }
 
-    private bool TryAddWeaponToCell(InventoryItemEquipableCell cell, InventoryItemConfig config, bool isLoaded)
+    private bool TryAddWeaponToCell(InventoryItemEquipableCell cell, WeaponInventoryItemConfig weaponInventoryItemConfig, bool isLoaded)
     {
         if (cell.InventoryItemConfig == null)
         {
             if (!isLoaded)
-                InventorySaver.AddItem(config);
-
-            cell.SetItem(config);
+                _inventoryComponent.InventorySaver.WeaponAddItem(weaponInventoryItemConfig, true);
+            
+            cell.SetItem(weaponInventoryItemConfig);
             return true;
         }
+        
         return false;
     }
 
@@ -140,10 +135,10 @@ public class Inventory : MonoBehaviour
             if (cell.InventoryItemConfig == null)
             {
                 if (!isLoaded)
-                    InventorySaver.AddItem(config);
-            
+                    _inventoryComponent.InventorySaver.AddItem(config);
+                
                 cell.SetItem(config);
-                InventorySystem.HandleAddItem(config);
+                _inventoryComponent.InventorySystem.HandleAddItem(config);
                 break;
             }
         }
@@ -155,28 +150,28 @@ public class Inventory : MonoBehaviour
         {
             if (TryRemoveFromCell(config, specificCell))
             {
-                InventorySaver.RemoveItem(config);
+                _inventoryComponent.InventorySaver.RemoveItem(config);
                 return;
             }
         }
         
-        if (TryRemoveFromCell(config, _primaryWeaponCell))
+        if (TryRemoveFromCell(config, _inventoryComponent.InventoryWeaponEquipable.PrimaryWeaponCell))
         {
-            _primaryWeapon = null;
-            InventorySaver.RemoveItem(config);
+            _inventoryComponent.InventoryWeaponEquipable.RemovePrimaryWeapon();
+            _inventoryComponent.InventorySaver.RemoveItem(config);
             return;
         }
 
-        if (TryRemoveFromCell(config, _secondWeaponCell))
+        if (TryRemoveFromCell(config, _inventoryComponent.InventoryWeaponEquipable.SecondaryWeaponCell))
         { 
-            _secondaryWeapon = null;
-            InventorySaver.RemoveItem(config);
+            _inventoryComponent.InventoryWeaponEquipable.RemoveSecondaryWeapon();
+            _inventoryComponent.InventorySaver.RemoveItem(config);
             return;
         }
         
         if (TryRemoveFromInventory(config))
         {
-            InventorySaver.RemoveItem(config);
+            _inventoryComponent.InventorySaver.RemoveItem(config);
         }
     }
 
@@ -187,7 +182,7 @@ public class Inventory : MonoBehaviour
             if (cell.InventoryItemConfig.ItemID == config.ItemID)
             {
                 cell.SetItem(null);
-                InventorySystem.HandleRemoveItem(config);
+                _inventoryComponent.InventorySystem.HandleRemoveItem(config);
                 return true;
             }
         }
@@ -202,7 +197,7 @@ public class Inventory : MonoBehaviour
             if (cell.InventoryItemConfig.ItemID == config.ItemID)
             {
                 cell.SetItem(null);
-                InventorySystem.HandleRemoveItem(config);
+                _inventoryComponent.InventorySystem.HandleRemoveItem(config);
                 return true;
             }
         }
@@ -219,7 +214,7 @@ public class Inventory : MonoBehaviour
                 if (itemCell.InventoryItemConfig.ItemID == config.ItemID)
                 {                
                     itemCell.SetItem(null);
-                    InventorySystem.HandleRemoveItem(config);
+                    _inventoryComponent.InventorySystem.HandleRemoveItem(config);
                     return true;
                 }
             }
@@ -230,7 +225,7 @@ public class Inventory : MonoBehaviour
 
     public void DropItem(InventoryItemConfig config, InventoryItemCell cell = null)
     {
-        InventoryItemObject inventoryItemObject = Instantiate(config.ItemPrefab, DropPosition.transform.position, Quaternion.identity);
+        InventoryItemObject inventoryItemObject = Instantiate(config.ItemPrefab, _inventoryComponent.DropPosition.transform.position, Quaternion.identity);
 
         inventoryItemObject.SetConfig(config);
         
@@ -239,7 +234,7 @@ public class Inventory : MonoBehaviour
 
     public void DropItem(InventoryItemConfig config, int amount, InventoryItemCell cell = null)
     {
-        InventoryItemObject inventoryItemObject = Instantiate(config.ItemPrefab, DropPosition.transform.position, Quaternion.identity);
+        InventoryItemObject inventoryItemObject = Instantiate(config.ItemPrefab, _inventoryComponent.DropPosition.transform.position, Quaternion.identity);
 
         if (config.ItemCount < amount)
         {   
@@ -259,24 +254,6 @@ public class Inventory : MonoBehaviour
         if (config.ItemCount == amount)
         {
             DropItem(config, cell);
-        }
-    }
-
-    private void UpdatePrimaryWeapon() => UpdateWeapon(_primaryWeaponCell, ref _primaryWeapon, RequestPrimaryWeaponChanged);
-
-    private void UpdateSecondWeapon() => UpdateWeapon(_secondWeaponCell, ref _secondaryWeapon, RequestSecondWeaponChanged);
-
-    private void UpdateWeapon(InventoryItemEquipableCell cell, ref WeaponInventoryItemConfig weaponSlot, Action onChanged)
-    {
-        if (cell.InventoryItemConfig is WeaponInventoryItemConfig weaponConfig && weaponConfig != weaponSlot)
-        {
-            weaponSlot = weaponConfig;
-            onChanged?.Invoke();
-        }
-        else if (cell.InventoryItemConfig == null)
-        {
-            weaponSlot = null;
-            onChanged?.Invoke();
         }
     }
 }

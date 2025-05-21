@@ -8,14 +8,11 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_Acog
-  m_Shader: {fileID: 4800000, guid: 52e51999bf7a09246b5eb773744b72a3, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 1477854863d5a5842b2bca212edc6380, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _GLOSSYREFLECTIONS_OFF
-  - _USESCOPEFOV
-  - _USE_TEXTURE_COLOR
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -88,7 +85,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RenderTexture:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 8400000, guid: 84a125eed79b10d4080cef5f7473edb9, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Reticle:
@@ -125,6 +122,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - Vector1_0bb2c494708d4e73aed6ec3922b741ac: 0.8
+    - Vector1_3b802a5540e846d4a53a0d6005786cf0: 0.5
+    - Vector1_4abd5c557bba4b8fa1cf9a49390e8d46: 0.94
+    - Vector1_5da8ee3542eb4d3695e8727ffd19ec6f: 0.5
     - _AlphaClip: 0
     - _Blend: 0
     - _BlendOp: 0
@@ -156,6 +157,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _RenderSize: 1
     - _ReticleParallax: 0
     - _ReticleScale: 0
     - _SampleGI: 0
@@ -184,6 +186,7 @@ Material:
     - _CrosshairOffset: {r: 0, g: 0, b: 0, a: 0}
     - _CrosshairSize: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _ReticleColor: {r: 1, g: 1, b: 1, a: 1}
     - _ReticleTint: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

@@ -34,6 +34,6 @@ public class SaveCell : MonoBehaviour
 
     private void LoadGame()
     {
-        _loadSystem.LoadGame(_key);
+        //_loadSystem.LoadGame(_key);
     }
 }

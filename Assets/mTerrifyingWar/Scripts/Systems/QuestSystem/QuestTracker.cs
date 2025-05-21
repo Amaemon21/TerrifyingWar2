@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class QuestTracker
 {
@@ -11,20 +11,30 @@ public class QuestTracker
     public IEnumerable<QuestStatus> ActiveQuests => _activeQuests;
     public IEnumerable<QuestStatus> ComplateQuests => _complateQuests;
 
+    public event Action<QuestConfig> OnQuestAdded;
+    public event Action OnQuestCompleted;
+    
     public QuestTracker(DisplayProvider displayProvider)
     {
         _displayProvider = displayProvider;
     }
     
-    public void AddQuest(QuestConfig quest)
+    public void AddQuest(QuestConfig quest, bool isLoaded = false)
     {
+        if (quest == null)
+            return;
+        
         if (_activeQuests.Exists(q => q.QuestConfig == quest)) 
             return;
 
         QuestStatus status = new QuestStatus { QuestConfig = quest };
         _activeQuests.Add(status);
-        
-        _displayProvider.NotificationSystem.AddMessage($"Добавлено задание: {quest.Name}", Palette.HexToColor("#FF9B00"));
+
+        if (!isLoaded)
+        {
+            OnQuestAdded?.Invoke(quest);
+            _displayProvider.NotificationSystem.AddMessage($"Добавлено задание: {quest.Name}", Palette.HexToColor("#FF9B00"));
+        }
     }
 
     public void ReportProgress(string objectiveId, int amount = 1)

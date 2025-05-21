@@ -56,7 +56,7 @@ public class AmmoView : MonoBehaviour
     {
         _ammoText.transform.DOScale(_originalScale * _scaleFactor, _duration).OnComplete(() =>
         { 
-            _ammoText.transform.DOScale(_originalScale, _duration);
-        });
+            _ammoText.transform.DOScale(_originalScale, _duration).SetLink(_ammoText.gameObject);
+        }).SetLink(_ammoText.gameObject);
     }
 }

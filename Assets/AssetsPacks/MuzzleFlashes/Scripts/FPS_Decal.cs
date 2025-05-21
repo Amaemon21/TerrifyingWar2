@@ -1,64 +1,59 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 
-[RequireComponent(typeof(MeshRenderer))]
-public class FPSDecal : MonoBehaviour
+#if KRIPTO_FX_LWRP_RENDERING
+using UnityEngine.Experimental.Rendering.LightweightPipeline;
+#endif
+
+[ExecuteInEditMode]
+public class FPS_Decal : MonoBehaviour
 {
-    [SerializeField] private bool _screenSpaceDecals = true;
-    [SerializeField] [Range(0, 100)] private float _randomScalePercent = 25;
+    public bool ScreenSpaceDecals = true;
+    public float randomScalePercent = 50;
+    private MaterialPropertyBlock props;
+    MeshRenderer rend;
+    private Vector3 startScale;
 
-    private MeshRenderer _meshRenderer;
-    private Vector3 _startScale;
-
-    private void Awake()
+    void Awake()
     {
-        _meshRenderer = GetComponent<MeshRenderer>();
-        _startScale = transform.localScale;
+        startScale = transform.localScale;
     }
+
 
     private void OnEnable()
     {
-        ConfigureRenderer();
-        ApplyRandomTransform();
-        //EnsureDepthTextureMode();
-    }
-
-    private void ConfigureRenderer()
-    {
-        _meshRenderer.reflectionProbeUsage = ReflectionProbeUsage.Off;
-        _meshRenderer.shadowCastingMode = ShadowCastingMode.Off;
-
-        if (_screenSpaceDecals)
+        //var meshRend = GetComponent<MeshRenderer>();
+        //if (meshRend != null)
+        //{
+        //    meshRend.reflectionProbeUsage = ReflectionProbeUsage.Off;
+        //    meshRend.shadowCastingMode = ShadowCastingMode.Off;
+        //    if (ScreenSpaceDecals)
+        //    {
+        //        meshRend.sharedMaterial.DisableKeyword("USE_QUAD_DECAL");
+        //        meshRend.sharedMaterial.SetInt("_ZTest1", (int)UnityEngine.Rendering.CompareFunction.Greater);
+        //    }
+        //    else
+        //    {
+        //        meshRend.sharedMaterial.EnableKeyword("USE_QUAD_DECAL");
+        //        meshRend.sharedMaterial.SetInt("_ZTest1", (int)UnityEngine.Rendering.CompareFunction.LessEqual);
+        //    }
+        //}
+        if (Application.isPlaying)
         {
-            _meshRenderer.sharedMaterial.DisableKeyword("USE_QUAD_DECAL");
-            _meshRenderer.sharedMaterial.SetInt("_ZTest1", (int)CompareFunction.Greater);
+            transform.localRotation = Quaternion.Euler(Random.Range(0, 360), 90, 90);
+            var randomScaleRange = Random.Range(startScale.x - startScale.x * randomScalePercent * 0.01f,
+                startScale.x + startScale.x * randomScalePercent * 0.01f);
+            transform.localScale = new Vector3(randomScaleRange, ScreenSpaceDecals ? startScale.y : 0.001f, randomScaleRange);
         }
-        else
-        {
-            _meshRenderer.sharedMaterial.EnableKeyword("USE_QUAD_DECAL");
-            _meshRenderer.sharedMaterial.SetInt("_ZTest1", (int)CompareFunction.LessEqual);
-        }
-    }
 
-    private void ApplyRandomTransform()
-    {
-        if (!Application.isPlaying) return;
-
-        transform.localRotation = Quaternion.Euler(Random.Range(0, 360), 90, 90);
-
-        float scaleFactor = _randomScalePercent * 0.01f * _startScale.x;
-        float randomScale = Random.Range(_startScale.x - scaleFactor, _startScale.x + scaleFactor);
-
-        transform.localScale = new Vector3(randomScale, randomScale, randomScale);
-    }
-
-    private void EnsureDepthTextureMode()
-    {
-        Camera mainCamera = Camera.main;
+        //if (Camera.main.depthTextureMode != DepthTextureMode.Depth) Camera.main.depthTextureMode = DepthTextureMode.Depth;
         
-        if (mainCamera != null && mainCamera.depthTextureMode != DepthTextureMode.Depth)
-        {
-            mainCamera.depthTextureMode = DepthTextureMode.Depth;
-        }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.matrix = Matrix4x4.TRS(this.transform.TransformPoint(Vector3.zero), this.transform.rotation, this.transform.lossyScale);
+        Gizmos.color = new Color(1, 1, 1, 1);
+        Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
     }
 }

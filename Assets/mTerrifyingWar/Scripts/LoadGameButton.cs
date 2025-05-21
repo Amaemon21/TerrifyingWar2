@@ -7,6 +7,6 @@ public class LoadGameButton : MonoBehaviour
     
     public void HandleLoadGameButton()
     {
-        //_gameStateMachine.Enter<LoadGameplayState>();
+        _gameStateMachine.Enter<LoadProgressState>();
     }
 }

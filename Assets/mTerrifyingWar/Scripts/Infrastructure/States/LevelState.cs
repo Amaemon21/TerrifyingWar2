@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LevelState : IState
 {
@@ -7,48 +6,45 @@ public class LevelState : IState
     private readonly IGameFactory _gameFactory;
     private readonly IGameplayFactory _gameplayFactory;
     private readonly LoadingScreen _loadingScreen;
-    private readonly Coroutines _coroutines;
-    private readonly IPersistentProgressService _persistentProgressService;
+    private readonly IPersistentProgressService _progressService;
 
-    public LevelState(GameStateMachine stateMachine, IGameFactory gameFactory, IGameplayFactory gameplayFactory, LoadingScreen loadingScreen,
-        Coroutines coroutine, IPersistentProgressService persistentProgressService)
+    public LevelState(GameStateMachine stateMachine, IGameFactory gameFactory, IGameplayFactory gameplayFactory, LoadingScreen loadingScreen, IPersistentProgressService progressService)
     {
         _stateMachine = stateMachine;
         _gameFactory = gameFactory;
         _gameplayFactory = gameplayFactory;
         _loadingScreen = loadingScreen;
-        _coroutines = coroutine;
-        _persistentProgressService = persistentProgressService;
+        _progressService = progressService;
     }
 
     public void Enter()
     {
-        _coroutines.StartCoroutine(SetupWorld());
+        SetupWorld();
     }
 
     public void Exit()
     {
     }
 
-    private IEnumerator SetupWorld()
+    private void SetupWorld()
     {
-        var playerSpawnPosition = Object.FindFirstObjectByType<PlayerSpawnPosition>();
-
+        PlayerSpawnPosition playerSpawnPosition = Object.FindFirstObjectByType<PlayerSpawnPosition>();
+        
         _gameplayFactory.CreatePlayer(playerSpawnPosition.transform);
         _gameplayFactory.CreateHud();
-
-        yield return null;
-
-        InformProgressReaders();
+        
+        InformProgressReaders(_progressService.GameState);
+        
         _stateMachine.Enter<GameloopState>();
+
         _loadingScreen.Hide();
     }
 
-    private void InformProgressReaders()
+    private void InformProgressReaders(GameState gameState)
     {
-        foreach (ISavedProgressReader progressReader in _gameFactory.ProgressReaders)
+        for (var i = 0; i < _gameFactory.ProgressReaders.Count; i++)
         {
-            progressReader.LoadProgress(_persistentProgressService.GameState);
+            _gameFactory.ProgressReaders[i].LoadProgress(gameState);
         }
     }
 }

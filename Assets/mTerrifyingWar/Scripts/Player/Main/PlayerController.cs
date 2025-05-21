@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using Zenject;
 
@@ -7,12 +8,13 @@ public class PlayerController : MonoBehaviour
     [Inject] private readonly IGameplayFactory _gameplayFactory;
     [Inject] private readonly PlayerProvider _playerProvider;
     [Inject] private readonly DisplayProvider _displayProvider;
+    [Inject] private readonly IStorageService _storagesService;
     
     [field: SerializeField] public FPSPlayerSettings PlayerSettings {get; private set;}
 
     private PlayerSound _playerSound;
     private WeaponIKHandler _weaponIKHandler;
-
+    
     private int _tacSprintLayerIndex;
     private int _triggerDisciplineLayerIndex;
     private int _rightHandLayerIndex;
@@ -57,6 +59,11 @@ public class PlayerController : MonoBehaviour
         OnChangeFireMode();
         OnReload();
         OnSprint();
+
+        if (Input.GetKeyDown(KeyCode.F5))
+        {
+            _storagesService.Save();
+        }
     }
     
     private void OnChangeFireMode()
@@ -76,7 +83,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnReload()
     {
-        if (_inputService.IsReload)
+        if (_inputService.IsReload && _playerProvider.WeaponContainer.WeaponHolder.GetCurrentWeaponSlot())
         {
             _playerProvider.WeaponContainer.WeaponHolder.GetCurrentWeaponSlot().WeaponAmmo.OnReload();
         }
@@ -84,19 +91,40 @@ public class PlayerController : MonoBehaviour
     
     private void OnSprint()
     {
-        if (_inputService.MoveDirection.magnitude >= 0.01f)
-        {
-            _sprinting = _inputService.IsRun;
-        }
-        else
-        {
-            _sprinting = false;
-        }
-        
+        _sprinting = _inputService.MoveDirection.magnitude >= 0.01f && _inputService.IsRun;
+
         if (!_sprinting)
             _tacSprinting = false;
     }
 
+    private void OnAim()
+    {
+        var currentWeaponSlot = _playerProvider.WeaponContainer.WeaponHolder.GetCurrentWeaponSlot();
+        if (currentWeaponSlot == null)
+            return;
+
+        float targetFov = _playerProvider.MainCamera.fieldOfView;
+        bool wasAiming = _isAiming;
+
+        _isAiming = _inputService.IsAim;
+        _playerProvider.WeaponContainer.RecoilAnimation.isAiming = _isAiming;
+
+        if (_displayProvider.AimPoint != null)
+            _displayProvider.AimPoint.gameObject.SetActive(!_isAiming);
+      
+        if (wasAiming != _isAiming)
+        {
+            _playerSound.PlayAimSound(_isAiming);
+            _weaponIKHandler.PlayIkMotion(PlayerSettings.aimingMotion);
+        }
+      
+        targetFov = _isAiming 
+            ? currentWeaponSlot.WeaponSettings.aimFov 
+            : PlayerSettings.defaultFov;
+
+        _playerProvider.MainCamera.DOFieldOfView(targetFov, 0.5f).SetLink(_playerProvider.MainCamera.gameObject);
+    }
+    
   //  public void OnTacSprint(InputValue value)
   //  {
   //      if (!_bSprinting)
@@ -104,25 +132,7 @@ public class PlayerController : MonoBehaviour
   
   //      _bTacSprinting = value.isPressed;
   //  }
-
-    private void OnAim()
-    {
-        bool wasAiming = _isAiming;
-        _isAiming = _inputService.IsAim;
-        _playerProvider.WeaponContainer.RecoilAnimation.isAiming = _isAiming;
-
-        if (_displayProvider.AimPoint != null)
-        {
-            _displayProvider.AimPoint.gameObject.SetActive(!_isAiming);
-        }
-        
-        if (wasAiming != _isAiming)
-        {
-            _playerSound.PlayAimSound(_isAiming);
-            _weaponIKHandler.PlayIkMotion(PlayerSettings.aimingMotion);
-        }
-    }
-    
+  
     private void UpdateAnimatorLayers()
     {
         AdsWeight = Mathf.Clamp01(AdsWeight + PlayerSettings.aimSpeed * Time.deltaTime * (_isAiming ? 1f : -1f));

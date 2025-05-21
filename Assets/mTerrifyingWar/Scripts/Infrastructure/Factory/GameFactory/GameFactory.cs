@@ -4,7 +4,7 @@ using UnityEngine;
 public class GameFactory : IGameFactory
 {
     public List<ISavedProgressReader> ProgressReaders { get; } = new();
-    public List<ISavedProgress> ProgressWriters { get; } = new();
+    public List<IProgressUpdater> ProgressWriters { get; } = new();
     
     public void CleanUp()
     {
@@ -20,7 +20,7 @@ public class GameFactory : IGameFactory
 
     private void Register(ISavedProgressReader progressReader)
     {
-        if (progressReader is ISavedProgress progressWriter)
+        if (progressReader is IProgressUpdater progressWriter)
             ProgressWriters.Add(progressWriter);
 
         ProgressReaders.Add(progressReader);

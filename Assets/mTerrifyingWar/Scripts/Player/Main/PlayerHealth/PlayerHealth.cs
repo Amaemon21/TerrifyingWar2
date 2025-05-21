@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerHealth : IHealth
 {
-    private readonly IStorageService _storageService;
+    private readonly IPersistentProgressService _persistentProgressService;
     private readonly ReactiveProperty<float> _health;
     public Observable<float> Health => _health;
     
@@ -12,44 +12,27 @@ public class PlayerHealth : IHealth
     
     public float MaxHealth { get; private set; }
     
-    public PlayerHealth(IStorageService storageService)
+    public PlayerHealth(IPersistentProgressService persistentProgressService)
     {
-        _health = new ReactiveProperty<float>();
+        _persistentProgressService = persistentProgressService;
         
-        _storageService = storageService;
-        
-        //_storageService.Load(LoadSaveData);
+        MaxHealth = _persistentProgressService.GameState.PlayerEntity.HealthEntity.MaxHealth;
+        _health = new ReactiveProperty<float>(_persistentProgressService.GameState.PlayerEntity.HealthEntity.CurrentHealth);
     }
     
     public void TakeDamage(float damage)
     {
         _health.Value = Mathf.Clamp(_health.Value - damage, 0, MaxHealth);
         
-        _playerEntity.Health = _health.Value;
-        //_storageService.Save(_gameState);
+        _playerEntity.HealthEntity.CurrentHealth = _health.Value;
+        _persistentProgressService.GameState.PlayerEntity.HealthEntity.CurrentHealth = _health.Value;
     }
 
     public void Heal(float healAmount)
     {
         _health.Value = Mathf.Clamp(_health.Value + healAmount, 0, MaxHealth);
         
-        _playerEntity.Health = _health.Value;
-        //_storageService.Save(_gameState);
-    }
-
-    private void LoadSaveData(GameState gameState)
-    {
-        _gameState = gameState;
-
-        foreach (var entity in _gameState.Entities)
-        {
-            if (entity is PlayerEntity playerEntity)
-            {
-                _playerEntity = playerEntity;
-            }
-        }
-        
-        MaxHealth = _playerEntity.MaxHealth;
-        _health.Value = _playerEntity.Health;
+        _playerEntity.HealthEntity.CurrentHealth = _health.Value;
+        _persistentProgressService.GameState.PlayerEntity.HealthEntity.CurrentHealth = _health.Value;
     }
 }

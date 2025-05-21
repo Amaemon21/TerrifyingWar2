@@ -35,7 +35,7 @@ public class BootstrapState : IState
 
         switch (sceneName)
         {
-            case Scenes.Gameplay:
+            case Scenes.City:
                 LoadBootAndGameplay();
                 return;
             case Scenes.Bunker:
@@ -57,7 +57,7 @@ public class BootstrapState : IState
     {
         _sceneLoader.Load(Scenes.Boot, () =>
         {
-            _sceneLoader.Load(Scenes.Gameplay, () =>
+            _sceneLoader.Load(Scenes.City, () =>
             {
                 _stateMachine.Enter<LoadLevelState, string>(Scenes.Bunker);
             });
@@ -68,9 +68,9 @@ public class BootstrapState : IState
     {
         _sceneLoader.Load(Scenes.Boot, () =>
         {
-            _sceneLoader.Load(Scenes.Gameplay, () =>
+            _sceneLoader.Load(Scenes.City, () =>
             {
-                _stateMachine.Enter<LoadLevelState, string>(Scenes.Gameplay);
+                _stateMachine.Enter<LoadLevelState, string>(Scenes.City);
             });
         });
     }

@@ -5,6 +5,7 @@
     Inventory,
     Map,
     Task,
+    Craft,
     Workbench,
     GameEnd,
 

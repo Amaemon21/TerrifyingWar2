@@ -17,8 +17,6 @@ public class Weapon : MonoBehaviour
     [field: SerializeField] public Transform BarrelPoint { get; private set; }
     [field: SerializeField] public WeaponAnimator WeaponAnimator { get; private set; }
     [field: SerializeField] public WeaponAmmo WeaponAmmo { get; private set; }
-
-    [SerializeField] private WeaponSaver _weaponSaver;
     
     private bool _canFire = true;
     private bool _isFiring;
@@ -47,8 +45,6 @@ public class Weapon : MonoBehaviour
     {
         WeaponInventoryItemConfig = weaponInventoryItemConfig;
         _weaponContainer = weaponContainer;
-
-        _weaponSaver.Initialize();
         
         if (WeaponInventoryItemConfig.ScopeInventoryItemConfig != null)
         {
@@ -118,9 +114,11 @@ public class Weapon : MonoBehaviour
         OnShootChanged?.Invoke();
         
         WeaponInventoryItemConfig.RemoveCurrentAmmo();
-        
+        WeaponInventoryItemConfig.WeaponItemEntity.CurrentAmmo = WeaponInventoryItemConfig.CurrentAmmo;
         _displayProvider.AmmoView.PlayShootAnimation();
+        
         WeaponAmmo.HandleDisplayAmmo();
+        
         _lastShootTime = Time.time;
     }
 
@@ -135,6 +133,4 @@ public class Weapon : MonoBehaviour
     {
         return _canFire && !WeaponAmmo.IsReloading && WeaponInventoryItemConfig.CurrentAmmo > 0 && Time.time >= _lastShootTime + (60f / WeaponSettings.fireRate);
     }
-
-
 }

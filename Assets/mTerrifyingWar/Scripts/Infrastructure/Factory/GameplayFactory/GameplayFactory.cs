@@ -21,7 +21,7 @@ public class GameplayFactory : IGameplayFactory
     
     public void CreatePlayer(Transform spawnTransform)
     {
-        var playerContainer = _assetsProvider.PlayerInstantiate(spawnTransform);
+        PlayerContainer playerContainer = _assetsProvider.PlayerInstantiate(spawnTransform);
         _playerProvider.Setup(playerContainer);
         _gameFactory.RegisterProgressWatchers(playerContainer.gameObject);
         CreatePlayerChanged?.Invoke();
@@ -29,9 +29,16 @@ public class GameplayFactory : IGameplayFactory
 
     public void CreateHud()
     {
-        var displayProvider = _assetsProvider.UIInstantiate();
-        _displayProvider.Setup(displayProvider);
-        _gameFactory.RegisterProgressWatchers(displayProvider.gameObject);
+        DisplayContainer displayContainer = _assetsProvider.UIInstantiate();
+        _displayProvider.Setup(displayContainer);
+        _gameFactory.RegisterProgressWatchers(displayContainer.gameObject);
         CreateHudChanged?.Invoke();
+    }
+
+    public Weapon CreateWeapon(Weapon weaponHandPrefab, Transform parent)
+    {
+        Weapon weapon = _assetsProvider.WeaponInstantiate(weaponHandPrefab, parent);
+        _gameFactory.RegisterProgressWatchers(weapon.gameObject);
+        return weapon;
     }
 }

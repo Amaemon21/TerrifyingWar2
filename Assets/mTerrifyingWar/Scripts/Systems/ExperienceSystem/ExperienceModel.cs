@@ -17,7 +17,6 @@ public class ExperienceModel
     public ExperienceModel(IStorageService storageService)
     {
         _storageService = storageService;
-        _storageService.Load(LoadSaveData);
     }
 
     public void AddExperience(int amount)

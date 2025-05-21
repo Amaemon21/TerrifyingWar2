@@ -1,5 +1,4 @@
 using System.Collections;
-using NTC.Pool;
 using UnityEngine;
 
 public static class WeaponUtilities
@@ -40,11 +39,11 @@ public static class WeaponUtilities
         if (enableMuzzle)
         {
             var currentMuzzle = muzzlePrefabs[Random.Range(0, muzzlePrefabs.Length)];
-            var spawnedMuzzle = NightPool.Spawn(currentMuzzle, barrelTransform.position, barrelTransform.rotation, barrelTransform);
+            var spawnedMuzzle = Object.Instantiate(currentMuzzle, barrelTransform.position, barrelTransform.rotation, barrelTransform);
 
             spawnedMuzzle.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
 
-            NightPool.Despawn(spawnedMuzzle.gameObject, destroyTime);
+            Object.Destroy(spawnedMuzzle.gameObject, destroyTime);
         }
     }
 

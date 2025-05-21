@@ -21,7 +21,7 @@ public class DropArea : MonoBehaviour
 
     public void Show()
     {
-        _rectTransform.DOAnchorPosY(_showY, _duration);
+        _rectTransform.DOAnchorPosY(_showY, _duration).SetLink(_rectTransform.gameObject);
     }
 
     public void Hide(bool immediate = false)
@@ -29,6 +29,6 @@ public class DropArea : MonoBehaviour
         if (immediate)
             _rectTransform.anchoredPosition = new Vector2(_rectTransform.anchoredPosition.x, _hideY);
         else
-            _rectTransform.DOAnchorPosY(_hideY, _duration);
+            _rectTransform.DOAnchorPosY(_hideY, _duration).SetLink(_rectTransform.gameObject);;
     }
 }

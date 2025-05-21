@@ -1,9 +1,7 @@
 fileFormatVersion: 2
 guid: ffdfcb810f2918b4f8fe9f917f07bc78
-timeCreated: 1566859125
-licenseType: Store
 ModelImporter:
-  serializedVersion: 21
+  serializedVersion: 23
   fileIDToRecycleName:
     100000: Ankle_L
     100002: Ankle_R
@@ -293,10 +291,13 @@ ModelImporter:
     13700056: SM_Chr_Zombie_Male_01
     13700058: SM_Chr_Zombie_Male_02
     13700060: SM_Chr_Attach_Hazmat_Male_Glass_01
+    2186277476908879412: ImportLogs
+  externalObjects: {}
   materials:
     importMaterials: 0
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -304,15 +305,13 @@ ModelImporter:
     optimizeGameObjects: 0
     motionNodeName: 
     rigImportErrors: 
-    rigImportWarnings: "Avatar Rig Configuration mis-match. Bone length in configuration
-      does not match position in animation file:\n\t'UpperLeg_L' : position error
-      = 10982.584961 mm\n\t'LowerLeg_L' : position error = 39682.546875 mm\n\t'Ankle_L'
-      : position error = 37477.753906 mm\n\t'Ball_L' : position error = 11213.846680
-      mm\n"
+    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -337,11 +336,15 @@ ModelImporter:
     optimizeMeshForGPU: 0
     keepQuads: 0
     weldVertices: 0
+    preserveHierarchy: 0
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 0
     normalImportMode: 1
@@ -1086,7 +1089,6 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 1
     skeletonHasParents: 1

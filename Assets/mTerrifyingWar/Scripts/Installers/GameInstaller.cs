@@ -14,13 +14,15 @@ public class GameInstaller : MonoInstaller
         BindGameplaySystems();
         BindGameStateMachine();
         BindGameEntryPoint();
+
+        BindParams();
     }
 
     private void BindLoadingScreen()
     {
+        Container.Bind<Coroutines>().FromComponentInNewPrefab(_coroutines).AsSingle();
         Container.Bind<SceneLoader>().AsSingle();
         Container.Bind<LoadingScreen>().FromComponentInNewPrefab(_loadingScreen).AsSingle();
-        Container.Bind<Coroutines>().FromComponentInNewPrefab(_coroutines).AsSingle();
     }
 
     private void BindPlayerSettings()
@@ -48,5 +50,10 @@ public class GameInstaller : MonoInstaller
     private void BindGameEntryPoint()
     {
         Container.BindInterfacesAndSelfTo<GameEntryPoint>().AsSingle().NonLazy();
+    }
+
+    private void BindParams()
+    {
+        Container.Bind<CityEnterParams>().AsSingle();
     }
 }

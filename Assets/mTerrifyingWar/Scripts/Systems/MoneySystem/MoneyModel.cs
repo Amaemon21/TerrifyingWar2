@@ -12,7 +12,7 @@ public class MoneyModel
     {
         _storageService = storageService;
         
-        _storageService.Load(LoadSaveData);
+        //_storageService.Load(LoadSaveData);
     }
     
     public void AddMoney(int amount)

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4246143819240928065}
   - component: {fileID: -4169266664965079479}
   - component: {fileID: 4842793344225058692}
-  - component: {fileID: 605627936381282571}
   m_Layer: 6
   m_Name: HoloSight
   m_TagString: Untagged
@@ -29,8 +28,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.0425, z: -0.0733}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4377265010402665110}
   - {fileID: 2143654951614670766}
@@ -43,10 +42,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3050057241413789091}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -76,27 +75,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inventoryItemConfig: {fileID: 11400000, guid: 26f0d5b93ab475844bce77828123bf4d, type: 2}
---- !u!65 &605627936381282571
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3050057241413789091}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6428699208110122888
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,6 +86,7 @@ GameObject:
   - component: {fileID: 4377265010402665110}
   - component: {fileID: 2635541617705671984}
   - component: {fileID: 7507462597715453467}
+  - component: {fileID: 6421951372516708793}
   m_Layer: 6
   m_Name: Holosight_Mesh
   m_TagString: Untagged
@@ -161,13 +140,13 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8250691427394679952, guid: 51df6b294f5a23145883765d5ff55511, type: 3}
-  - {fileID: 969489678520146966, guid: 51df6b294f5a23145883765d5ff55511, type: 3}
-  - {fileID: -7402517394890126124, guid: 51df6b294f5a23145883765d5ff55511, type: 3}
-  - {fileID: -6005300928922926798, guid: 51df6b294f5a23145883765d5ff55511, type: 3}
-  - {fileID: -8896051167825165466, guid: 51df6b294f5a23145883765d5ff55511, type: 3}
-  - {fileID: 7922251121040759823, guid: 51df6b294f5a23145883765d5ff55511, type: 3}
-  - {fileID: -5354028657143720620, guid: 51df6b294f5a23145883765d5ff55511, type: 3}
+  - {fileID: 2100000, guid: 09890093a0ba51045be9730b33c9f1b5, type: 2}
+  - {fileID: 2100000, guid: ad9383c6dae691e4ea8e7d5c8556e2f3, type: 2}
+  - {fileID: 2100000, guid: 9deddf3ef4d69a648951bd8b3f5b5455, type: 2}
+  - {fileID: 2100000, guid: b4c22c40d85bbe74489301e539263b58, type: 2}
+  - {fileID: 2100000, guid: 8f04b9d11f009aa449c06df76d5af788, type: 2}
+  - {fileID: 2100000, guid: 11afb39b4942ff8499130d2fc87bae78, type: 2}
+  - {fileID: 2100000, guid: 931d8362a9e40fb4da67b05a135b6508, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -189,6 +168,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &6421951372516708793
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6428699208110122888}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.0004786671, y: 0.00071659934, z: 0.0005486426}
+  m_Center: {x: 0.0000021054743, y: 0.00011932355, z: 0.00024323637}
 --- !u!1 &8970427229141467525
 GameObject:
   m_ObjectHideFlags: 0

@@ -594,9 +594,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _windows:
-  - type: 6
-    Window: {fileID: 1221762713}
   - type: 7
+    Window: {fileID: 1221762713}
+  - type: 8
     Window: {fileID: 403166332}
 --- !u!1 &122579060
 GameObject:

@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 4834257298755560}
   - component: {fileID: 33067983529309676}
   - component: {fileID: 23694561869267628}
-  - component: {fileID: 65846227378077054}
-  - component: {fileID: 6275972328585146599}
+  - component: {fileID: 2945249035875719463}
+  - component: {fileID: 3090731938926519187}
   m_Layer: 0
   m_Name: SM_Env_Road_01
   m_TagString: Untagged
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 21c1e0845fe50de4bacf0970b304729c, type: 2}
@@ -78,7 +78,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -88,7 +88,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &65846227378077054
+--- !u!65 &2945249035875719463
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,9 +107,9 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 5, y: 0.079353094, z: 5}
-  m_Center: {x: -2.5, y: -0.039676547, z: -2.5}
---- !u!114 &6275972328585146599
+  m_Size: {x: 5, y: 0.000000011175871, z: 5}
+  m_Center: {x: -2.5, y: 0.000000005662441, z: -2.5}
+--- !u!114 &3090731938926519187
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

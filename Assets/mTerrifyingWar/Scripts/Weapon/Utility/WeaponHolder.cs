@@ -7,6 +7,7 @@ using Zenject;
 public class WeaponHolder : MonoBehaviour
 {
     [Inject] private readonly IGameplayFactory _gameplayFactory;
+    [Inject] private readonly IPersistentProgressService _progressService;
     [Inject] private readonly DisplayProvider _displayProvider;
     [Inject] private readonly DiContainer _container;
     
@@ -36,16 +37,16 @@ public class WeaponHolder : MonoBehaviour
 
     private void Setup()
     {
-        _displayProvider.Inventory.RequestPrimaryWeaponChanged += HandlePrimaryWeaponChanged;
-        _displayProvider.Inventory.RequestSecondWeaponChanged += HandleSecondaryWeaponChanged;
+        _displayProvider.Inventory.InventoryComponent.InventoryWeaponEquipable.RequestPrimaryWeaponChanged += HandlePrimaryWeaponChanged;
+        _displayProvider.Inventory.InventoryComponent.InventoryWeaponEquipable.RequestSecondWeaponChanged += HandleSecondaryWeaponChanged;
     }
 
     private void OnDisable()
     {
         _gameplayFactory.CreateHudChanged -= Setup;
         
-        _displayProvider.Inventory.RequestPrimaryWeaponChanged -= HandlePrimaryWeaponChanged;
-        _displayProvider.Inventory.RequestSecondWeaponChanged -= HandleSecondaryWeaponChanged;
+        _displayProvider.Inventory.InventoryComponent.InventoryWeaponEquipable.RequestPrimaryWeaponChanged -= HandlePrimaryWeaponChanged;
+        _displayProvider.Inventory.InventoryComponent.InventoryWeaponEquipable.RequestSecondWeaponChanged -= HandleSecondaryWeaponChanged;
     }
 
     private void Update()
@@ -59,12 +60,12 @@ public class WeaponHolder : MonoBehaviour
 
     private void HandlePrimaryWeaponChanged()
     {
-        AssignWeapon(ref _primaryWeapon, _displayProvider.Inventory.PrimaryWeapon);
+        AssignWeapon(ref _primaryWeapon, _displayProvider.Inventory.InventoryComponent.InventoryWeaponEquipable.PrimaryWeapon);
     }
 
     private void HandleSecondaryWeaponChanged()
     {
-        AssignWeapon(ref _secondaryWeapon, _displayProvider.Inventory.SecondaryWeapon);
+        AssignWeapon(ref _secondaryWeapon, _displayProvider.Inventory.InventoryComponent.InventoryWeaponEquipable.SecondaryWeapon);
     }
 
     private void AssignWeapon(ref Weapon weaponSlot, WeaponInventoryItemConfig weaponConfig)
@@ -184,32 +185,32 @@ public class WeaponHolder : MonoBehaviour
         action?.Invoke();
     }
 
-    private Weapon SpawnWeapon(WeaponInventoryItemConfig weapon)
+    private Weapon SpawnWeapon(WeaponInventoryItemConfig weaponConfig)
     {
-        if (weapon == null)
+        if (weaponConfig == null)
             return null;
         
         _root = new KTransform(_weaponContainer.TransformsContainer.CameraPoint);
         _localCamera = _root.GetRelativeTransform(new KTransform(_weaponContainer.TransformsContainer.CameraPoint), false);
+
+        Weapon weapon = _gameplayFactory.CreateWeapon(weaponConfig.WeaponHandPrefab, _weaponContainer.TransformsContainer.WeaponBone);
+        weapon.gameObject.SetActive(false);
         
-        Weapon instance = _container.InstantiatePrefabForComponent<Weapon>(weapon.WeaponHandPrefab, _weaponContainer.TransformsContainer.WeaponBone);
-        instance.gameObject.SetActive(false);
+        weapon.Initialize(weaponConfig, _weaponContainer);
         
-        instance.Initialize(weapon, _weaponContainer);
-        
-        instance.WeaponAnimator.Initialize(gameObject);
+        weapon.WeaponAnimator.Initialize(gameObject);
 
         KTransform weaponT = new KTransform(_weaponContainer.TransformsContainer.WeaponBone);
-        instance.rightHandPose = new KTransform(_weaponContainer.TransformsContainer.RightHand.tip).GetRelativeTransform(weaponT, false);
+        weapon.rightHandPose = new KTransform(_weaponContainer.TransformsContainer.RightHand.tip).GetRelativeTransform(weaponT, false);
 
         KTransform localWeapon = _root.GetRelativeTransform(weaponT, false);
 
         localWeapon.rotation *= AnimationsConstrains.ANIMATED_OFFSET;
 
-        instance.adsPose.position = _localCamera.position - localWeapon.position;
-        instance.adsPose.rotation = Quaternion.Inverse(localWeapon.rotation);
+        weapon.adsPose.position = _localCamera.position - localWeapon.position;
+        weapon.adsPose.rotation = Quaternion.Inverse(localWeapon.rotation);
         
-        return instance;
+        return weapon;
     }
     
     private void ResetAnimatorController()

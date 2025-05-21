@@ -19,7 +19,6 @@ public class SaveTrigger : MonoBehaviour
         if (other.TryGetComponent(out PlayerMover playerMover))
         {
             _storageService.Save();
-            Debug.Log("Save progress");
             gameObject.SetActive(false);
         }          
     }

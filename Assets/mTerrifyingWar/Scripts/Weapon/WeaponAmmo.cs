@@ -1,13 +1,14 @@
+using System;
 using UnityEngine;
 using Zenject;
 
 public class WeaponAmmo : MonoBehaviour
 {
+    [Inject] private readonly IStorageService _storageService;
     [Inject] private readonly DisplayProvider _displayProvider;
 
     [SerializeField] private Weapon _weapon;
     [SerializeField] private WeaponAnimator _weaponAnimator;
-    [SerializeField] private WeaponSaver _weaponSaver;
     
     private AmmoInventoryItemConfig _ammoInventoryItemConfig;
     
@@ -15,16 +16,16 @@ public class WeaponAmmo : MonoBehaviour
 
     public void OnEnable()
     {
-        _displayProvider.Inventory.InventorySystem.OnAmmoAddChanged += RequestAmmo;
-        _displayProvider.Inventory.InventorySystem.OnAmmoRemoveChanged += RemoveAmmo;
+        _displayProvider.Inventory.InventoryComponent.InventorySystem.OnAmmoAddChanged += RequestAmmo;
+        _displayProvider.Inventory.InventoryComponent.InventorySystem.OnAmmoRemoveChanged += RemoveAmmo;
         
         RequestAmmo();
     }
     
     private void OnDisable()
     {
-        _displayProvider.Inventory.InventorySystem.OnAmmoAddChanged -= RequestAmmo;
-        _displayProvider.Inventory.InventorySystem.OnAmmoRemoveChanged -= RemoveAmmo;
+        _displayProvider.Inventory.InventoryComponent.InventorySystem.OnAmmoAddChanged -= RequestAmmo;
+        _displayProvider.Inventory.InventoryComponent.InventorySystem.OnAmmoRemoveChanged -= RemoveAmmo;
     }
     
     public void OnReload()
@@ -50,25 +51,22 @@ public class WeaponAmmo : MonoBehaviour
             return;
 
         int amountNeeded = _weapon.WeaponInventoryItemConfig.MagazineSize - _weapon.WeaponInventoryItemConfig.CurrentAmmo;
+        int amountToRemove = Math.Min(amountNeeded, _ammoInventoryItemConfig.ItemCount);
 
-        if (amountNeeded >= _ammoInventoryItemConfig.ItemCount)
-        {
-            int residue = _ammoInventoryItemConfig.ItemCount;
-            
-            _weapon.WeaponInventoryItemConfig.AddCurrentAmmo(_ammoInventoryItemConfig.ItemCount);
-            _ammoInventoryItemConfig.RemoveCount(_ammoInventoryItemConfig.ItemCount);
-            _displayProvider.Inventory.InventorySaver.RemoveItem(_ammoInventoryItemConfig, residue);
-        }
-        else
-        {
-            _weapon.WeaponInventoryItemConfig.SetCurrentAmmo();
-            _ammoInventoryItemConfig.RemoveCount(amountNeeded);
-            _displayProvider.Inventory.InventorySaver.RemoveItem(_ammoInventoryItemConfig, amountNeeded);
-        }
+        // Добавляем патроны в магазин
+        _weapon.WeaponInventoryItemConfig.AddCurrentAmmo(amountToRemove);
+    
+        // Уменьшаем количество патронов в инвентаре
+        _ammoInventoryItemConfig.RemoveCount(amountToRemove);
+        _displayProvider.Inventory.InventoryComponent.InventorySaver.RemoveItem(_ammoInventoryItemConfig, amountToRemove);
 
-        _weaponSaver.WeaponItemEntity.CurrentAmmo = _weapon.WeaponInventoryItemConfig.CurrentAmmo;
+        // Обновляем текущий боезапас
+        _weapon.WeaponInventoryItemConfig.WeaponItemEntity.CurrentAmmo = _weapon.WeaponInventoryItemConfig.CurrentAmmo;
+    
+        // Обновляем интерфейс
         HandleDisplayAmmo();
-        
+    
+        // Разрешаем стрельбу
         _weapon.ChangeCanFire(true);
         IsReloading = false;
     }
@@ -87,7 +85,7 @@ public class WeaponAmmo : MonoBehaviour
         if (_weapon.WeaponInventoryItemConfig == null)
             return;
         
-        _ammoInventoryItemConfig = _displayProvider.Inventory.InventorySystem.RequestAmmo(_weapon.WeaponInventoryItemConfig.EAmmoType);
+        _ammoInventoryItemConfig = _displayProvider.Inventory.InventoryComponent.InventorySystem.RequestAmmo(_weapon.WeaponInventoryItemConfig.EAmmoType);
         HandleDisplayAmmo();
     }
 

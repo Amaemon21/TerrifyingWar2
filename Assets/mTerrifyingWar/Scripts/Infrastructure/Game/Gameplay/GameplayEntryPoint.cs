@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 using Zenject;
 
-public class GameplayEntryPoint : MonoBehaviour
+public abstract class GameplayEntryPoint : MonoBehaviour
 {
+    [Inject] protected readonly IPersistentProgressService PersistentProgressService;
     [Inject] private readonly IInputService _inputService;
     [Inject] private readonly BackendManager _backendManager;
     [Inject] private readonly GameStateMachine _gameStateMachine;
     [Inject] private readonly DiContainer _container;
     
-    public void Run()
+    public virtual void Run()
     {
         LevelState levelState = _container.Instantiate<LevelState>();
 

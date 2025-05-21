@@ -3,7 +3,7 @@
     public void LoadProgress(GameState gameState);
 }
 
-public interface ISavedProgress : ISavedProgressReader
+public interface IProgressUpdater : ISavedProgressReader
 {
     public void UpdateProgress(GameState gameState);
 }

@@ -30,8 +30,7 @@ namespace Zenject
 
         public void Run()
         {
-            Assert.That(!Initialized,
-                "The context already has been initialized!");
+            Assert.That(!Initialized, "The context already has been initialized!");
 
             RunInternal();
 

@@ -23,4 +23,9 @@ public class AssetsProvider : IAssetsProvider
         DisplayContainer displayContainer = _container.InstantiatePrefabForComponent<DisplayContainer>(prefab);
         return displayContainer;
     }
+    
+    public Weapon WeaponInstantiate(Weapon handPrefab, Transform parent)
+    {
+        return _container.InstantiatePrefabForComponent<Weapon>(handPrefab, parent);
+    }
 }

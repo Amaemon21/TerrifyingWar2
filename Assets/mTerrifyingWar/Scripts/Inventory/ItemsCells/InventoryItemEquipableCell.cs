@@ -14,6 +14,7 @@ public class InventoryItemEquipableCell : MonoBehaviour, IPointerClickHandler, I
     private readonly string _nameItemDefault = "Отсутствует";
 
     [SerializeField] private ItemType _cellType = ItemType.Weapon;
+    [SerializeField] private SlotType _slotType = SlotType.Primary;
     
     [Space(10)]
     [SerializeField] private TMP_Text _nameText;
@@ -39,14 +40,15 @@ public class InventoryItemEquipableCell : MonoBehaviour, IPointerClickHandler, I
     private ItemInfoView ItemInfoView;
 
     public InventoryItemConfig InventoryItemConfig { get; private set; }
+    public SlotType SlotType => _slotType;
 
     public event Action DropItemChanged; 
 
     private void Awake()
     {
-        _dragableObject = _displayProvider.Inventory.DragableObject;
-        _dropArea = _displayProvider.Inventory.DropArea;
-        ItemInfoView = _displayProvider.Inventory.ItemInfoView;
+        _dragableObject = _displayProvider.Inventory.InventoryComponent.DragableObject;
+        _dropArea = _displayProvider.Inventory.InventoryComponent.DropArea;
+        ItemInfoView = _displayProvider.Inventory.InventoryComponent.ItemInfoView;
     }
     
     private void OnEnable()
@@ -93,7 +95,9 @@ public class InventoryItemEquipableCell : MonoBehaviour, IPointerClickHandler, I
     public void SetItem(InventoryItemConfig config)
     {
         InventoryItemConfig = config;
+        
         DropItemChanged?.Invoke();
+
         RedrawCell();
     }
     
@@ -107,14 +111,13 @@ public class InventoryItemEquipableCell : MonoBehaviour, IPointerClickHandler, I
             {
                 if (InventoryItemConfig is WeaponInventoryItemConfig weaponInventoryItemConfig)
                 {
-                    if (weaponInventoryItemConfig != null)
-                    {
-                        _iconImage.sprite = weaponInventoryItemConfig.EquippedSprite;
+                    weaponInventoryItemConfig.WeaponItemEntity.SlotType = SlotType;
+                        
+                    _iconImage.sprite = weaponInventoryItemConfig.EquippedSprite;
 
-                        _nameText.text = $"<color=#E78300>{weaponInventoryItemConfig.ItemName}</color>" ;
+                    _nameText.text = $"<color=#E78300>{weaponInventoryItemConfig.ItemName}</color>" ;
                             
-                        _dropImage.enabled = false;
-                    }
+                    _dropImage.enabled = false;
                 }
             }
             else

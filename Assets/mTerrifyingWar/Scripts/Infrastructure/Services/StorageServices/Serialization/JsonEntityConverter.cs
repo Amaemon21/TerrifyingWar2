@@ -21,9 +21,9 @@ public class JsonEntityConverter : JsonConverter<Entity>
 
         return type switch
         {
-            EntityType.PlayerEntity => jsonObject.ToObject<PlayerEntity>(_entityInternalSerializer),
             EntityType.ItemEntity => jsonObject.ToObject<ItemEntity>(_entityInternalSerializer),
             EntityType.WeaponItemEntity => jsonObject.ToObject<WeaponItemEntity>(_entityInternalSerializer),
+            EntityType.QuestEntity => jsonObject.ToObject<QuestEntity>(_entityInternalSerializer),
             _ => throw new ArgumentOutOfRangeException()
         };
     }

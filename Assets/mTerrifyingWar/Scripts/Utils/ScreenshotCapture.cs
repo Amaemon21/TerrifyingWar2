@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using UnityEngine;
 
 public class ScreenshotCapture : MonoBehaviour
@@ -10,27 +11,15 @@ public class ScreenshotCapture : MonoBehaviour
 
     [Tooltip("Папка для сохранения скриншотов.")]
     public string saveFolder = "Screenshots";
-
-    private void Start()
+    
+    [Button]
+    private void TakeScreenshot()
     {
-        // Создать папку, если она не существует
         if (!System.IO.Directory.Exists(saveFolder))
         {
             System.IO.Directory.CreateDirectory(saveFolder);
         }
-    }
-
-    private void Update()
-    {
-        // Нажмите "P" для создания скриншота
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            TakeScreenshot();
-        }
-    }
-
-    private void TakeScreenshot()
-    {
+        
         // Создать уникальное имя файла с учетом времени
         string timestamp = System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
         string filePath = System.IO.Path.Combine(saveFolder, $"{screenshotName}_{timestamp}.png");

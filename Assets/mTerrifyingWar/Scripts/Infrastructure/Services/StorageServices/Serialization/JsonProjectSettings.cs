@@ -9,7 +9,7 @@ public class JsonProjectSettings
     
     private void ApplyProjectSerializationSettings()
     {
-        var settings = new JsonSerializerSettings();
+        JsonSerializerSettings settings = new JsonSerializerSettings();
         settings.Converters.Add(new JsonEntityConverter());
         
         JsonConvert.DefaultSettings = () => settings;

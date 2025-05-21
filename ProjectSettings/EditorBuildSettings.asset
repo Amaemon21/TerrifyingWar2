@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/mTerrifyingWar/Scenes/MainMenu.unity
     guid: 5cf8bb81818f7d64f956ac1591f87746
   - enabled: 1
-    path: Assets/mTerrifyingWar/Scenes/Gameplay.unity
+    path: Assets/mTerrifyingWar/Scenes/City.unity
     guid: 450f95050f3aded4a9b4171677e0e648
   - enabled: 1
     path: Assets/mTerrifyingWar/Scenes/Bunker.unity

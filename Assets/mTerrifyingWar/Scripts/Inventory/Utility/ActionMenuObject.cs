@@ -26,8 +26,8 @@ public class ActionMenuObject : MonoBehaviour
         
         _rectTransform = GetComponent<RectTransform>();
 
-        _inventoryDatabase = _displayProvider.Inventory.InventoryDatabase;
-        _dropMenu = _displayProvider.Inventory.DropMenu;
+        _inventoryDatabase = _displayProvider.Inventory.InventoryComponent.InventoryDatabase;
+        _dropMenu = _displayProvider.Inventory.InventoryComponent.DropMenu;
 
         Hide();
     }

@@ -33,9 +33,9 @@ public class BloobOverlayView : View
 
     private IEnumerator ShowBloobOverlay(float targetAlpha)
     {
-        _bloobOverlay.DOFade(targetAlpha, _fadeDuration);
+        _bloobOverlay.DOFade(targetAlpha, _fadeDuration).SetLink(_bloobOverlay.gameObject);;
         yield return new WaitForSeconds(_fadeDuration + _visibleDuration);
         
-        _bloobOverlay.DOFade(0f, _fadeDuration);
+        _bloobOverlay.DOFade(0f, _fadeDuration).SetLink(_bloobOverlay.gameObject);;
     }
 }

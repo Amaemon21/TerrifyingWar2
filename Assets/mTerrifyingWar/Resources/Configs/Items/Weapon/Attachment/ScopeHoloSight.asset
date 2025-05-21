@@ -26,7 +26,7 @@ MonoBehaviour:
     \u043D\u0435 \u043F\u0435\u0440\u0435\u043A\u0440\u044B\u0432\u0430\u044F \u043E\u0431\u0437\u043E\u0440."
   <IsStackable>k__BackingField: 0
   <ItemCount>k__BackingField: 0
-  <ItemSprite>k__BackingField: {fileID: -968876184, guid: 0918a2a2c2dc3494085c09f4ce7a4536, type: 3}
+  <ItemSprite>k__BackingField: {fileID: 453649420, guid: 0918a2a2c2dc3494085c09f4ce7a4536, type: 3}
   <ItemPrefab>k__BackingField: {fileID: 4842793344225058692, guid: f193904dfe4d9564b85cf31381fb0126, type: 3}
   <Scope>k__BackingField: {fileID: 8032401805015029784, guid: f90fdb9b5183b14439469a3d314579b3, type: 3}
   <Position>k__BackingField: {x: 0, y: 0.0425, z: -0.0733}

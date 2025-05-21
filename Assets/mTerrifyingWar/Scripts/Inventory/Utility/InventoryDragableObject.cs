@@ -14,11 +14,11 @@ public class InventoryDragableObject : MonoBehaviour
 
     private void OnEnable()
     {
-        transform.DOScale(1.15f, 0.1f);
+        transform.DOScale(1.15f, 0.1f).SetLink(transform.gameObject);
     }
 
     private void OnDisable()
     {
-        transform.DOScale(1f, 0.1f);
+        transform.DOScale(1f, 0.1f).SetLink(transform.gameObject);
     }
 }
