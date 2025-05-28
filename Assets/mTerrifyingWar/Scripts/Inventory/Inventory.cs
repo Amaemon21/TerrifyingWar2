@@ -121,6 +121,7 @@ public class Inventory : MonoBehaviour
             if (!isLoaded)
                 _inventoryComponent.InventorySaver.WeaponAddItem(weaponInventoryItemConfig, true);
             
+            _inventoryComponent.InventorySystem.HandleAddItem(weaponInventoryItemConfig);
             cell.SetItem(weaponInventoryItemConfig);
             return true;
         }

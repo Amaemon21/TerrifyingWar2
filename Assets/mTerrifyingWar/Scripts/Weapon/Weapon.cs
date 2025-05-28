@@ -131,6 +131,6 @@ public class Weapon : MonoBehaviour
     
     private bool CanShoot()
     {
-        return _canFire && !WeaponAmmo.IsReloading && WeaponInventoryItemConfig.CurrentAmmo > 0 && Time.time >= _lastShootTime + (60f / WeaponSettings.fireRate);
+        return WeaponAnimator.IsEquipped && _canFire && !WeaponAmmo.IsReloading && WeaponInventoryItemConfig.CurrentAmmo > 0 && Time.time >= _lastShootTime + (60f / WeaponSettings.fireRate);
     }
 }

@@ -12,6 +12,8 @@ public class InventorySystem : MonoBehaviour
     private List<WeaponInventoryItemConfig> _weapons = new();
     private List<AmmoInventoryItemConfig> _ammoList = new();
     
+    public IReadOnlyList<WeaponInventoryItemConfig> Weapons => _weapons;
+    
     public event Action OnAmmoAddChanged; 
     public event Action OnAmmoRemoveChanged; 
     

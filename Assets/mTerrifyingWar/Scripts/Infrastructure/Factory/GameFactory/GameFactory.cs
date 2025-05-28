@@ -24,5 +24,7 @@ public class GameFactory : IGameFactory
             ProgressWriters.Add(progressWriter);
 
         ProgressReaders.Add(progressReader);
+        
+        Debug.Log($"Registered progress reader: {progressReader}");
     }
 }

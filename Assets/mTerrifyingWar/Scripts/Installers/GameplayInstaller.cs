@@ -3,20 +3,13 @@ using Zenject;
 
 public class GameplayInstaller : MonoInstaller
 {
-    [Space(10)]
-    [SerializeField] private EnemyDatabaseConfig _enemyDatabaseConfig;
+    [SerializeField] private PlayerSpawnPosition _playerSpawnPosition;
 
     public override void InstallBindings()
     {
-        BindConfig();
         BindUI();
         BindServices();
         BindGameplaySystems();
-    }
-
-    private void BindConfig()
-    {
-        Container.Bind<EnemyDatabaseConfig>().FromInstance(_enemyDatabaseConfig).AsSingle();
     }
 
     private void BindUI()
@@ -35,6 +28,8 @@ public class GameplayInstaller : MonoInstaller
     
     private void BindGameplaySystems()
     {
+        Container.Bind<PlayerSpawnPosition>().FromInstance(_playerSpawnPosition).AsSingle();
+        
         Container.Bind<QuestTracker>().AsSingle().NonLazy();
         Container.Bind<QuestEvents>().AsSingle().NonLazy();
     }

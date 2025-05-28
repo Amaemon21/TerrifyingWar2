@@ -7,4 +7,5 @@ public class DisplayContainer : MonoBehaviour
     [field: SerializeField] public AimPoint AimPoint { get; private set; }
     [field: SerializeField] public AmmoView AmmoView { get; private set; }
     [field: SerializeField] public NotificationSystem NotificationSystem { get; private set; }
+    [field: SerializeField] public WorkbenchSystem WorkbenchSystem { get; private set; }
 }

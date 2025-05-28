@@ -6,7 +6,6 @@ using Zenject;
 public class EnemySpawner : MonoBehaviour
 {
     [Inject] private readonly DiContainer _container;
-    [Inject] private readonly EnemyDatabaseConfig _enemyDatabaseConfig;
     
     [SerializeField] private EnemyType enemyType;
     [SerializeField] private int _maxEnemies;
@@ -15,9 +14,12 @@ public class EnemySpawner : MonoBehaviour
     private string _id;
     private int _enemiesSpawned;
     private EnemyConfig _enemyConfig;
+    private EnemyDatabaseConfig _enemyDatabaseConfig;
 
     private void Awake()
     {
+        _enemyDatabaseConfig = Resources.Load<EnemyDatabaseConfig>(AssetsPath.EnemyDatabasePath);
+        
         _id = GetComponent<UniqueId>().Id;
         
         StartCoroutine(StartSpawner());

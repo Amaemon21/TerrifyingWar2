@@ -1,20 +1,25 @@
-﻿using UnityEngine;
-
-public class LevelState : IState
+﻿public class LevelState : IState
 {
     private readonly GameStateMachine _stateMachine;
     private readonly IGameFactory _gameFactory;
     private readonly IGameplayFactory _gameplayFactory;
     private readonly LoadingScreen _loadingScreen;
     private readonly IPersistentProgressService _progressService;
-
-    public LevelState(GameStateMachine stateMachine, IGameFactory gameFactory, IGameplayFactory gameplayFactory, LoadingScreen loadingScreen, IPersistentProgressService progressService)
+    private readonly PlayerSpawnPosition _playerSpawnPosition;
+    
+    public LevelState(GameStateMachine stateMachine, 
+        IGameFactory gameFactory, 
+        IGameplayFactory gameplayFactory, 
+        LoadingScreen loadingScreen, 
+        IPersistentProgressService progressService, 
+        PlayerSpawnPosition spawnPosition)
     {
         _stateMachine = stateMachine;
         _gameFactory = gameFactory;
         _gameplayFactory = gameplayFactory;
         _loadingScreen = loadingScreen;
         _progressService = progressService;
+        _playerSpawnPosition = spawnPosition;
     }
 
     public void Enter()
@@ -28,9 +33,7 @@ public class LevelState : IState
 
     private void SetupWorld()
     {
-        PlayerSpawnPosition playerSpawnPosition = Object.FindFirstObjectByType<PlayerSpawnPosition>();
-        
-        _gameplayFactory.CreatePlayer(playerSpawnPosition.transform);
+        _gameplayFactory.CreatePlayer(_playerSpawnPosition.transform);
         _gameplayFactory.CreateHud();
         
         InformProgressReaders(_progressService.GameState);

@@ -5,6 +5,7 @@ using Zenject;
 public class WeaponAmmo : MonoBehaviour
 {
     [Inject] private readonly IStorageService _storageService;
+    [Inject] private readonly PlayerProvider _playerProvider;
     [Inject] private readonly DisplayProvider _displayProvider;
 
     [SerializeField] private Weapon _weapon;
@@ -30,6 +31,9 @@ public class WeaponAmmo : MonoBehaviour
     
     public void OnReload()
     {
+        if (!_weaponAnimator.IsEquipped) 
+            return;
+        
         if (_ammoInventoryItemConfig == null)
             return;
 
@@ -41,7 +45,7 @@ public class WeaponAmmo : MonoBehaviour
         float delay = _weapon.WeaponInventoryItemConfig.CurrentAmmo == 0 ? _weapon.WeaponAnimator.EmptyReloadDelay : _weapon.WeaponAnimator.TacReloadDelay;
         
         Invoke(nameof(AddAmmo), delay);
-        
+        _playerProvider.UIBluer.ActiveBluer();
         IsReloading = true;
     }
     
@@ -52,22 +56,18 @@ public class WeaponAmmo : MonoBehaviour
 
         int amountNeeded = _weapon.WeaponInventoryItemConfig.MagazineSize - _weapon.WeaponInventoryItemConfig.CurrentAmmo;
         int amountToRemove = Math.Min(amountNeeded, _ammoInventoryItemConfig.ItemCount);
-
-        // Добавляем патроны в магазин
+        
         _weapon.WeaponInventoryItemConfig.AddCurrentAmmo(amountToRemove);
-    
-        // Уменьшаем количество патронов в инвентаре
+        
         _ammoInventoryItemConfig.RemoveCount(amountToRemove);
         _displayProvider.Inventory.InventoryComponent.InventorySaver.RemoveItem(_ammoInventoryItemConfig, amountToRemove);
-
-        // Обновляем текущий боезапас
+        
         _weapon.WeaponInventoryItemConfig.WeaponItemEntity.CurrentAmmo = _weapon.WeaponInventoryItemConfig.CurrentAmmo;
-    
-        // Обновляем интерфейс
+        
         HandleDisplayAmmo();
-    
-        // Разрешаем стрельбу
+        
         _weapon.ChangeCanFire(true);
+        _playerProvider.UIBluer.DeactiveBluer();
         IsReloading = false;
     }
     
@@ -100,19 +100,12 @@ public class WeaponAmmo : MonoBehaviour
     
     public void HandleDisplayAmmo()
     {
-        if (_weapon == null)
-            return;
-        
-        if (_weapon.WeaponInventoryItemConfig == null)
+        if (_weapon?.WeaponInventoryItemConfig == null)
             return;
 
-        int ammoCount = 0;
-        
-        if (_ammoInventoryItemConfig != null)
-        {
-            ammoCount = _ammoInventoryItemConfig.ItemCount;
-        }
-        
-        _displayProvider.AmmoView.DisplayAmmo(_weapon.WeaponInventoryItemConfig.CurrentAmmo, ammoCount, _weapon);
+        int reserveAmmo = _ammoInventoryItemConfig?.ItemCount ?? 0;
+        int currentAmmo = _weapon.WeaponInventoryItemConfig.CurrentAmmo;
+
+        _displayProvider.AmmoView.DisplayAmmo(currentAmmo, reserveAmmo, _weapon);
     }
 }

@@ -13,6 +13,7 @@ public class WeaponAnimator : MonoBehaviour
     public float TacReloadDelay { get; private set; }
     public float EmptyReloadDelay { get; private set; }
     public float UnEquipDelay { get; private set; }
+    public bool IsEquipped { get; private set; }
 
     private void Awake()
     {
@@ -107,11 +108,13 @@ public class WeaponAnimator : MonoBehaviour
 
         // Play the curve-based equipping animation.
         _playerProvider.WeaponContainer.HandAnimator.Play(AnimationsConstrains.EQUIP, -1, 0f);
+        IsEquipped = true;
     }
 
     public float OnUnEquipped()
     {
         _playerProvider.WeaponContainer.HandAnimator.SetTrigger(AnimationsConstrains.UNEQUIP);
+        IsEquipped = false;
         return UnEquipDelay + 0.05f;
     }
 }

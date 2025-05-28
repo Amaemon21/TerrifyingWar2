@@ -6,11 +6,17 @@ public class WorkbenchSystem : MonoBehaviour
 {
     [Inject] private readonly DisplayProvider _displayProvider;
     
-    [SerializeField] private FactoryRenderingItem _factoryRenderingItem;
     [SerializeField] private WorkbenchCell _cellPrefab;
     [SerializeField] private Transform _container;
     
-    private List<WorkbenchCell> _cells = new ();
+    private List<WorkbenchCell> _cells = new();
+
+    private WorkbenchInteractObject _workbenchInteractObject;
+    
+    public void Setup(WorkbenchInteractObject workbenchInteractObject)
+    {
+        _workbenchInteractObject = workbenchInteractObject;
+    }
     
     private void OnEnable()
     {
@@ -20,21 +26,21 @@ public class WorkbenchSystem : MonoBehaviour
     private void OnDisable()
     {
         ClearCells();
-        _factoryRenderingItem.ClearsItems();
+        _workbenchInteractObject.FactoryWeaponItem.ClearsItems();
+        
+        _workbenchInteractObject.Exit();
     }
 
     private void SpawnCell()
     {
-        // _displayProvider.InventorySystem.RequestAllWeapons();
-        
-       //for (var i = 0; i < _displayProvider.InventorySystem.Weapons.Count; i++)
-       //{
-       //    var item = _displayProvider.InventorySystem.Weapons[i];
-       //    
-       //    WorkbenchCell cell = Instantiate(_cellPrefab, _container);
-       //    cell.Setup(item, _factoryRenderingItem);
-       //    _cells.Add(cell);
-       //}
+        for (var i = 0; i < _displayProvider.Inventory.InventoryComponent.InventorySystem.Weapons.Count; i++)
+        {
+            var item = _displayProvider.Inventory.InventoryComponent.InventorySystem.Weapons[i];
+            
+            WorkbenchCell cell = Instantiate(_cellPrefab, _container);
+            cell.Setup(item, _workbenchInteractObject.FactoryWeaponItem);
+            _cells.Add(cell);
+        }
     }
 
     private void ClearCells()

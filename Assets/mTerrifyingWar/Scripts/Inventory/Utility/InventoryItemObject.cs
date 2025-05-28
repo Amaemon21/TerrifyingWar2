@@ -9,6 +9,7 @@ public class InventoryItemObject : MonoBehaviour
     
     //public Outline Outline { get; private set; }
     public InventoryItemConfig InventoryItemConfig { get; private set; }
+    public Rigidbody Rigidbody { get; private set; }
     
     public void SetConfig(InventoryItemConfig inventoryItemConfig)
     {
@@ -17,10 +18,11 @@ public class InventoryItemObject : MonoBehaviour
     
     private void Awake()
     {
-        InitializeItem();
-        
+        Rigidbody = GetComponent<Rigidbody>();
         //Outline = GetComponent<Outline>();
         //Outline.enabled = false;
+        
+        InitializeItem();
     }
 
     private void InitializeItem()

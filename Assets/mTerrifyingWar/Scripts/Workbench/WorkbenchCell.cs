@@ -9,9 +9,9 @@ public class WorkbenchCell : MonoBehaviour, IPointerClickHandler
     [SerializeField] private TMP_Text _nameText;
     
     private WeaponInventoryItemConfig _weaponInventoryItemConfig;
-    private FactoryRenderingItem _factoryRenderingItem;
+    private FactoryWeaponItem factoryWeaponItem;
     
-    public void Setup(WeaponInventoryItemConfig weaponInventoryItemConfig, FactoryRenderingItem factoryRendering)
+    public void Setup(WeaponInventoryItemConfig weaponInventoryItemConfig, FactoryWeaponItem factoryWeapon)
     {
         _weaponInventoryItemConfig = weaponInventoryItemConfig;
         
@@ -20,14 +20,14 @@ public class WorkbenchCell : MonoBehaviour, IPointerClickHandler
         
         _icon.enabled = true;
         
-        _factoryRenderingItem = factoryRendering;
+        factoryWeaponItem = factoryWeapon;
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            _factoryRenderingItem.SpawnItem(_weaponInventoryItemConfig);
+            factoryWeaponItem.SpawnItem(_weaponInventoryItemConfig);
         }
     }
 }
