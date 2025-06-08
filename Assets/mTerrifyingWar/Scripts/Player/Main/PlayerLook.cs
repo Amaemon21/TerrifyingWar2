@@ -4,8 +4,8 @@ using Zenject;
 public class PlayerLook : MonoBehaviour
 {
     [Inject] private readonly IInputService _inputService;
-    [Inject] private readonly PlayerSettingsConfig _playerSettingsConfig;
     
+    [SerializeField] private PlayerSettingsConfig _playerSettingsConfig;
     [SerializeField] private RecoilPattern _recoilPattern;
     [SerializeField] private Transform _cameraTransform;
     

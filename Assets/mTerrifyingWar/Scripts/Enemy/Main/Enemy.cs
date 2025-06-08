@@ -8,7 +8,6 @@ using Zenject;
 [RequireComponent(typeof(EnemyDeath))]
 public class Enemy : MonoBehaviour
 {
-    [Inject] private readonly IGameplayFactory _gameplayFactory;
     [Inject] private readonly PlayerProvider _playerProvider;
     [Inject] private readonly PlayerHealth _playerHealth;
     
@@ -35,23 +34,18 @@ public class Enemy : MonoBehaviour
     private void OnEnable()
     {
         EnemyHealth.EnemyDeath += EnemyDeathChanged;
-        _gameplayFactory.CreatePlayerChanged += SetupTarget;
     }
 
     private void OnDisable()
     {
         EnemyHealth.EnemyDeath -= EnemyDeathChanged;
-        _gameplayFactory.CreatePlayerChanged -= SetupTarget;
-    }
-
-    private void SetupTarget()
-    {
-        Target = _playerProvider.PlayerMover.transform;
     }
 
     public void Setup(EnemyConfig config)
     {
         EnemyConfig = config;
+        
+        Target = _playerProvider.PlayerMover.transform;
         
         ChangeState(new IdleState(this));
     }

@@ -37,16 +37,16 @@ public class WeaponHolder : MonoBehaviour
 
     private void Setup()
     {
-        _displayProvider.Inventory.InventoryComponent.InventoryWeaponEquipable.RequestPrimaryWeaponChanged += HandlePrimaryWeaponChanged;
-        _displayProvider.Inventory.InventoryComponent.InventoryWeaponEquipable.RequestSecondWeaponChanged += HandleSecondaryWeaponChanged;
+        _displayProvider.InventoryComponent.InventoryWeaponEquipable.RequestPrimaryWeaponChanged += HandlePrimaryWeaponChanged;
+        _displayProvider.InventoryComponent.InventoryWeaponEquipable.RequestSecondWeaponChanged += HandleSecondaryWeaponChanged;
     }
 
     private void OnDisable()
     {
         _gameplayFactory.CreateHudChanged -= Setup;
         
-        _displayProvider.Inventory.InventoryComponent.InventoryWeaponEquipable.RequestPrimaryWeaponChanged -= HandlePrimaryWeaponChanged;
-        _displayProvider.Inventory.InventoryComponent.InventoryWeaponEquipable.RequestSecondWeaponChanged -= HandleSecondaryWeaponChanged;
+        _displayProvider.InventoryComponent.InventoryWeaponEquipable.RequestPrimaryWeaponChanged -= HandlePrimaryWeaponChanged;
+        _displayProvider.InventoryComponent.InventoryWeaponEquipable.RequestSecondWeaponChanged -= HandleSecondaryWeaponChanged;
     }
 
     private void Update()
@@ -60,12 +60,12 @@ public class WeaponHolder : MonoBehaviour
 
     private void HandlePrimaryWeaponChanged()
     {
-        AssignWeapon(ref _primaryWeapon, _displayProvider.Inventory.InventoryComponent.InventoryWeaponEquipable.PrimaryWeapon);
+        AssignWeapon(ref _primaryWeapon, _displayProvider.InventoryComponent.InventoryWeaponEquipable.PrimaryWeapon);
     }
 
     private void HandleSecondaryWeaponChanged()
     {
-        AssignWeapon(ref _secondaryWeapon, _displayProvider.Inventory.InventoryComponent.InventoryWeaponEquipable.SecondaryWeapon);
+        AssignWeapon(ref _secondaryWeapon, _displayProvider.InventoryComponent.InventoryWeaponEquipable.SecondaryWeapon);
     }
 
     private void AssignWeapon(ref Weapon weaponSlot, WeaponInventoryItemConfig weaponConfig)
@@ -106,6 +106,22 @@ public class WeaponHolder : MonoBehaviour
             ResetAnimatorController();
             _displayProvider.AmmoView.gameObject.SetActive(false);
         }
+    }
+    
+    public void ForceEquipCurrentWeapon()
+    {
+        var weapon = GetCurrentWeaponSlot();
+
+        if (weapon == null)
+        {
+            ResetAnimatorController();
+            return;
+        }
+
+        weapon.gameObject.SetActive(false);
+        weapon.WeaponAnimator.OnEquipped(true);
+
+        StartCoroutine(ExecuteAfterDelay(0.05f, () => weapon.gameObject.SetActive(true)));
     }
 
     private void ChangeWeapon(int weaponIndex)
@@ -161,22 +177,6 @@ public class WeaponHolder : MonoBehaviour
             1 => _secondaryWeapon,
             _ => null
         };
-    }
-
-    public void ForceEquipCurrentWeapon()
-    {
-        var weapon = GetCurrentWeaponSlot();
-
-        if (weapon == null)
-        {
-            ResetAnimatorController();
-            return;
-        }
-
-        weapon.gameObject.SetActive(false);
-        weapon.WeaponAnimator.OnEquipped(true);
-
-        StartCoroutine(ExecuteAfterDelay(0.05f, () => weapon.gameObject.SetActive(true)));
     }
 
     private IEnumerator ExecuteAfterDelay(float delay, Action action)

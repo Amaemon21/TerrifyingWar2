@@ -5,7 +5,6 @@ using Zenject;
 
 public class ActionMenuObject : MonoBehaviour
 {
-    [Inject] private readonly DisplayProvider _displayProvider;
     [Inject] private readonly PlayerHealth _playerHealth;
 
     [SerializeField] private Button _useButton;
@@ -13,21 +12,24 @@ public class ActionMenuObject : MonoBehaviour
     [SerializeField] private Button _dropAllButton;
     [SerializeField] private Button _defuseWeaponButton;
     [SerializeField] private Button _closeButton;
-    
+
+    private InventoryComponent _inventoryComponent;
     private InventoryDatabase _inventoryDatabase;
     private InventoryItemConfig _inventoryItemConfig;
     private InventoryItemCell _inventoryItemCell;
     private DropMenu _dropMenu;
     private RectTransform _rectTransform;
 
-    private void Awake()
+    public void Setup(InventoryComponent inventoryComponent)
     {
+        _inventoryComponent  = inventoryComponent;
+        
         gameObject.SetActive(false);
         
         _rectTransform = GetComponent<RectTransform>();
 
-        _inventoryDatabase = _displayProvider.Inventory.InventoryComponent.InventoryDatabase;
-        _dropMenu = _displayProvider.Inventory.InventoryComponent.DropMenu;
+        _inventoryDatabase = _inventoryComponent.InventoryDatabase;
+        _dropMenu = _inventoryComponent.DropMenu;
 
         Hide();
     }
@@ -46,13 +48,13 @@ public class ActionMenuObject : MonoBehaviour
     public void UseItem()
     {
         _inventoryItemConfig.Use(_playerHealth);
-        _displayProvider.Inventory.RemoveItem(_inventoryItemConfig);
+        _inventoryComponent.Inventory.RemoveItem(_inventoryItemConfig);
         Hide();
     }
     
     public void DropItem()
     {
-        _displayProvider.Inventory.DropItem(_inventoryItemConfig, _inventoryItemCell);
+        _inventoryComponent.Inventory.DropItem(_inventoryItemConfig, _inventoryItemCell);
         Hide();
     }
 
@@ -65,7 +67,7 @@ public class ActionMenuObject : MonoBehaviour
         }
         else
         {
-            _displayProvider.Inventory.DropItem(_inventoryItemConfig, _inventoryItemCell);
+            _inventoryComponent.Inventory.DropItem(_inventoryItemConfig, _inventoryItemCell);
         }
 
         Hide();
@@ -86,7 +88,7 @@ public class ActionMenuObject : MonoBehaviour
                     _ammoInventoryItemConfigCopy.ResetCount();
                     _ammoInventoryItemConfigCopy.AddCount(weaponInventoryItemConfig.CurrentAmmo);
                     
-                    _displayProvider.Inventory.AddItem(_ammoInventoryItemConfigCopy);
+                    _inventoryComponent.Inventory.AddItem(_ammoInventoryItemConfigCopy);
                 
                     weaponInventoryItemConfig.ResetCurrentAmmo();
                 }

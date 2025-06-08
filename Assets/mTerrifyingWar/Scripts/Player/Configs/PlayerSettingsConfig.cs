@@ -1,9 +1,23 @@
+using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerSettingsConfig", menuName = "Settings/PlayerSettingsConfig")]
+[CreateAssetMenu(fileName = "PlayerSettings", menuName = "Settings/Player Settings")]
 public class PlayerSettingsConfig : ScriptableObject
 {
+    public float grenadeDelay = 0f;
+    public float gaitSmoothing = 0f;
+
+    public float defaultFov = 80f;
+    
+    [Range(0f, 1f)] public float ikWeight = 1f;
+    public float aimSpeed = 0f;
+
+    public IKMotion aimingMotion;
+    public IKMotion fireModeMotion;
+
+    public List<AudioClip> generalSounds;
+    
     [field: SerializeField, BoxGroup("Sensitivity"), HorizontalLine] public float SensitivityX { get; private set; }
     [field: SerializeField, BoxGroup("Sensitivity")] public float SensitivityY { get; private set; }
 

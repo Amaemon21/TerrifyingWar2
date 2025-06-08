@@ -33,9 +33,9 @@ public class WorkbenchSystem : MonoBehaviour
 
     private void SpawnCell()
     {
-        for (var i = 0; i < _displayProvider.Inventory.InventoryComponent.InventorySystem.Weapons.Count; i++)
+        for (var i = 0; i < _displayProvider.InventoryComponent.InventorySystem.Weapons.Count; i++)
         {
-            var item = _displayProvider.Inventory.InventoryComponent.InventorySystem.Weapons[i];
+            var item = _displayProvider.InventoryComponent.InventorySystem.Weapons[i];
             
             WorkbenchCell cell = Instantiate(_cellPrefab, _container);
             cell.Setup(item, _workbenchInteractObject.FactoryWeaponItem);

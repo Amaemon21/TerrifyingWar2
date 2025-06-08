@@ -4,7 +4,7 @@ using Random = UnityEngine.Random;
 
 public class PlayerSound : MonoBehaviour
 {
-    //[SerializeField] private FPSPlayerSettings _playerSettings;
+    [SerializeField] private Animator _animator;
 
     [Header("Weapon swapping")] 
     [SerializeField] private AudioClip equipSound;
@@ -30,7 +30,6 @@ public class PlayerSound : MonoBehaviour
     [SerializeField] private AudioClip fireModeSwitchSound;
     
     private PlayerController _playerController;
-    private Animator _animator;
     private AudioSource _playerAudioSource;
     private bool _isSourceValid;
 
@@ -49,7 +48,6 @@ public class PlayerSound : MonoBehaviour
         _playerAudioSource = GetComponent<AudioSource>();
         _isSourceValid = _playerAudioSource != null;
 
-        _animator = GetComponent<Animator>();
         _playerController = GetComponent<PlayerController>();
     }
 
@@ -172,6 +170,6 @@ public class PlayerSound : MonoBehaviour
         if (!CheckAudioSource() || _playerController == null) 
             return;
         
-        _playerAudioSource.PlayOneShot(_playerController.PlayerSettings.generalSounds[soundIndex]);
+        _playerAudioSource.PlayOneShot(_playerController.PlayerSettingsConfig.generalSounds[soundIndex]);
     }
 }

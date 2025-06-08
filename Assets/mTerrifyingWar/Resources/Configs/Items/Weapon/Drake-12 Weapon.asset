@@ -30,11 +30,10 @@ MonoBehaviour:
     \u043C\u043E\u0449\u044C\u044E."
   <IsStackable>k__BackingField: 0
   <ItemCount>k__BackingField: 1
-  <ItemSprite>k__BackingField: {fileID: 931008822, guid: 0918a2a2c2dc3494085c09f4ce7a4536, type: 3}
+  <ItemSprite>k__BackingField: {fileID: -1296360190, guid: 9e226c6a34108234ea5e439045a62d75, type: 3}
   <ItemPrefab>k__BackingField: {fileID: 290664120522493955, guid: 5c9b2529dc4bdf34ea89694cb1d7b5bf, type: 3}
-  <EquippedSprite>k__BackingField: {fileID: -872579438, guid: 80dcc0ff2b079bf44b6cb5da6bacdc8c, type: 3}
+  <EquippedSprite>k__BackingField: {fileID: 518251538, guid: e3048391f2d63d1419667872827d70d2, type: 3}
   <WeaponHandPrefab>k__BackingField: {fileID: 319908301438305445, guid: 2c4c2d8e2bdf83143a1815ce7344a8eb, type: 3}
-  <RenderingItem>k__BackingField: {fileID: -9070885979492150106, guid: ce46955aebbcb2f4985d26bd32b0d575, type: 3}
   <Damage>k__BackingField: 100
   <FireRate>k__BackingField: 600
   <EAmmoType>k__BackingField: 3

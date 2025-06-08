@@ -1,12 +1,10 @@
 using KINEMATION.KAnimationCore.Runtime.Core;
 using UnityEngine;
-using Zenject;
 
 public class WeaponIKHandler : MonoBehaviour
 {
-    [Inject] private readonly PlayerProvider _playerProvider;
-    
-    [SerializeField] private FPSPlayerSettings _playerSettings;
+    [SerializeField] private PlayerAnimator _playerAnimator;
+    [SerializeField] private PlayerSettingsConfig playerSettingsConfig;
 
     private WeaponContainer _weaponContainer;
     
@@ -62,8 +60,8 @@ public class WeaponIKHandler : MonoBehaviour
         rightHandTarget = weaponTransform.GetWorldTransform(rightHandTarget, false);
         leftHandTarget = weaponTransform.GetWorldTransform(leftHandTarget, false);
 
-        SetupIkData(ref _rightHandIk, rightHandTarget, _weaponContainer.TransformsContainer.RightHand, _playerSettings.ikWeight);
-        SetupIkData(ref _leftHandIk, leftHandTarget, _weaponContainer.TransformsContainer.LeftHand, _playerSettings.ikWeight);
+        SetupIkData(ref _rightHandIk, rightHandTarget, _weaponContainer.TransformsContainer.RightHand, playerSettingsConfig.ikWeight);
+        SetupIkData(ref _leftHandIk, leftHandTarget, _weaponContainer.TransformsContainer.LeftHand, playerSettingsConfig.ikWeight);
 
         KTwoBoneIK.Solve(ref _rightHandIk);
         KTwoBoneIK.Solve(ref _leftHandIk);
@@ -113,7 +111,7 @@ public class WeaponIKHandler : MonoBehaviour
         KTransform additive =
             rootT.GetRelativeTransform(new KTransform(_weaponContainer.TransformsContainer.WeaponBoneAdditive), false);
 
-        float weight = Mathf.Lerp(1f, 0.3f, _playerProvider.PlayerController.AdsWeight) * (1f - _weaponContainer.HandAnimator.GetFloat(AnimationsConstrains.GRENADE_WEIGHT));
+        float weight = Mathf.Lerp(1f, 0.3f, _playerAnimator.AdsWeight) * (1f - _weaponContainer.HandAnimator.GetFloat(AnimationsConstrains.GRENADE_WEIGHT));
 
         weaponT.position = KAnimationMath.MoveInSpace(rootT, weaponT, additive.position, weight);
         weaponT.rotation = KAnimationMath.RotateInSpace(rootT, weaponT, additive.rotation, weight);
@@ -164,7 +162,7 @@ public class WeaponIKHandler : MonoBehaviour
         adsPose.position = KAnimationMath.MoveInSpace(root, adsPose, aimPoint.rotation * aimPoint.position, 1f);
         adsPose.rotation = KAnimationMath.RotateInSpace(root, adsPose, aimPoint.rotation, 1f);
 
-        float weight = KCurves.EaseSine(0f, 1f, _playerProvider.PlayerController.AdsWeight);
+        float weight = KCurves.EaseSine(0f, 1f, _playerAnimator.AdsWeight);
 
         weaponT.position = Vector3.Lerp(weaponT.position, adsPose.position, weight);
         weaponT.rotation = Quaternion.Slerp(weaponT.rotation, adsPose.rotation, weight);
@@ -185,8 +183,7 @@ public class WeaponIKHandler : MonoBehaviour
     {
         if (_activeMotion == null) return;
 
-        _ikMotionPlayBack = Mathf.Clamp(_ikMotionPlayBack + _activeMotion.playRate * Time.deltaTime, 0f,
-            _activeMotion.GetLength());
+        _ikMotionPlayBack = Mathf.Clamp(_ikMotionPlayBack + _activeMotion.playRate * Time.deltaTime, 0f, _activeMotion.GetLength());
 
         Vector3 positionTarget = _activeMotion.translationCurves.GetValue(_ikMotionPlayBack);
         positionTarget.x *= _activeMotion.translationScale.x;

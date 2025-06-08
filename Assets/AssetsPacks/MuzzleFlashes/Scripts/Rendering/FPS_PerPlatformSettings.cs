@@ -1,19 +1,18 @@
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using Zenject;
 
-[ExecuteAlways]
 public class FPS_PerPlatformSettings : MonoBehaviour
 {
+    [Inject] private readonly PlayerProvider _playerProvider;
+    
     private bool defaultOpaueColorUsing;
     private bool defaultDepthUsing;
+    
+    private UniversalAdditionalCameraData addCamData;
 
-
-    void OnEnable()
+    private void OnEnable()
     {
-        var cam = Camera.main;
-
-        if (cam == null) return;
-        var addCamData = cam.GetComponent<UniversalAdditionalCameraData>();
         if (addCamData != null)
         {
             defaultOpaueColorUsing = addCamData.requiresColorTexture;
@@ -23,12 +22,8 @@ public class FPS_PerPlatformSettings : MonoBehaviour
         }
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
-        var cam = Camera.main;
-
-        if (cam == null) return;
-        var addCamData = cam.GetComponent<UniversalAdditionalCameraData>();
         if (addCamData != null)
         {
             addCamData.requiresColorTexture = defaultOpaueColorUsing;

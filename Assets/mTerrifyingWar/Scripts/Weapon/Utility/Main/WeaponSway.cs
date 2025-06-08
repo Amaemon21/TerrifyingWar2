@@ -15,7 +15,7 @@ public class WeaponSway : MonoBehaviour
         _transform = transform;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         var mouseX = _inputService.LookDirection.x / 10 * _swayAmount;
         var mouseY = _inputService.LookDirection.y / 10 * _swayAmount;

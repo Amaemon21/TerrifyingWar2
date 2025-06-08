@@ -19,7 +19,7 @@ public class DropMenu : MonoBehaviour
     
     private int _value;
 
-    private void Awake()
+    public void Setup()
     {
         _dropSlider.minValue = 1;
     }
@@ -44,8 +44,8 @@ public class DropMenu : MonoBehaviour
 
     public void DropItem()
     {
-        _displayProvider.Inventory.DropItem(_inventoryItemConfig, _value, _inventoryItemCell);
-        _displayProvider.Inventory.DisplayItems();
+        _displayProvider.InventoryComponent.Inventory.DropItem(_inventoryItemConfig, _value, _inventoryItemCell);
+        _displayProvider.InventoryComponent.Inventory.DisplayItems();
         Close();
     }
 

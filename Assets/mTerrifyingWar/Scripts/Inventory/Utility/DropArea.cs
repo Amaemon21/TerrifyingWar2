@@ -9,7 +9,7 @@ public class DropArea : MonoBehaviour
 
     private RectTransform _rectTransform;
 
-    private void Awake()
+    public void Setup()
     {
         _rectTransform = GetComponent<RectTransform>();
     }

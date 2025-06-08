@@ -1,9 +1,12 @@
 using NaughtyAttributes;
 using UnityEngine;
+using Zenject;
 
 [RequireComponent(typeof(Weapon))]
 public class WeaponMuzzleFlashe : MonoBehaviour
 {
+    [Inject] private readonly DiContainer _container;
+    
     [SerializeField, BoxGroup("Main"), HorizontalLine] private Weapon _weapon;
     
     [SerializeField, BoxGroup("Muzzle Flash"), HorizontalLine] private MuzzleFlash[] _muzzlePrefabs;
@@ -23,6 +26,6 @@ public class WeaponMuzzleFlashe : MonoBehaviour
 
     private void CreateMuzzleFlash()
     {
-        WeaponUtilities.CreateMuzzleFlash(_enableMuzzle, _muzzlePrefabs, _weapon.BarrelPoint, _scaleFactor, _destroyTime);
+        WeaponUtilities.CreateMuzzleFlash(_container, _enableMuzzle, _muzzlePrefabs, _weapon.BarrelPoint, _scaleFactor, _destroyTime);
     }
 }

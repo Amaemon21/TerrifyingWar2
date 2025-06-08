@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using Zenject;
 
 public static class WeaponUtilities
 {
@@ -34,16 +35,16 @@ public static class WeaponUtilities
         return trail;
     }
     
-    public static void CreateMuzzleFlash(bool enableMuzzle, MuzzleFlash[] muzzlePrefabs, Transform barrelTransform, float scaleFactor, float destroyTime)
+    public static void CreateMuzzleFlash(DiContainer container,bool enableMuzzle, MuzzleFlash[] muzzlePrefabs, Transform barrelTransform, float scaleFactor, float destroyTime)
     {
         if (enableMuzzle)
         {
-            var currentMuzzle = muzzlePrefabs[Random.Range(0, muzzlePrefabs.Length)];
-            var spawnedMuzzle = Object.Instantiate(currentMuzzle, barrelTransform.position, barrelTransform.rotation, barrelTransform);
+            MuzzleFlash currentMuzzle = muzzlePrefabs[Random.Range(0, muzzlePrefabs.Length)]; ;
+            MuzzleFlash muzzleFlash = container.InstantiatePrefabForComponent<MuzzleFlash>(currentMuzzle, barrelTransform.position, barrelTransform.rotation, barrelTransform);
 
-            spawnedMuzzle.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+            muzzleFlash.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
 
-            Object.Destroy(spawnedMuzzle.gameObject, destroyTime);
+            Object.Destroy(muzzleFlash.gameObject, destroyTime);
         }
     }
 

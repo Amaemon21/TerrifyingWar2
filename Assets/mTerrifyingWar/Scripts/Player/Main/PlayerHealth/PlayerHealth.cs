@@ -1,10 +1,13 @@
+using System;
 using R3;
 using UnityEngine;
 
-public class PlayerHealth : IHealth
+public class PlayerHealth : IHealth, IDisposable
 {
+    private readonly IGameplayFactory _gameplayFactory;
     private readonly IPersistentProgressService _persistentProgressService;
-    private readonly ReactiveProperty<float> _health;
+    
+    private readonly ReactiveProperty<float> _health = new();
     public Observable<float> Health => _health;
     
     private GameState _gameState;
@@ -12,12 +15,18 @@ public class PlayerHealth : IHealth
     
     public float MaxHealth { get; private set; }
     
-    public PlayerHealth(IPersistentProgressService persistentProgressService)
+    public PlayerHealth(IPersistentProgressService persistentProgressService, IGameplayFactory gameplayFactory)
     {
+        _gameplayFactory = gameplayFactory;
         _persistentProgressService = persistentProgressService;
-        
+
+        _gameplayFactory.CreatePlayerChanged += Setup;
+    }
+
+    private void Setup()
+    {
         MaxHealth = _persistentProgressService.GameState.PlayerEntity.HealthEntity.MaxHealth;
-        _health = new ReactiveProperty<float>(_persistentProgressService.GameState.PlayerEntity.HealthEntity.CurrentHealth);
+        _health.Value = _persistentProgressService.GameState.PlayerEntity.HealthEntity.CurrentHealth;
     }
     
     public void TakeDamage(float damage)
@@ -34,5 +43,10 @@ public class PlayerHealth : IHealth
         
         _playerEntity.HealthEntity.CurrentHealth = _health.Value;
         _persistentProgressService.GameState.PlayerEntity.HealthEntity.CurrentHealth = _health.Value;
+    }
+
+    public void Dispose()
+    {
+        _gameplayFactory.CreatePlayerChanged -= Setup;
     }
 }

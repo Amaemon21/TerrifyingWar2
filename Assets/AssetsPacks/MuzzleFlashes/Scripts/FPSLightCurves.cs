@@ -1,5 +1,5 @@
+using DG.Tweening;
 using UnityEngine;
-using System.Collections;
 
 public class FPSLightCurves : MonoBehaviour
 {
@@ -10,31 +10,32 @@ public class FPSLightCurves : MonoBehaviour
     private float startTime;
     private Light lightSource;
 
+    private Tween lightTween;
+
     private void Awake()
     {
         lightSource = GetComponent<Light>();
-        lightSource.intensity = LightCurve.Evaluate(0);
+        lightSource.intensity = LightCurve.Evaluate(0) * GraphIntensityMultiplier;
+        lightSource.enabled = false;
     }
 
     private void OnEnable()
     {
-        startTime = Time.time;
-        canUpdate = true;
         lightSource.enabled = true;
+
+        lightTween?.Kill();
+
+        lightTween = DOTween.To(
+                () => 0f,
+                t => lightSource.intensity = LightCurve.Evaluate(t) * GraphIntensityMultiplier,
+                GraphTimeMultiplier,
+                GraphTimeMultiplier)
+            .SetEase(Ease.Linear)
+            .OnComplete(() => lightSource.enabled = false);
     }
 
-    private void Update()
+    private void OnDisable()
     {
-        var time = Time.time - startTime;
-        if (canUpdate) {
-            var eval = LightCurve.Evaluate(time / GraphTimeMultiplier) * GraphIntensityMultiplier;
-            lightSource.intensity = eval;
-        }
-
-        if (time >= GraphTimeMultiplier)
-        {
-            canUpdate = false;
-            lightSource.enabled = false;
-        }
+        lightTween?.Kill();
     }
 }

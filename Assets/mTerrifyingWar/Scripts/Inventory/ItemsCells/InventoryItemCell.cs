@@ -36,11 +36,11 @@ public class InventoryItemCell : MonoBehaviour, IPointerClickHandler, IPointerEn
     
     private void Awake()
     {
-        _dragableObject = _displayProvider.Inventory.InventoryComponent.DragableObject;
-        _dropArea = _displayProvider.Inventory.InventoryComponent.DropArea;
-        _itemInfoView = _displayProvider.Inventory.InventoryComponent.ItemInfoView;
-        _actionMenuObject = _displayProvider.Inventory.InventoryComponent.ActionMenuObject;
-        _dropMenu = _displayProvider.Inventory.InventoryComponent.DropMenu;
+        _dragableObject = _displayProvider.InventoryComponent.DragableObject;
+        _dropArea = _displayProvider.InventoryComponent.DropArea;
+        _itemInfoView = _displayProvider.InventoryComponent.ItemInfoView;
+        _actionMenuObject = _displayProvider.InventoryComponent.ActionMenuObject;
+        _dropMenu = _displayProvider.InventoryComponent.DropMenu;
     }
 
     private void OnEnable()
@@ -189,7 +189,7 @@ public class InventoryItemCell : MonoBehaviour, IPointerClickHandler, IPointerEn
                     }
                     else
                     {
-                        _displayProvider.Inventory.DropItem(InventoryItemConfig, this);
+                        _displayProvider.InventoryComponent.Inventory.DropItem(InventoryItemConfig, this);
                     }
                 }
             }
@@ -219,6 +219,6 @@ public class InventoryItemCell : MonoBehaviour, IPointerClickHandler, IPointerEn
             }
         }
 
-        _displayProvider.Inventory.DisplayItems();
+        _displayProvider.InventoryComponent.Inventory.DisplayItems();
     }
 }

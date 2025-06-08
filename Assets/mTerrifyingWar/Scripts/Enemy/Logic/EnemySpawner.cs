@@ -5,6 +5,7 @@ using Zenject;
 [RequireComponent(typeof(UniqueId))]
 public class EnemySpawner : MonoBehaviour
 {
+    [Inject] private readonly IGameplayFactory _gameplayFactory;
     [Inject] private readonly DiContainer _container;
     
     [SerializeField] private EnemyType enemyType;
@@ -16,7 +17,17 @@ public class EnemySpawner : MonoBehaviour
     private EnemyConfig _enemyConfig;
     private EnemyDatabaseConfig _enemyDatabaseConfig;
 
-    private void Awake()
+    private void OnEnable()
+    {
+        _gameplayFactory.CreatePlayerChanged += Spawn;
+    }
+
+    private void OnDisable()
+    {
+        _gameplayFactory.CreatePlayerChanged -= Spawn;
+    }
+
+    private void Spawn()
     {
         _enemyDatabaseConfig = Resources.Load<EnemyDatabaseConfig>(AssetsPath.EnemyDatabasePath);
         

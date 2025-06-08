@@ -46,9 +46,9 @@ public class InventoryItemEquipableCell : MonoBehaviour, IPointerClickHandler, I
 
     private void Awake()
     {
-        _dragableObject = _displayProvider.Inventory.InventoryComponent.DragableObject;
-        _dropArea = _displayProvider.Inventory.InventoryComponent.DropArea;
-        ItemInfoView = _displayProvider.Inventory.InventoryComponent.ItemInfoView;
+        _dragableObject = _displayProvider.InventoryComponent.DragableObject;
+        _dropArea = _displayProvider.InventoryComponent.DropArea;
+        ItemInfoView = _displayProvider.InventoryComponent.ItemInfoView;
     }
     
     private void OnEnable()
@@ -199,7 +199,7 @@ public class InventoryItemEquipableCell : MonoBehaviour, IPointerClickHandler, I
 
                     Debug.Log($"We dropped item to world: <color=#E78300>{InventoryItemConfig.ItemName}{count}</color>");
                     
-                    _displayProvider.Inventory.DropItem(InventoryItemConfig);
+                    _displayProvider.InventoryComponent.Inventory.DropItem(InventoryItemConfig);
                 }
             }
         }

@@ -17,16 +17,16 @@ public class WeaponAmmo : MonoBehaviour
 
     public void OnEnable()
     {
-        _displayProvider.Inventory.InventoryComponent.InventorySystem.OnAmmoAddChanged += RequestAmmo;
-        _displayProvider.Inventory.InventoryComponent.InventorySystem.OnAmmoRemoveChanged += RemoveAmmo;
+        _displayProvider.InventoryComponent.InventorySystem.OnAmmoAddChanged += RequestAmmo;
+        _displayProvider.InventoryComponent.InventorySystem.OnAmmoRemoveChanged += RemoveAmmo;
         
         RequestAmmo();
     }
     
     private void OnDisable()
     {
-        _displayProvider.Inventory.InventoryComponent.InventorySystem.OnAmmoAddChanged -= RequestAmmo;
-        _displayProvider.Inventory.InventoryComponent.InventorySystem.OnAmmoRemoveChanged -= RemoveAmmo;
+        _displayProvider.InventoryComponent.InventorySystem.OnAmmoAddChanged -= RequestAmmo;
+        _displayProvider.InventoryComponent.InventorySystem.OnAmmoRemoveChanged -= RemoveAmmo;
     }
     
     public void OnReload()
@@ -60,7 +60,7 @@ public class WeaponAmmo : MonoBehaviour
         _weapon.WeaponInventoryItemConfig.AddCurrentAmmo(amountToRemove);
         
         _ammoInventoryItemConfig.RemoveCount(amountToRemove);
-        _displayProvider.Inventory.InventoryComponent.InventorySaver.RemoveItem(_ammoInventoryItemConfig, amountToRemove);
+        _displayProvider.InventoryComponent.InventorySaver.RemoveItem(_ammoInventoryItemConfig, amountToRemove);
         
         _weapon.WeaponInventoryItemConfig.WeaponItemEntity.CurrentAmmo = _weapon.WeaponInventoryItemConfig.CurrentAmmo;
         
@@ -76,7 +76,7 @@ public class WeaponAmmo : MonoBehaviour
         if (_ammoInventoryItemConfig != null)
         {
             _ammoInventoryItemConfig.ResetCount();
-            _displayProvider.Inventory.RemoveItem(_ammoInventoryItemConfig);
+            _displayProvider.InventoryComponent.Inventory.RemoveItem(_ammoInventoryItemConfig);
         }
     }
 
@@ -85,7 +85,7 @@ public class WeaponAmmo : MonoBehaviour
         if (_weapon.WeaponInventoryItemConfig == null)
             return;
         
-        _ammoInventoryItemConfig = _displayProvider.Inventory.InventoryComponent.InventorySystem.RequestAmmo(_weapon.WeaponInventoryItemConfig.EAmmoType);
+        _ammoInventoryItemConfig = _displayProvider.InventoryComponent.InventorySystem.RequestAmmo(_weapon.WeaponInventoryItemConfig.EAmmoType);
         HandleDisplayAmmo();
     }
 

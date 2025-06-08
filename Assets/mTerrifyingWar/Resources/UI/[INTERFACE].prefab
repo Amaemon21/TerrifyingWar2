@@ -5442,6 +5442,7 @@ GameObject:
   - component: {fileID: 1604045383369272806}
   - component: {fileID: 8942986648851498219}
   - component: {fileID: 4489791328941272066}
+  - component: {fileID: 4108653802791480902}
   m_Layer: 6
   m_Name: Inventory
   m_TagString: Untagged
@@ -5492,8 +5493,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5685a1b08c8ee9e4aa4eba52226ca159, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cellContainer: {fileID: 2558829785051817976}
-  _cellCount: 36
+  _cellInventoryContainer: {fileID: 2558829785051817976}
+  _cellLootContainer: {fileID: 8435552654066564230}
+  _cellInventoryCount: 36
+  _cellLootCount: 6
   _cellPrefab: {fileID: 7480410780455996448, guid: 0ccd6496efd6f1f4ab9e38182f46727c, type: 3}
 --- !u!114 &5616885040425284756
 MonoBehaviour:
@@ -5519,6 +5522,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d8b52406de2458a98a934928f158476, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _inventory: {fileID: 3921010495327057698}
 --- !u!114 &8942986648851498219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5531,8 +5535,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9951af1c52a8463f8202f8fb31c8ca11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <InventoryDatabase>k__BackingField: {fileID: 11400000, guid: 3e6ba690c6ebd064eb5185436cecde94, type: 2}
+  <Inventory>k__BackingField: {fileID: 3921010495327057698}
   <InventorySystem>k__BackingField: {fileID: 5616885040425284756}
+  <InventoryCellFactory>k__BackingField: {fileID: 7699945114741538877}
   <InventoryWeaponEquipable>k__BackingField: {fileID: 4489791328941272066}
   <InventorySaver>k__BackingField: {fileID: 1604045383369272806}
   <DragableObject>k__BackingField: {fileID: 6767774441846641568}
@@ -5540,6 +5545,7 @@ MonoBehaviour:
   <ItemInfoView>k__BackingField: {fileID: 2880321951046421258}
   <ActionMenuObject>k__BackingField: {fileID: 8599281034335802753}
   <DropMenu>k__BackingField: {fileID: 6658764844326395283}
+  <LootSlots>k__BackingField: {fileID: 4108653802791480902}
 --- !u!114 &4489791328941272066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5554,6 +5560,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <PrimaryWeaponCell>k__BackingField: {fileID: 2538791887993543719}
   <SecondaryWeaponCell>k__BackingField: {fileID: 5010126325111020391}
+--- !u!114 &4108653802791480902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2386998437600953623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04269bea4b70e1a4289f461789a50c3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lootSlotsMenu: {fileID: 7129175403923127602}
 --- !u!1 &2426683119297085188
 GameObject:
   m_ObjectHideFlags: 0
@@ -8838,7 +8857,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8023405859859268922
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13361,7 +13380,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Canvas>k__BackingField: {fileID: 3014577662328234380}
-  <Inventory>k__BackingField: {fileID: 3921010495327057698}
+  <InventoryComponent>k__BackingField: {fileID: 8942986648851498219}
   <AimPoint>k__BackingField: {fileID: 6397465353886204072}
   <AmmoView>k__BackingField: {fileID: 7294027373956494850}
   <NotificationSystem>k__BackingField: {fileID: 7175420999543776957}

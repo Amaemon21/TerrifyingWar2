@@ -8,6 +8,8 @@ public class InventorySaver : MonoBehaviour, ISavedProgressReader
     [Inject] private readonly IStorageService _storageService;
     [Inject] private readonly DisplayProvider _displayProvider;
     
+    [SerializeField] private Inventory _inventory;
+    
     private GameState _gameState;
     
     public void LoadProgress(GameState gameState)
@@ -17,7 +19,17 @@ public class InventorySaver : MonoBehaviour, ISavedProgressReader
         LoadInventory();
     }
 
-    public void AddItem(InventoryItemConfig inventoryItemConfig, bool isEquipped = false)
+    private void OnEnable()
+    {
+        _inventory.AddedItemChanged += AddItem;
+    }
+
+    private void OnDisable()
+    {
+        _inventory.AddedItemChanged -= AddItem;
+    }
+
+    private void AddItem(InventoryItemConfig inventoryItemConfig, bool isEquipped = false)
     {
         if (inventoryItemConfig.IsStackable)
         {
@@ -88,7 +100,7 @@ public class InventorySaver : MonoBehaviour, ISavedProgressReader
     {
         foreach (ItemEntity itemEntity in _gameState.Entities.OfType<ItemEntity>())
         {
-            InventoryItemConfig item = _displayProvider.Inventory.InventoryComponent.InventoryDatabase.FindItemByID(itemEntity.ItemId);
+            InventoryItemConfig item = _displayProvider.InventoryComponent.InventoryDatabase.FindItemByID(itemEntity.ItemId);
             InventoryItemConfig copyItem = Instantiate(item);
             
             if (itemEntity is WeaponItemEntity weaponItemEntity && copyItem is WeaponInventoryItemConfig weaponInventoryItemConfig)
@@ -99,18 +111,18 @@ public class InventorySaver : MonoBehaviour, ISavedProgressReader
 
                 if (weaponItemEntity.IsEquipped)
                 {
-                    _displayProvider.Inventory.AddEquipableItem(weaponInventoryItemConfig, weaponItemEntity.SlotType, weaponItemEntity.IsEquipped);
+                    _displayProvider.InventoryComponent.Inventory.AddEquipableItem(weaponInventoryItemConfig, weaponItemEntity.SlotType, weaponItemEntity.IsEquipped);
                 }
                 else
                 {
-                    _displayProvider.Inventory.AddItem(weaponInventoryItemConfig, true);
+                    _displayProvider.InventoryComponent.Inventory.AddItem(weaponInventoryItemConfig, true);
                 }
             }
             else
             {
                 copyItem.ResetCount();
                 copyItem.AddCount(itemEntity.Count);
-                _displayProvider.Inventory.AddItem(copyItem, true);
+                _displayProvider.InventoryComponent.Inventory.AddItem(copyItem, true);
             }
         }
     }

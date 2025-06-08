@@ -13,6 +13,9 @@ GameObject:
   - component: {fileID: 6139175846483384919}
   - component: {fileID: -5335648693792033524}
   - component: {fileID: 109885485224619117}
+  - component: {fileID: 7913955194047810122}
+  - component: {fileID: 2955653114336494234}
+  - component: {fileID: 2036866102629558352}
   m_Layer: 7
   m_Name: Drake-12
   m_TagString: Untagged
@@ -59,8 +62,8 @@ MonoBehaviour:
   <WeaponSettings>k__BackingField: {fileID: 11400000, guid: c30b40f589bcef34ba3253dcb9ede8c4, type: 2}
   <AimPoint>k__BackingField: {fileID: 7573577964910029030}
   <BarrelPoint>k__BackingField: {fileID: 1468992897725168437}
-  _recoilPreset: {fileID: 11400000, guid: 6ada82545d9cf7f45a716c0d99a8487b, type: 2}
-  _weaponAnimator: {fileID: 559544833090460335}
+  <WeaponAnimator>k__BackingField: {fileID: 7913955194047810122}
+  <WeaponAmmo>k__BackingField: {fileID: 2036866102629558352}
 --- !u!114 &6139175846483384919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,9 +76,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dd2e0a8c5c2afa489853bee49dcfb52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _weapon: {fileID: 319908301438305445}
   _muzzlePrefabs:
-  - {fileID: -406931836239847542, guid: 24bc114e4759e464eab5d9664127a034, type: 3}
-  - {fileID: 8734914795051464311, guid: 39b2a3d1ecfa5614b97e75a9b5561f21, type: 3}
+  - {fileID: 5485508128596733746, guid: 24bc114e4759e464eab5d9664127a034, type: 3}
+  - {fileID: 2001102217708228937, guid: 35277ee4b65d54d4199c4e0e48053745, type: 3}
   _enableMuzzle: 1
   _scaleFactor: 0.1
   _destroyTime: 2
@@ -91,12 +95,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 974cdd14d88b08041bff45262fecbfec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _weapon: {fileID: 319908301438305445}
+  _soundNotifier: {fileID: 2955653114336494234}
+  _weaponEffects: {fileID: 109885485224619117}
   _hitScanMask:
     serializedVersion: 2
     m_Bits: 1601
-  _damage: 100
   _applySpread: 1
   _spreadVariance: {x: 0.02, y: 0.02, z: 0.02}
+  _damageHead: 0
+  _damageBody: 0
 --- !u!114 &109885485224619117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,6 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da0352b326522194b89cca4e40683199, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _weapon: {fileID: 319908301438305445}
   _widthCurve:
     serializedVersion: 2
     m_Curve:
@@ -167,7 +176,52 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   _material: {fileID: 2100000, guid: 03a99caac2c652b4fb47bc7934aa9561, type: 2}
   _bulletTrail: {fileID: 7023444368009649142, guid: 530ff577b9810d04586b341d8c4081e7, type: 3}
-  _bulletSpeed: 600
+  _bulletSpeed: 300
+--- !u!114 &7913955194047810122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 472434944859137347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29b20c1e570c97f4f82ab23c5b3f8efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _weaponAnimator: {fileID: 559544833090460335}
+  _weapon: {fileID: 319908301438305445}
+--- !u!114 &2955653114336494234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 472434944859137347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29ebb28260b57224faf7e6061b95ee14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _weapon: {fileID: 319908301438305445}
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 1536
+  _radiusCast: 15
+--- !u!114 &2036866102629558352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 472434944859137347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbff37ee9c646b3499377f86dcc85594, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _weapon: {fileID: 319908301438305445}
+  _weaponAnimator: {fileID: 7913955194047810122}
 --- !u!1 &1072509889334420793
 GameObject:
   m_ObjectHideFlags: 0

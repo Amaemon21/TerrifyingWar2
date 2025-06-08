@@ -73,7 +73,7 @@ public class InteractorSystem : MonoBehaviour
 
     private void PickupItem(InventoryItemObject item)
     {
-        _displayProvider.Inventory.AddItem(item.InventoryItemConfig);
+        _displayProvider.InventoryComponent.Inventory.AddItem(item.InventoryItemConfig);
         Destroy(item.gameObject);
         Clear();
     }

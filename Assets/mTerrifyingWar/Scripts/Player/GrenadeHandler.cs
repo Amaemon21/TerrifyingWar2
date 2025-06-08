@@ -8,7 +8,10 @@ public class GrenadeHandler : MonoBehaviour
     [Inject] private readonly IInputService _inputService;
     
     [SerializeField] private WeaponContainer _weaponContainer;
-    [SerializeField] private FPSPlayerSettings _playerSettings;
+    [SerializeField] private PlayerSettingsConfig playerSettingsConfig;
+
+    private Weapon _currentWeapon;
+    private float _delay = 1;
     
     private void Update()
     {
@@ -20,14 +23,22 @@ public class GrenadeHandler : MonoBehaviour
         if (_inputService.ThrowGrenade)
         {
             _weaponContainer.HandAnimator.SetTrigger(AnimationsConstrains.THROW_GRENADE);
-            StartCoroutine(AfterDelay(_weaponContainer.WeaponHolder.GetCurrentWeaponSlot().WeaponAnimator.UnEquipDelay, ThrowGrenade));
+            
+            _currentWeapon = _weaponContainer.WeaponHolder.GetCurrentWeaponSlot();
+
+            if (_currentWeapon != null)
+                _delay = _currentWeapon.WeaponAnimator.UnEquipDelay;
+            
+            StartCoroutine(AfterDelay(_delay, ThrowGrenade));
         }
     }
 
     private void ThrowGrenade()
     {
-        _weaponContainer.WeaponHolder.GetCurrentWeaponSlot().gameObject.SetActive(false);
-        //StartCoroutine(AfterDelay(_playerSettings.grenadeDelay, _weaponProvider.WeaponHolder.EquipWeapon));
+        if (_currentWeapon != null)
+            _currentWeapon.gameObject.SetActive(false);
+
+        StartCoroutine(AfterDelay(playerSettingsConfig.grenadeDelay, _weaponContainer.WeaponHolder.ForceEquipCurrentWeapon));
     }
     
     private IEnumerator AfterDelay(float delay, Action callback)

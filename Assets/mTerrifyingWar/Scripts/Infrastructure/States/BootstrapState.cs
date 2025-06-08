@@ -38,9 +38,6 @@ public class BootstrapState : IState
             case Scenes.City:
                 LoadBootAndGameplay();
                 return;
-            case Scenes.Bunker:
-                LoadBootAndGameplayBunker();
-                return;
             case Scenes.MainMenu:
                 LoadBootAndMainMenu();
                 return;
@@ -53,25 +50,11 @@ public class BootstrapState : IState
         }
     }
     
-    private void LoadBootAndGameplayBunker()
-    {
-        _sceneLoader.Load(Scenes.Boot, () =>
-        {
-            _sceneLoader.Load(Scenes.City, () =>
-            {
-                _stateMachine.Enter<LoadLevelState, string>(Scenes.Bunker);
-            });
-        });
-    }
-
     private void LoadBootAndGameplay()
     {
         _sceneLoader.Load(Scenes.Boot, () =>
         {
-            _sceneLoader.Load(Scenes.City, () =>
-            {
-                _stateMachine.Enter<LoadLevelState, string>(Scenes.City);
-            });
+            _stateMachine.Enter<LoadProgressState>();
         });
     }
 

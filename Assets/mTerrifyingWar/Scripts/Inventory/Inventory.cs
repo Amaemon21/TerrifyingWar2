@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
@@ -13,26 +14,19 @@ public class Inventory : MonoBehaviour
     private readonly List<InventoryItemCell> _inventoryItemsCells = new();    
     
     private InventoryComponent _inventoryComponent;
-    private InventoryCellFactory _inventoryCellFactory;
     
-    public InventoryComponent InventoryComponent => _inventoryComponent;
-
-    private void Awake()
+    public event Action<InventoryItemConfig, bool> AddedItemChanged;
+    
+    public void Setup(InventoryComponent inventoryComponent)
     {
-        _inventoryComponent = GetComponent<InventoryComponent>();
+        _inventoryComponent = inventoryComponent;
         
-        _inventoryCellFactory = GetComponent<InventoryCellFactory>();
-        _inventoryCellFactory.SpawnCells(_inventoryItemsCells);
+        _inventoryComponent.InventoryCellFactory.SpawnInventoryCells(_inventoryItemsCells);
         
-        //_inventoryComponent.SetupDropPosition(_playerProvider.PlayerMover.GetComponentInChildren<DropPosition>());
+        _inventoryComponent.SetupDropPosition(_playerProvider.DropPosition);
         
         DisplayItems();
     }
-    
-    private void OnDisable()
-    {
-        _ = _backendManager.RemoveAllItemAsync();
-    }    
     
     public void DisplayItems()
     {
@@ -58,7 +52,7 @@ public class Inventory : MonoBehaviour
     {
         if (isEquipped)
         {
-            if (config is WeaponInventoryItemConfig weaponInventoryItemConfig)
+            if (config is WeaponInventoryItemConfig)
             {
                 if (slotType == SlotType.Primary)
                 {
@@ -87,7 +81,7 @@ public class Inventory : MonoBehaviour
                 if (config.ItemID == pickupedConfig.ItemID)
                 {
                     if (!isLoaded)
-                        _inventoryComponent.InventorySaver.AddItem(config);
+                        AddedItemChanged?.Invoke(config, false);
                     
                     config.AddCount(pickupedConfig.ItemCount);
                     
@@ -136,7 +130,7 @@ public class Inventory : MonoBehaviour
             if (cell.InventoryItemConfig == null)
             {
                 if (!isLoaded)
-                    _inventoryComponent.InventorySaver.AddItem(config);
+                    AddedItemChanged?.Invoke(config, false);
                 
                 cell.SetItem(config);
                 _inventoryComponent.InventorySystem.HandleAddItem(config);

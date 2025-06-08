@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterController: {fileID: 22100000, guid: 30455ef43c1629e408172e2a70eefaa5, type: 2}
   recoilAnimData: {fileID: 11400000, guid: 82e14385f13665f448bbe47b08855281, type: 2}
-  cameraShake: {fileID: 11400000, guid: 086415fa15ad83d418182a4eb84c4dff, type: 2}
+  RecoilPreset: {fileID: 11400000, guid: 6ada82545d9cf7f45a716c0d99a8487b, type: 2}
   ikOffset: {x: 0, y: 0, z: 0}
   leftClavicleOffset: {x: 0, y: 0, z: 0}
   rightClavicleOffset: {x: 0, y: 0, z: 0}
@@ -22,22 +22,20 @@ MonoBehaviour:
   rightHandSprintOffset: {x: 0, y: 0, z: -0.043619387, w: 0.99904823}
   adsBlend: 0.533
   fireRate: 600
-  ammo: 30
   aimFov: 60
-  <MagazineSize>k__BackingField: 30
-  <CurrentAmmo>k__BackingField: 30
   fullAuto: 1
   useFireClip: 0
   hasEquipOverride: 0
   hasFireOut: 0
   useSprintTriggerDiscipline: 1
   fireSounds:
-  - {fileID: 8300000, guid: b58e6e277789bb54191e03c4c3fd2ca9, type: 3}
-  - {fileID: 8300000, guid: 6e4f1f5d90eef194fb48304c0a76ead4, type: 3}
-  - {fileID: 8300000, guid: 8995b3135fdfe83499f4412a1105b2f9, type: 3}
-  - {fileID: 8300000, guid: 9b8bde9c955e701499f29d27b7067aab, type: 3}
-  firePitchRange: {x: 0.95, y: 1.03}
-  fireVolumeRange: {x: 0.93, y: 1.04}
+  - {fileID: 8300000, guid: 669ad723544d55442b0af054b1cbd38e, type: 3}
+  - {fileID: 8300000, guid: e5265c92185f69d4189bfdc7e89d8fe1, type: 3}
+  - {fileID: 8300000, guid: 05513f1407c6b9f489ebb322ea438097, type: 3}
+  - {fileID: 8300000, guid: 003c55a7f7bf74d4e913677ccfa1e2cf, type: 3}
+  - {fileID: 8300000, guid: ce41a2927e6422a48946b539088b7085, type: 3}
   weaponEventSounds:
   - {fileID: 8300000, guid: ab1711353e4a52d4ea07e89d7bb2b655, type: 3}
   - {fileID: 8300000, guid: 438d962fa65a5c845ab676c1ec67abff, type: 3}
+  firePitchRange: {x: 0.95, y: 1.03}
+  fireVolumeRange: {x: 0.93, y: 1.04}

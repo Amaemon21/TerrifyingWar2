@@ -136,13 +136,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5442098728338340218}
+  - component: {fileID: 1288957892378655580}
+  - component: {fileID: 6712729986995840848}
   - component: {fileID: 4123781423914651375}
   - component: {fileID: 4478187120662155436}
-  - component: {fileID: 6481123152229617676}
   - component: {fileID: 3546959779163568859}
   - component: {fileID: 3466036199270500144}
   - component: {fileID: 5747161297325579585}
-  - component: {fileID: 1288957892378655580}
+  - component: {fileID: 9009319370234296561}
+  - component: {fileID: 7554979439212147474}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -159,15 +161,51 @@ Transform:
   m_GameObject: {fileID: 536671939383502750}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.28, y: 1.43, z: -13.09}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5975287849116745578}
   - {fileID: 1382790240480836051}
   - {fileID: 6266173710619052777}
+  - {fileID: 7471997643627295874}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1288957892378655580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 536671939383502750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 832d43767d0d4343b0d22ad924d254c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <PlayerMover>k__BackingField: {fileID: 4123781423914651375}
+  <DropPosition>k__BackingField: {fileID: 3819955590785659470}
+  <MainCamera>k__BackingField: {fileID: 8415417575726502675}
+  <CinematicCamera>k__BackingField: {fileID: 5239506559423254939}
+  <PlayerController>k__BackingField: {fileID: 6712729986995840848}
+  <WeaponContainer>k__BackingField: {fileID: 6725520598512964620}
+  <UIBluer>k__BackingField: {fileID: 8753662066846049819}
+--- !u!114 &6712729986995840848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 536671939383502750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6744c380f5449b4599e8e6483f46771, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <PlayerSettingsConfig>k__BackingField: {fileID: 11400000, guid: b7403928d2da93f48b928fd759aa2024, type: 2}
+  _playerSound: {fileID: 9009319370234296561}
+  _weaponIKHandler: {fileID: 7591750119715339394}
+  _weaponContainer: {fileID: 6725520598512964620}
 --- !u!114 &4123781423914651375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,21 +243,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a6f3d330d8d42caad9e31553990d58a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _recoilPattern: {fileID: 6481123152229617676}
+  _playerSettingsConfig: {fileID: 11400000, guid: b7403928d2da93f48b928fd759aa2024, type: 2}
+  _recoilPattern: {fileID: 8153656784047215847}
   _cameraTransform: {fileID: 1382790240480836051}
---- !u!114 &6481123152229617676
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 536671939383502750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c7147c63ff5eb545bed6ed7b54d6b65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  recoilSettings: {fileID: 11400000, guid: 6ada82545d9cf7f45a716c0d99a8487b, type: 2}
 --- !u!143 &3546959779163568859
 CharacterController:
   m_ObjectHideFlags: 0
@@ -359,7 +385,7 @@ MonoBehaviour:
     m_Bits: 64
   _interactRange: 4
   _interactAction: {fileID: 7295130085113904579, guid: 4850213a98689d646954f46df8f0159f, type: 3}
---- !u!114 &1288957892378655580
+--- !u!114 &9009319370234296561
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -368,15 +394,46 @@ MonoBehaviour:
   m_GameObject: {fileID: 536671939383502750}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 832d43767d0d4343b0d22ad924d254c3, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c7ebd8bc9b44e51b6213d640936a9d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <PlayerMover>k__BackingField: {fileID: 4123781423914651375}
-  <MainCamera>k__BackingField: {fileID: 8415417575726502675}
-  <CinematicCamera>k__BackingField: {fileID: 5239506559423254939}
-  <PlayerController>k__BackingField: {fileID: 6509073145278755000}
-  <WeaponContainer>k__BackingField: {fileID: 6725520598512964620}
-  <UIBluer>k__BackingField: {fileID: 8753662066846049819}
+  _animator: {fileID: 5137393553054909669}
+  equipSound: {fileID: 8300000, guid: b68b2e9eb5f496f4093e203b58088fec, type: 3}
+  unEquipSound: {fileID: 8300000, guid: bd5d62d3e5c17d346a75b1e8a5f511e4, type: 3}
+  walkSounds:
+  - {fileID: 8300000, guid: 6e141fc4d2d1ae54b80f44d3e12c90d0, type: 3}
+  - {fileID: 8300000, guid: 0f799c1ef61a80e47b1d171b9989501d, type: 3}
+  - {fileID: 8300000, guid: 84dd3d327b02b7446bd71ac5c7acd1c8, type: 3}
+  - {fileID: 8300000, guid: fc2f29dcd792ebf498bd47a448769811, type: 3}
+  walkDelay: 0.4
+  sprintSounds:
+  - {fileID: 8300000, guid: 716ecf682cc17fd4a804826953a2dc64, type: 3}
+  - {fileID: 8300000, guid: 06daa55a9a233b0479ee23395ea0b622, type: 3}
+  - {fileID: 8300000, guid: 83c13a67b9515d74ca3572393c3d68d8, type: 3}
+  - {fileID: 8300000, guid: 90cd60b3cb586cc4eab252b5b42993c0, type: 3}
+  - {fileID: 8300000, guid: f8d55cd46e9444142a1d98afddbd93b3, type: 3}
+  sprintDelay: 0.3
+  tacSprintDelay: 0.27
+  jumpSound: {fileID: 8300000, guid: e396941c4d8236243a6a1fffa0e0d249, type: 3}
+  landSound: {fileID: 8300000, guid: 359a68c9a18bd7a4a843bb7d574ce989, type: 3}
+  aimInSound: {fileID: 8300000, guid: b7f063ad1558c924c9d335aa79dbc8cb, type: 3}
+  aimOutSound: {fileID: 8300000, guid: a0aa5ddeec187eb4a8b26271ce7f9a68, type: 3}
+  fireModeSwitchSound: {fileID: 8300000, guid: be15d71fe11656344b6c9027fb694dfb, type: 3}
+--- !u!114 &7554979439212147474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 536671939383502750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b3087de862dfa641b3b0f1216e941c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <PlayerSettingsConfig>k__BackingField: {fileID: 11400000, guid: b7403928d2da93f48b928fd759aa2024, type: 2}
+  _playerController: {fileID: 6712729986995840848}
+  _weaponContainer: {fileID: 6725520598512964620}
 --- !u!1 &562231527400300109
 GameObject:
   m_ObjectHideFlags: 0
@@ -1262,7 +1319,7 @@ GameObject:
   - component: {fileID: 8372051616161464994}
   - component: {fileID: 6165426724208588119}
   - component: {fileID: 7434281855026175544}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: WeaponCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1317,7 +1374,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.01
-  far clip plane: 1000
+  far clip plane: 10
   field of view: 60.000004
   orthographic: 0
   orthographic size: 5
@@ -1333,7 +1390,7 @@ Camera:
   m_AllowMSAA: 0
   m_AllowDynamicResolution: 1
   m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
+  m_OcclusionCulling: 0
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
 --- !u!114 &7434281855026175544
@@ -1356,7 +1413,7 @@ MonoBehaviour:
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
-    m_Bits: 4096
+    m_Bits: 16384
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
@@ -2004,8 +2061,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1382790240480836051}
   - component: {fileID: 4704700475581823452}
+  - component: {fileID: 5432456305412459628}
   m_Layer: 0
-  m_Name: CinemachineCamera
+  m_Name: CinemachineMainCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2052,8 +2110,8 @@ MonoBehaviour:
   Lens:
     FieldOfView: 60.000004
     OrthographicSize: 5
-    NearClipPlane: 0.3
-    FarClipPlane: 1000
+    NearClipPlane: 0.1
+    FarClipPlane: 2000
     Dutch: 0
     ModeOverride: 0
     PhysicalProperties:
@@ -2069,6 +2127,23 @@ MonoBehaviour:
       BarrelClipping: 0.25
       Anamorphism: 0
   BlendHint: 0
+--- !u!114 &5432456305412459628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5239506559423254939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 449ef5ebbe24720439ec31d15f7b6f3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Weight: 1
+  FocusTracking: 0
+  FocusTarget: {fileID: 0}
+  FocusOffset: 0
+  Profile: {fileID: 11400000, guid: 002df0a09c14d2f4485e6e7f5c8137d7, type: 2}
 --- !u!1 &5308234894328220505
 GameObject:
   m_ObjectHideFlags: 0
@@ -2288,6 +2363,50 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.081254005, y: -0.03982208, z: -0.000000059604645}
     m_Extent: {x: 0.123937964, y: 0.10445208, z: 0.7173002}
   m_DirtyAABB: 0
+--- !u!1 &5521090715952782182
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7471997643627295874}
+  - component: {fileID: 3819955590785659470}
+  m_Layer: 0
+  m_Name: DropPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7471997643627295874
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5521090715952782182}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.681}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5442098728338340218}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3819955590785659470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5521090715952782182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8417a0562361b864daa173f86c8a7dea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5535149322396483878
 GameObject:
   m_ObjectHideFlags: 0
@@ -3296,14 +3415,13 @@ GameObject:
   - component: {fileID: 3685616156373393866}
   - component: {fileID: 6725520598512964620}
   - component: {fileID: 5137393553054909669}
-  - component: {fileID: 6509073145278755000}
   - component: {fileID: 1949832882025091652}
   - component: {fileID: 878038439172997187}
-  - component: {fileID: 1185386768244985796}
   - component: {fileID: 5598720664213470890}
   - component: {fileID: 7591750119715339394}
   - component: {fileID: 969818176581792532}
   - component: {fileID: 8409175075460275029}
+  - component: {fileID: 8153656784047215847}
   m_Layer: 7
   m_Name: SK_Arms_Mono
   m_TagString: Untagged
@@ -3343,7 +3461,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <WeaponCamera>k__BackingField: {fileID: 6165426724208588119}
-  <RecoilPattern>k__BackingField: {fileID: 6481123152229617676}
+  <RecoilPattern>k__BackingField: {fileID: 8153656784047215847}
   <RecoilAnimation>k__BackingField: {fileID: 1949832882025091652}
   <WeaponHolder>k__BackingField: {fileID: 969818176581792532}
   <TransformsContainer>k__BackingField: {fileID: 5598720664213470890}
@@ -3370,19 +3488,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6509073145278755000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8456483016901604634}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6744c380f5449b4599e8e6483f46771, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <PlayerSettings>k__BackingField: {fileID: 11400000, guid: b7403928d2da93f48b928fd759aa2024, type: 2}
 --- !u!114 &1949832882025091652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3494,39 +3599,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1185386768244985796
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8456483016901604634}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c7ebd8bc9b44e51b6213d640936a9d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  equipSound: {fileID: 8300000, guid: b68b2e9eb5f496f4093e203b58088fec, type: 3}
-  unEquipSound: {fileID: 8300000, guid: bd5d62d3e5c17d346a75b1e8a5f511e4, type: 3}
-  walkSounds:
-  - {fileID: 8300000, guid: 6e141fc4d2d1ae54b80f44d3e12c90d0, type: 3}
-  - {fileID: 8300000, guid: 0f799c1ef61a80e47b1d171b9989501d, type: 3}
-  - {fileID: 8300000, guid: 84dd3d327b02b7446bd71ac5c7acd1c8, type: 3}
-  - {fileID: 8300000, guid: fc2f29dcd792ebf498bd47a448769811, type: 3}
-  walkDelay: 0.4
-  sprintSounds:
-  - {fileID: 8300000, guid: 716ecf682cc17fd4a804826953a2dc64, type: 3}
-  - {fileID: 8300000, guid: 06daa55a9a233b0479ee23395ea0b622, type: 3}
-  - {fileID: 8300000, guid: 83c13a67b9515d74ca3572393c3d68d8, type: 3}
-  - {fileID: 8300000, guid: 90cd60b3cb586cc4eab252b5b42993c0, type: 3}
-  - {fileID: 8300000, guid: f8d55cd46e9444142a1d98afddbd93b3, type: 3}
-  sprintDelay: 0.3
-  tacSprintDelay: 0.27
-  jumpSound: {fileID: 8300000, guid: e396941c4d8236243a6a1fffa0e0d249, type: 3}
-  landSound: {fileID: 8300000, guid: 359a68c9a18bd7a4a843bb7d574ce989, type: 3}
-  aimInSound: {fileID: 8300000, guid: b7f063ad1558c924c9d335aa79dbc8cb, type: 3}
-  aimOutSound: {fileID: 8300000, guid: a0aa5ddeec187eb4a8b26271ce7f9a68, type: 3}
-  fireModeSwitchSound: {fileID: 8300000, guid: be15d71fe11656344b6c9027fb694dfb, type: 3}
 --- !u!114 &5598720664213470890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3563,7 +3635,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5db6d3c312e82584f8943a2a8eba88ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerSettings: {fileID: 11400000, guid: b7403928d2da93f48b928fd759aa2024, type: 2}
+  _playerAnimator: {fileID: 7554979439212147474}
+  playerSettingsConfig: {fileID: 11400000, guid: b7403928d2da93f48b928fd759aa2024, type: 2}
 --- !u!114 &969818176581792532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3590,7 +3663,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _weaponContainer: {fileID: 6725520598512964620}
-  _playerSettings: {fileID: 11400000, guid: b7403928d2da93f48b928fd759aa2024, type: 2}
+  playerSettingsConfig: {fileID: 11400000, guid: b7403928d2da93f48b928fd759aa2024, type: 2}
+--- !u!114 &8153656784047215847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8456483016901604634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c7147c63ff5eb545bed6ed7b54d6b65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recoilSettings: {fileID: 11400000, guid: 6ada82545d9cf7f45a716c0d99a8487b, type: 2}
 --- !u!1 &8467631898030680038
 GameObject:
   m_ObjectHideFlags: 0
@@ -3715,7 +3801,7 @@ Transform:
   m_GameObject: {fileID: 8592239568027622861}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.9999999, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3753,8 +3839,8 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
+  near clip plane: 0.1
+  far clip plane: 2000
   field of view: 60.000004
   orthographic: 0
   orthographic size: 5
@@ -3802,7 +3888,7 @@ MonoBehaviour:
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 8448
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
